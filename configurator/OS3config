@@ -1,0 +1,11 @@
+*** IMPORTANT: Do NOT change anything manually here!! ***
+***       Delete file to reset OS3 Configurator       ***
+*begin
+*pathToOmnetFolder
+
+*URLtoCelesTrak
+http://celestrak.com/NORAD/elements/
+*selectedMCCs
+00000000000000000000000000000000000000000000
+*selectedSatellites
+*end

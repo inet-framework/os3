@@ -1,0 +1,8 @@
+#! /bin/sh
+DIR=`dirname $0`
+
+if [ -x $DIR/cni-os3 -o -x $DIR/cni-os3.exe ]; then
+  $DIR/cni-os3 -n $DIR/../simulations:$DIR:$DIR/../../inet/src $*
+else
+  opp_run -l $DIR/cni-os3 -n $DIR/../simulations:$DIR:$DIR/../../inet/src $*
+fi
