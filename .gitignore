@@ -1,13 +1,45 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-
-# Compiled Dynamic libraries
+# ignore generated files
+.cmdenv-log
+*_m.h
+*_m.cc
+*_sm.h
+*_sm.cc
+src/Makefile
+src/Makefile.vc
+/doc/doxy/
+/doc/neddoc/
+/examples/*/results/
+/examples/*/*/results/
+/examples/*/*/*/results/
+/tests/*/work/
+*.pyc
+*.pcap
+*.sca
+*.vec
+# ignore binary files
+out/
 *.so
 *.dylib
-
-# Compiled Static libraries
-*.lai
-*.la
+*.dll
 *.a
+*.lib
+*.exe
+*.o
+*.obj
+*.pdb
+*.idb
+*.manifest
+.tkenvrc
+.tkenvlog
+.cmdenv-log
+netanim-trace.txt
+*.out
+gcc-debug
+
+# ignore backup and temp files
+*.bak
+backups
+*~
+xxx
+/3rdparty
+/tmp/
