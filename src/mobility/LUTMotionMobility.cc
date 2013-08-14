@@ -17,33 +17,51 @@
 
 Define_Module(LUTMotionMobility);
 
-void LUTMotionMobility::initialize(int stage) {
-    BasicMobility::initialize(stage);
-
+void LUTMotionMobility::initialize(int stage)
+{
+    MovingMobilityBase::initialize(stage);
     EV << "initializing LUTMotionMobility stage " << stage << endl;
-    WATCH(pos);
-    if (stage == 1) {
+    WATCH(lastPosition);
+    if (stage == 0) {
         mapx = atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 0));
         mapy = atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 1));
-
         latitude = par("latitude");
         longitude = par("longitude");
-
-        pos.y = ((-mapy * latitude) / 180) + (mapy / 2);
-        pos.x = mapx * longitude / 360 + (mapx / 2);
-        pos.x = ((int)pos.x % (int)mapx);
-
-        updatePosition();
     }
 }
 
-double LUTMotionMobility::getLUTPositionX() {
+double LUTMotionMobility::getLUTPositionX()
+{
     return longitude;
 }
-double LUTMotionMobility::getLUTPositionY() {
+double LUTMotionMobility::getLUTPositionY()
+{
     return latitude;
 }
 
-void LUTMotionMobility::handleSelfMsg(cMessage *msg) {
+/*void LUTMotionMobility::handleSelfMessage(cMessage *msg)
+{
     ASSERT("LUTMotionMobility: Caught message when should not!");
+}*/
+
+Coord LUTMotionMobility::getCurrentPosition()
+{
+    return Coord(longitude,latitude);
+}
+
+Coord LUTMotionMobility::getCurrentSpeed()
+{
+    return Coord(0,0,0); //this mobility model does not deal with speed, but it must be implemented because it is a pure virtual function declared in IMobility
+}
+
+void LUTMotionMobility::move()
+{
+    lastPosition.y = ((-mapy * latitude) / 180) + (mapy / 2);
+    lastPosition.x = mapx * longitude / 360 + (mapx / 2);
+    lastPosition.x = ((int)lastPosition.x % (int)mapx);
+}
+
+void LUTMotionMobility::initializePosition()
+{
+    move();
 }

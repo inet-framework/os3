@@ -15,6 +15,8 @@
 
 package cni_os3.mobility;
 
+import inet.mobility.models.MovingMobilityBase;
+import inet.mobility.IMobility;
 //
 // Initializes the initial positions of Base Stations (LUT = Local User Terminal)
 //
@@ -22,10 +24,11 @@ package cni_os3.mobility;
 // @version 0.1
 // Module defined
 //
-simple LUTMotionMobility
+simple LUTMotionMobility extends MovingMobilityBase
 {
     parameters:
         double latitude; // Coordinates
         double longitude; // Cordinates
-        double updateInterval @unit(s); // Time interval to update the hosts position
+        //double updateInterval @unit(s); // Time interval to update the hosts position
+        @class(LUTMotionMobility);
 }

@@ -19,21 +19,18 @@ package cni_os3.simulations.SatSGP4;
 
 import cni_os3.base.Satellite;
 import cni_os3.base.MissionControlCenter;
-import inet.world.ChannelControl;
+import inet.world.radio.ChannelControl;
 import cni_os3.base.CNI_OS3;
-
 //
 // Network SatSGP4 enables satellite movement on worldmap
 //
 network SatSGP4
 {
-    parameters:
-        double playgroundSizeX; // Width of map in pixels
-        double playgroundSizeY; // Height of map in pixels
+    parameters:        
         int numOfSats; // Number of satellites
         int numOfMCCs; // Number of Mission Control Centers
 
-        @display("bgi=background_earth");
+        @display("bgi=background_earth;bgb=2160,1080");
 
     submodules:
         satellite[numOfSats]: Satellite {
@@ -46,13 +43,12 @@ network SatSGP4
         }
         channelcontrol: ChannelControl {
             parameters:
-                playgroundSizeX = playgroundSizeX;
-                playgroundSizeY = playgroundSizeY;
+                //playgroundSizeX = playgroundSizeX;
+                //playgroundSizeY = playgroundSizeY; note: https://groups.google.com/forum/#!msg/omnetpp/iofWt9w-o7A/bRuaO3KrMfcJ
                 numChannels = 2;
                 @display("p=240,70;i=misc/sun");
         }
         cni_os3: CNI_OS3 {
-
             @display("p=80,70,i;i=old/bluebox");
         }
     connections allowunconnected:

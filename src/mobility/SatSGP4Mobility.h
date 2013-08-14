@@ -91,7 +91,7 @@ public:
      * @version 0.2
      * Method is now virtual, inline and const
      */
-    inline virtual double getPositionX() const {return pos.x;};
+    inline virtual double getPositionX() const {return lastPosition.x;};
 
     /**
      * @brief Get y position of satellite
@@ -103,7 +103,7 @@ public:
      * @version 0.2
      * Method is now virtual, inline and const
      */
-    inline virtual double getPositionY() const {return pos.y;};
+    inline virtual double getPositionY() const {return lastPosition.y;};
 
     /**
      * @brief Get altitude of satellite

@@ -22,7 +22,8 @@ void Norad::finish() {
     delete tle;
 }
 
-void Norad::initializeMobility(const simtime_t &targetTime) {
+void Norad::initializeMobility(const simtime_t &targetTime)
+{
     // Create reference to web service module
     WebServiceControl *webServiceControl = dynamic_cast< WebServiceControl* >(getParentModule()->getParentModule()
             ->getSubmodule("cni_os3", 0)->getSubmodule("webServiceControl", 0));
@@ -100,13 +101,20 @@ void Norad::initializeMobility(const simtime_t &targetTime) {
 
     // Set name from TLE file for icon name
     line3 = orbit->SatName(false);
-    if (line3.find(" (") != std::string::npos) {
+    /*if (line3.find(" (") != std::string::npos) {
         line3.at(line3.find(" (")) = '\n';
-    }
-     getParentModule()->setName(line3.c_str());
+    }*/
+
+    std::size_t found = line3.find("(PRN ");
+    std::string satName = "PRN-";
+    satName.push_back(line3.at(found+5));
+    satName.push_back(line3.at(found+6));
+    satName += "\nsatellite";
+    getParentModule()->setName(satName.c_str());
 }
 
-void Norad::updateTime(const simtime_t &targetTime) {
+void Norad::updateTime(const simtime_t &targetTime)
+{
     orbit->getPosition((gap + targetTime.dbl()) / 60, &eci);
     geoCoord = eci.toGeo();
 }

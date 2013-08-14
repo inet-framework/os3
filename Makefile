@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for CNI-OS3
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep --nolink -O out -d src -X. -I/usr/include/mysql -L/usr/local/lib -L../inet/out/$(CONFIGNAME)/src -L./out/$(CONFIGNAME)/src -linet -KINET_PROJ=../inet
+#  opp_makemake -f --deep --nolink -O out -d src -X. -I/usr/include/mysql -L/usr/local/lib -L../inet/out/$(CONFIGNAME)/src -L./out/$(CONFIGNAME)/src -linet -DINET_IMPORT -KINET_PROJ=../inet
 #
 
 # Output directory
@@ -63,17 +63,19 @@ src_dir:
 	cd src && $(MAKE) all
 
 msgheaders:
-	cd src && $(MAKE) msgheaders
+	$(Q)cd src && $(MAKE) msgheaders
 
 clean:
-	-rm -rf $O
-	-rm -f CNI-OS3 CNI-OS3.exe libCNI-OS3.so libCNI-OS3.a libCNI-OS3.dll libCNI-OS3.dylib
+	$(qecho) Cleaning...
+	$(Q)-rm -rf $O
+	$(Q)-rm -f CNI-OS3 CNI-OS3.exe libCNI-OS3.so libCNI-OS3.a libCNI-OS3.dll libCNI-OS3.dylib
 
-	-cd src && $(MAKE) clean
+	-$(Q)cd src && $(MAKE) clean
 
 cleanall: clean
-	-rm -rf $(PROJECT_OUTPUT_DIR)
+	$(Q)-rm -rf $(PROJECT_OUTPUT_DIR)
 
 depend:
-	-cd src && if [ -f Makefile ]; then $(MAKE) depend; fi
+	$(qecho) Creating dependencies...
+	$(Q)-cd src && if [ -f Makefile ]; then $(MAKE) depend; fi
 

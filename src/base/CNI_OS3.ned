@@ -16,7 +16,7 @@
 package cni_os3.base;
 
 import cni_os3.base.Calculation;
-import inet.mobility.ConstSpeedMobility;
+import inet.mobility.models.ConstSpeedMobility;
 
 
 //

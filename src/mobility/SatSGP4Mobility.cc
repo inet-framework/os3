@@ -17,11 +17,18 @@
 
 Define_Module(SatSGP4Mobility);
 
-void SatSGP4Mobility::initialize(int stage) {
+void SatSGP4Mobility::initialize(int stage)
+{
+    // noradModule must be initialized before LineSegmentsMobilityBase calling setTargetPosition() in its initialization at stage 1
+    if(stage == 1)
+    {
+        noradModule->initializeMobility(nextChange);
+    }
     LineSegmentsMobilityBase::initialize(stage);
 
     noradModule = check_and_cast< Norad* >(this->getParentModule()->getSubmodule("NoradModule"));
-    if (noradModule == NULL) {
+    if(noradModule == NULL)
+    {
         error("Error in SatSGP4Mobility::initializeMobility(): Cannot find module Norad.");
     }
 
@@ -38,60 +45,68 @@ void SatSGP4Mobility::initialize(int stage) {
     transmitPower = this->getParentModule()->par("transmitPower");
 
     ev << "initializing SatSGP4Mobility stage " << stage << endl;
-    WATCH(pos);
-    if (stage == 1) {
-        noradModule->initializeMobility(targetTime);
+    WATCH(lastPosition);
 
-        // Position satellite on playground
-        move();
-    }
-    updatePosition();
+    updateVisualRepresentation();
 }
 
-double SatSGP4Mobility::getAltitude() const {
+double SatSGP4Mobility::getAltitude() const
+{
     return noradModule->getAltitude();
 }
 
 double SatSGP4Mobility::getElevation(const double &refLatitude, const double &refLongitude,
-                                     const double &refAltitude) const {
+                                     const double &refAltitude) const
+{
     return noradModule->getElevation(refLatitude, refLongitude, refAltitude);
 }
 
 double SatSGP4Mobility::getAzimuth(const double &refLatitude, const double &refLongitude,
-                                   const double &refAltitude) const {
+                                   const double &refAltitude) const
+{
     return noradModule->getAzimuth(refLatitude, refLongitude, refAltitude);
 }
 
 double SatSGP4Mobility::getDistance(const double &refLatitude, const double &refLongitude,
-                                    const double &refAltitude) const {
+                                    const double &refAltitude) const
+{
     return noradModule->getDistance(refLatitude, refLongitude, refAltitude);
 }
 
-double SatSGP4Mobility::getLongitude() const {
+double SatSGP4Mobility::getLongitude() const
+{
     return noradModule->getLongitude();
 }
 
-double SatSGP4Mobility::getLatitude() const {
+double SatSGP4Mobility::getLatitude() const
+{
     return noradModule->getLatitude();
 }
 
-void SatSGP4Mobility::setTargetPosition() {
-    targetTime += updateInterval;
-    noradModule->updateTime(targetTime);
+void SatSGP4Mobility::setTargetPosition()
+{
 
-    // Position satellite on playground
-    move();
+    nextChange += updateInterval.dbl();
+    noradModule->updateTime(nextChange);
 
-    targetPos.x = pos.x;
-    targetPos.y = pos.y;
+    lastPosition.x = mapX * noradModule->getLongitude() / 360 + (mapX / 2);
+    lastPosition.x = ((int)lastPosition.x % (int)mapX);
+    lastPosition.y = ((-mapY * noradModule->getLatitude()) / 180) + (mapY / 2); // from the "original" move function.
+
+    targetPosition.x = lastPosition.x;
+    targetPosition.y = lastPosition.y;
+
+    //std::cout << targetPosition.x << " " << targetPosition.y << endl;
 }
 
-void SatSGP4Mobility::move() {
-    pos.x = mapX * noradModule->getLongitude() / 360 + (mapX / 2);
-    pos.x = ((int)pos.x % (int)mapX);
-    pos.y = ((-mapY * noradModule->getLatitude()) / 180) + (mapY / 2);
+void SatSGP4Mobility::move()
+{
+    LineSegmentsMobilityBase::move();
+    raiseErrorIfOutside();
 }
 
-void SatSGP4Mobility::fixIfHostGetsOutside() {
+
+void SatSGP4Mobility::fixIfHostGetsOutside()
+{
     raiseErrorIfOutside();
 }

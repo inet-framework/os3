@@ -32,7 +32,8 @@ void UserConfig::handleMessage(cMessage *msg) {
     error("Error in UserConfig::handleMessage(): This module is not able to handle messages");
 }
 
-void UserConfig::initializeSatMobility() {
+void UserConfig::initializeSatMobility()
+{
     // Initialize satellite mobilities for view
     for (int i = 0; i < userParameters.numOfSats; i++) {
         char name[128];

@@ -15,8 +15,7 @@
 
 package cni_os3.mobility;
 
-import inet.mobility.BasicMobility;
-
+import inet.mobility.models.MobilityBase;
 
 //
 // Manages the SatSGP4 Mobility
@@ -25,9 +24,10 @@ import inet.mobility.BasicMobility;
 // @version 0.1
 // Module defined
 //
-simple SatSGP4Mobility like BasicMobility
+simple SatSGP4Mobility extends MobilityBase
 {
     parameters:
         double updateInterval @unit(s); // Time interval to update the hosts position
         @display("i=block/cogwheel_s");
+        @class(SatSGP4Mobility);
 }

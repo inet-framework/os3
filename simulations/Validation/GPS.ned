@@ -16,7 +16,7 @@
 package cni_os3.simulations.Validation;
 
 import cni_os3.base.Satellite;
-import inet.world.ChannelControl;
+import inet.world.radio.ChannelControl;
 import cni_os3.base.CNI_OS3;
 import cni_os3.base.Observer;
 
@@ -38,8 +38,8 @@ network GPS
 
         channelcontrol: ChannelControl {
             parameters:
-                playgroundSizeX = playgroundSizeX;
-                playgroundSizeY = playgroundSizeY;
+                //playgroundSizeX = playgroundSizeX;
+                //playgroundSizeY = playgroundSizeY;
                 numChannels = 2;
                 @display("p=180,70;i=misc/sun");
         }

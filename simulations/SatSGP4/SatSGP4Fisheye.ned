@@ -18,7 +18,7 @@
 package cni_os3.simulations.SatSGP4;
 
 import cni_os3.base.Satellite;
-import inet.world.ChannelControl;
+import inet.world.radio.ChannelControl;
 import cni_os3.base.CNI_OS3;
 
 //
@@ -27,8 +27,6 @@ import cni_os3.base.CNI_OS3;
 network SatSGP4Fisheye
 {
     parameters:
-        double playgroundSizeX; // Width of map in pixels
-        double playgroundSizeY; // Height of map in pixels
         int numOfSats; // Number of satellites
 
         @display("bgi=binocular,c;bgb=980,980");
@@ -41,8 +39,6 @@ network SatSGP4Fisheye
 
         channelcontrol: ChannelControl {
             parameters:
-                playgroundSizeX = playgroundSizeX;
-                playgroundSizeY = playgroundSizeY;
                 numChannels = 2;
                 @display("p=180,70;i=misc/sun");
         }

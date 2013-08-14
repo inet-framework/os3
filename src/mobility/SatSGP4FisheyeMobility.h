@@ -47,7 +47,9 @@ protected:
      * @version 0.1
      * Method implemented
      */
-    void move();
+    //void move();
+
+    virtual void setTargetPosition();
 
 public:
     /**

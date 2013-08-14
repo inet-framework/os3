@@ -17,7 +17,7 @@
 #define __CNI_OS3_LUTMOTIONMOBILITY_H_
 
 #include <omnetpp.h>
-#include <BasicMobility.h>
+#include <MovingMobilityBase.h>
 
 // TODO: Final Cleanup: Doxygen!
 
@@ -30,7 +30,7 @@
  * @ingroup mobility
  * @author Andras Varga
  */
-class LUTMotionMobility : public BasicMobility {
+class LUTMotionMobility : public MovingMobilityBase {
 public:
 
     /** @brief Returns longitude.*/
@@ -39,6 +39,8 @@ public:
     /** @brief Returns latitude.*/
     double getLUTPositionY();
 
+    virtual Coord getCurrentPosition();
+    virtual Coord getCurrentSpeed();
 protected:
 
     /** @brief Initializes mobility model parameters.
@@ -51,7 +53,11 @@ protected:
      * This method is just a dummy method. No action is taking place here.
      * @param msg omnetpp-message
      */
-    virtual void handleSelfMsg(cMessage *msg);
+    //virtual void handleSelfMessage(cMessage *msg);
+
+    virtual void move();
+
+    virtual void initializePosition();
 
     double latitude, longitude; // Geographic coordinates
     double mapx, mapy; // Coordinates on map

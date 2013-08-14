@@ -324,7 +324,7 @@ TLEData WebServiceControl::evaluateTLEData(std::string dataString, unsigned int 
     dataString.erase(0, dataString.find("\n") + 1);
 
     // Pretty up name in TLE data
-    resultData.tleName.erase(resultData.tleName.find("  "), resultData.tleName.size() - resultData.tleName.find(" "));
+    //resultData.tleName.erase(resultData.tleName.find("  "), resultData.tleName.size() - resultData.tleName.find(" "));
 
     return resultData;
 }
@@ -353,7 +353,7 @@ TLEData WebServiceControl::evaluateTLEData(std::string dataString, std::string s
     }
 
     // Pretty up name in TLE data
-    resultData.tleName.erase(resultData.tleName.find("  "), resultData.tleName.size() - resultData.tleName.find(" "));
+    //resultData.tleName.erase(resultData.tleName.find("  "), resultData.tleName.size() - resultData.tleName.find(" "));
 
     return resultData;
 }

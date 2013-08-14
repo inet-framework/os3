@@ -15,8 +15,8 @@
 
 package cni_os3.mobility;
 
-import inet.mobility.BasicMobility;
-
+import inet.mobility.IMobility;
+import inet.mobility.models.MobilityBase;
 
 //
 // Manages the SatSGP4Fisheye Mobility
@@ -25,7 +25,7 @@ import inet.mobility.BasicMobility;
 // @version 0.1
 // Module defined
 //
-simple SatSGP4FisheyeMobility like BasicMobility
+simple SatSGP4FisheyeMobility extends MobilityBase
 {
     parameters:
         double refCenterLatitude; // Coordinate for the center point
@@ -33,4 +33,5 @@ simple SatSGP4FisheyeMobility like BasicMobility
         double refCenterAltitude; // Coordinate for the center point
         double updateInterval @unit(s); // Time interval to update the hosts position
         @display("i=block/cogwheel_s");
+        @class(SatSGP4FisheyeMobility);
 }
