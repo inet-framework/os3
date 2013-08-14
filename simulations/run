@@ -1,0 +1,4 @@
+#!/bin/sh
+cd `dirname $0`
+../src/cni_os3 -n .:../src $*
+# for shared lib, use: opp_run -l ../src/cni_os3 -n .:../src $*

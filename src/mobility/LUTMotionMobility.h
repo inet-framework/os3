@@ -1,0 +1,60 @@
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program.  If not, see http://www.gnu.org/licenses/.
+// 
+
+#ifndef __CNI_OS3_LUTMOTIONMOBILITY_H_
+#define __CNI_OS3_LUTMOTIONMOBILITY_H_
+
+#include <omnetpp.h>
+#include <BasicMobility.h>
+
+// TODO: Final Cleanup: Doxygen!
+
+/**
+ * @class LUTMotionMobility
+ * @brief Uses the BonnMotion native file format. See NED file for more info.
+ *
+ * LUT = Local User Terminal
+ *
+ * @ingroup mobility
+ * @author Andras Varga
+ */
+class LUTMotionMobility : public BasicMobility {
+public:
+
+    /** @brief Returns longitude.*/
+    double getLUTPositionX();
+
+    /** @brief Returns latitude.*/
+    double getLUTPositionY();
+
+protected:
+
+    /** @brief Initializes mobility model parameters.
+     * Positions Mission Control Center on map
+     */
+    virtual void initialize(int);
+
+    /**
+     * @brief dummy
+     * This method is just a dummy method. No action is taking place here.
+     * @param msg omnetpp-message
+     */
+    virtual void handleSelfMsg(cMessage *msg);
+
+    double latitude, longitude; // Geographic coordinates
+    double mapx, mapy; // Coordinates on map
+};
+
+#endif
