@@ -32,7 +32,7 @@
  * @version 0.2
  * This is now the base class for SatSGP4FisheyeMobility.
  */
-class INET_API SatSGP4Mobility : public LineSegmentsMobilityBase
+class INET_API   SatSGP4Mobility : public LineSegmentsMobilityBase
 {
 protected:
 
@@ -50,7 +50,7 @@ protected:
      * @version 0.2
      * Now uses the newly introduced move() method
      */
-    virtual void initialize(int stage);
+    __declspec(dllimport) virtual void initialize(int stage);
 
     /**
      * @brief Sets the position of satellite. Overridden from LineSegmentsMobilityBase.
