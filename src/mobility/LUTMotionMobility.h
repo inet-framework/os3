@@ -30,7 +30,7 @@
  * @ingroup mobility
  * @author Andras Varga
  */
-class  INET_API LUTMotionMobility : public MovingMobilityBase {
+class   LUTMotionMobility : public MovingMobilityBase {
 public:
 
     /** @brief Returns longitude.*/

@@ -29,7 +29,7 @@
  * @version 0.1
  * Defined class
  */
-class INET_API  SatSGP4FisheyeMobility : public SatSGP4Mobility {
+class   SatSGP4FisheyeMobility : public SatSGP4Mobility {
 private:
     double refCenterLatitude, refCenterLongitude, refCenterAltitude; // Reference point for fisheye
     double transmitPower;
