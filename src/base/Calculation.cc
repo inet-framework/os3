@@ -16,6 +16,7 @@
 #include "Calculation.h"
 
 #include <cmath>
+#include <fstream>
 
 Define_Module(Calculation);
 

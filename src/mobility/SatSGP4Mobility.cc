@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -11,30 +11,31 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-//
+//-----------------------------------------------------
 
 #include "SatSGP4Mobility.h"
+
+#include <ctime>
+#include "Norad.h"
 
 Define_Module(SatSGP4Mobility);
 
 void SatSGP4Mobility::initialize(int stage)
 {
     // noradModule must be initialized before LineSegmentsMobilityBase calling setTargetPosition() in its initialization at stage 1
-    if(stage == 1)
-    {
+    if (stage == 1) {
         noradModule->initializeMobility(nextChange);
     }
     LineSegmentsMobilityBase::initialize(stage);
 
     noradModule = check_and_cast< Norad* >(this->getParentModule()->getSubmodule("NoradModule"));
-    if(noradModule == NULL)
-    {
+    if (noradModule == NULL) {
         error("Error in SatSGP4Mobility::initializeMobility(): Cannot find module Norad.");
     }
 
     tm* currentTime;
-    time_t timestamp = time(0);
-    currentTime = gmtime(&timestamp);
+    time_t timestamp = std::time(0);
+    currentTime = std::gmtime(&timestamp);
 
     // Convert to julian time
     noradModule->setJulian(currentTime);
@@ -85,7 +86,6 @@ double SatSGP4Mobility::getLatitude() const
 
 void SatSGP4Mobility::setTargetPosition()
 {
-
     nextChange += updateInterval.dbl();
     noradModule->updateTime(nextChange);
 
@@ -95,8 +95,6 @@ void SatSGP4Mobility::setTargetPosition()
 
     targetPosition.x = lastPosition.x;
     targetPosition.y = lastPosition.y;
-
-    //std::cout << targetPosition.x << " " << targetPosition.y << endl;
 }
 
 void SatSGP4Mobility::move()
@@ -104,7 +102,6 @@ void SatSGP4Mobility::move()
     LineSegmentsMobilityBase::move();
     raiseErrorIfOutside();
 }
-
 
 void SatSGP4Mobility::fixIfHostGetsOutside()
 {

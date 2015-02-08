@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -11,17 +11,14 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-//
+//-----------------------------------------------------
 
 #ifndef __OS3_SatSGP4Mobility_H__
 #define __OS3_SatSGP4Mobility_H__
 
-#include <omnetpp.h>
-
-#include <cstdio>
-#include <cmath>
 #include <LineSegmentsMobilityBase.h>
-#include "Norad.h"
+
+class Norad;
 
 /**
  * @class SatSGP4Mobility
@@ -37,7 +34,7 @@ class SatSGP4Mobility : public LineSegmentsMobilityBase
 {
 protected:
 
-    Norad *noradModule;
+    Norad* noradModule;
     int mapX, mapY;
     double transmitPower;
 

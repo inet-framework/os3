@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -11,16 +11,12 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-//
+//-----------------------------------------------------
 
 #ifndef __OS3_SatSGP4FisheyeMobility_H__
 #define __OS3_SatSGP4FisheyeMobility_H__
 
-#include <omnetpp.h>
-
 #include "SatSGP4Mobility.h"
-#include <cmath>
-#include "Norad.h"
 
 /**
  * @class SatSGP4FisheyeMobility
@@ -30,7 +26,8 @@
  * @version 0.1
  * Defined class
  */
-class SatSGP4FisheyeMobility : public SatSGP4Mobility {
+class SatSGP4FisheyeMobility : public SatSGP4Mobility
+{
 private:
     double refCenterLatitude, refCenterLongitude, refCenterAltitude; // Reference point for fisheye
     double transmitPower;
@@ -59,7 +56,7 @@ public:
      * @version 0.1
      * Method implemented
      */
-    void setRefCenterPoint(const double &latitude, const double &longitude, const double& altitude);
+    void setRefCenterPoint(const double& latitude, const double& longitude, const double& altitude);
 
     /**
      * @brief Returns the reference point's latitude

@@ -15,6 +15,8 @@
 
 #include "LUTMotionMobility.h"
 
+#include <cmath>
+
 Define_Module(LUTMotionMobility);
 
 void LUTMotionMobility::initialize(int stage)
@@ -23,8 +25,8 @@ void LUTMotionMobility::initialize(int stage)
     EV << "initializing LUTMotionMobility stage " << stage << endl;
     WATCH(lastPosition);
     if (stage == 0) {
-        mapx = atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 0));
-        mapy = atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 1));
+        mapx = std::atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 0));
+        mapy = std::atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 1));
         latitude = par("latitude");
         longitude = par("longitude");
     }

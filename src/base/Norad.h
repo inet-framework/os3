@@ -19,12 +19,14 @@
 #include <omnetpp.h>
 
 #include <string>
-#include <fstream>
-#include <iostream>
-#include <ctime>
-#include <vector>
-#include <libnorad.h>
-#include <WebServiceControl.h>
+
+#include "cEci.h"
+#include "cJulian.h"
+#include "ccoord.h"
+
+class cTle;
+class cOrbit;
+namespace std { class tm; }
 
 /**
  * @class Norad
@@ -44,7 +46,7 @@ public:
      * @version 0.1
      * Method created
      */
-    void setJulian(tm* currentTime);
+    void setJulian(std::tm* currentTime);
 
     /**
      * @brief Updates the end time of current linear movement for calculation of current position.
@@ -92,7 +94,7 @@ public:
      * @version 0.1
      * Method created
      */
-    double getElevation(const double &refLatitude, const double &refLongitude, const double &refAltitude = -9999);
+    double getElevation(const double& refLatitude, const double& refLongitude, const double& refAltitude = -9999);
 
     /**
      * @brief Returns the azimuth
@@ -101,7 +103,7 @@ public:
      * @version 0.1
      * Method created
      */
-    double getAzimuth(const double &refLatitude, const double &refLongitude, const double &refAltitude = -9999);
+    double getAzimuth(const double& refLatitude, const double& refLongitude, const double& refAltitude = -9999);
 
     /**
      * @brief Returns the altitude
@@ -128,7 +130,7 @@ public:
      * @version 0.1
      * Method created
      */
-    double getDistance(const double &refLatitude, const double &refLongitude, const double &refAltitude = -9999);
+    double getDistance(const double& refLatitude, const double& refLongitude, const double& refAltitude = -9999);
 
 protected:
     /**
@@ -138,7 +140,7 @@ protected:
      * @version 0.1
      * Method created
      */
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(cMessage* msg);
 
 private:
 

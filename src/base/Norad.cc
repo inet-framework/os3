@@ -3,17 +3,26 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
 #include "Norad.h"
+
+#include <ctime>
+#include <fstream>
+
+#include "cTle.h"
+#include "cOrbit.h"
+#include "libnorad.h"
+
+#include "WebServiceControl.h"
 
 Define_Module(Norad);
 
@@ -25,7 +34,7 @@ void Norad::finish() {
 void Norad::initializeMobility(const simtime_t &targetTime)
 {
     // Create reference to web service module
-    WebServiceControl *webServiceControl = dynamic_cast< WebServiceControl* >(getParentModule()->getParentModule()
+    WebServiceControl* webServiceControl = dynamic_cast< WebServiceControl* >(getParentModule()->getParentModule()
             ->getSubmodule("cni_os3", 0)->getSubmodule("webServiceControl", 0));
     if (webServiceControl == NULL) {
         error("Error in Norad::initializeMobility(): Cannot find WebServiceControl module!");
@@ -40,10 +49,11 @@ void Norad::initializeMobility(const simtime_t &targetTime)
         tleFile.open(filename.c_str());
 
         // Length 100 should be enough since lines are usually 70+'\n' char long
-        char line[100], line1tmp[100] = "empty", line2tmp[100] = "empty";
+        char line[100];
+        char line1tmp[100] = "empty";
+        char line2tmp[100] = "empty";
 
-        std::string satelliteName =
-                getParentModule()->par("satelliteName").stringValue();
+        std::string satelliteName = getParentModule()->par("satelliteName").stringValue();
         std::string line_str;
         if (satelliteName == "") {
             int index = getParentModule()->getIndex();
@@ -53,7 +63,7 @@ void Norad::initializeMobility(const simtime_t &targetTime)
                 if (!tleFile.good()) {
                     EV
                             << "Error in Norad::initializeMobility(): Cannot read further satellites from TLE file!"
-                            << endl;
+                            << std::endl;
                     endSimulation();
                 }
             } while (i++ < index * 3 && tleFile.good());
@@ -82,7 +92,7 @@ void Norad::initializeMobility(const simtime_t &targetTime)
         TLEData newData;
 
         if (this->getParentModule()->getIndex() == 0)
-            std::cout << "Fetching TLE files for satellites from web service..." << endl;
+            std::cout << "Fetching TLE files for satellites from web service..." << std::endl;
         if (satelliteName == "") {
             newData = webServiceControl->getTLEData(filename,this->getParentModule()->getIndex());
         } else {
@@ -119,15 +129,18 @@ void Norad::updateTime(const simtime_t &targetTime)
     geoCoord = eci.toGeo();
 }
 
-double Norad::getLongitude() {
+double Norad::getLongitude()
+{
     return rad2deg(geoCoord.m_Lon);
 }
 
-double Norad::getLatitude() {
+double Norad::getLatitude()
+{
     return rad2deg(geoCoord.m_Lat);
 }
 
-double Norad::getElevation(const double &refLatitude, const double &refLongitude, const double &refAltitude) {
+double Norad::getElevation(const double& refLatitude, const double& refLongitude, const double& refAltitude)
+{
     cSite siteEquator(refLatitude, refLongitude, refAltitude);
     cCoordTopo topoLook = siteEquator.getLookAngle(eci);
     if (topoLook.m_El == 0.0) {
@@ -136,7 +149,8 @@ double Norad::getElevation(const double &refLatitude, const double &refLongitude
     return rad2deg(topoLook.m_El);
 }
 
-double Norad::getAzimuth(const double &refLatitude, const double &refLongitude, const double &refAltitude) {
+double Norad::getAzimuth(const double& refLatitude, const double& refLongitude, const double& refAltitude)
+{
     cSite siteEquator(refLatitude, refLongitude, refAltitude);
     cCoordTopo topoLook = siteEquator.getLookAngle(eci);
     if (topoLook.m_El == 0.0) {
@@ -145,23 +159,27 @@ double Norad::getAzimuth(const double &refLatitude, const double &refLongitude, 
     return rad2deg(topoLook.m_Az);
 }
 
-double Norad::getAltitude() {
+double Norad::getAltitude()
+{
     geoCoord = eci.toGeo();
     return geoCoord.m_Alt;
 }
 
-double Norad::getDistance(const double &refLatitude, const double &refLongitude, const double &refAltitude) {
+double Norad::getDistance(const double& refLatitude, const double& refLongitude, const double& refAltitude)
+{
     cSite siteEquator(refLatitude, refLongitude, refAltitude);
     cCoordTopo topoLook = siteEquator.getLookAngle(eci);
     double distance = topoLook.m_Range;
     return distance;
 }
 
-void Norad::handleMessage(cMessage *msg) {
+void Norad::handleMessage(cMessage* msg)
+{
     error("Error in Norad::handleMessage(): This module is not able to handle messages.");
 }
 
-void Norad::setJulian(tm* currentTime) {
+void Norad::setJulian(std::tm* currentTime)
+{
     currentJulian = cJulian(currentTime->tm_year + 1900,
                             currentTime->tm_mon + 1,
                             currentTime->tm_mday,
