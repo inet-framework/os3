@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package cni_os3.base;
+package os3.base;
 
 //
 // Gets weather information from WebService and integrates them in the simulation.

@@ -15,11 +15,11 @@
 
 // Copyright Andreas Lewandowski / Brian Niehoefer
 
-package cni_os3.simulations.SatSGP4;
+package os3.simulations.SatSGP4;
 
-import cni_os3.base.Satellite;
+import os3.base.Satellite;
 import inet.world.radio.ChannelControl;
-import cni_os3.base.CNI_OS3;
+import os3.base.CNI_OS3;
 
 //
 // Network SatSGP4Fisheye enables satellite movement in fisheye view
@@ -46,8 +46,6 @@ network SatSGP4Fisheye
             @display("p=50,70,i;i=old/bluebox");
         }
     connections allowunconnected:
-
-
 }
 
 

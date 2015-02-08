@@ -15,18 +15,18 @@
 
 // Copyright Andreas Lewandowski / Brian Niehoefer
 
-package cni_os3.simulations.SatSGP4;
+package os3.simulations.SatSGP4;
 
-import cni_os3.base.Satellite;
-import cni_os3.base.MissionControlCenter;
+import os3.base.Satellite;
+import os3.base.MissionControlCenter;
 import inet.world.radio.ChannelControl;
-import cni_os3.base.CNI_OS3;
+import os3.base.CNI_OS3;
 //
 // Network SatSGP4 enables satellite movement on worldmap
 //
 network SatSGP4
 {
-    parameters:        
+    parameters:
         int numOfSats; // Number of satellites
         int numOfMCCs; // Number of Mission Control Centers
 

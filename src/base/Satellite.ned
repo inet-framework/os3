@@ -14,11 +14,11 @@
 // 
 
 
-package cni_os3.base;
-import cni_os3.base.Norad;
+package os3.base;
+import os3.base.Norad;
 import inet.base.NotificationBoard;
 import inet.mobility.contract.IMobility;
-import cni_os3.mobility.SatSGP4Mobility;
+import os3.mobility.SatSGP4Mobility;
 
 
 module Satellite
@@ -30,18 +30,18 @@ module Satellite
         string mobilityType = default("SatSGP4Mobility"); // Define mobility module
         // Transmit Power of satellite (7dBW as example for CospasSarsat system)
         double transmitPower @unit(dBW) @display("i=device/satellite;bgb=324,226") = default(7dBW); // Symbol
-		@display("t=$satelliteName");
+        @display("t=$satelliteName");
     gates:
         input radioIn; // Input gate
         output radioOut; // Output gate
 
     submodules:
         mobility: <mobilityType> like IMobility { // Module for mobility (parent class -> BasicMobility), BasicMobility -> IMobility
-            @display("p=194,103");     
+            @display("p=194,103");
         }
         //mobility : SatSGP4Mobility {
-        //  	parameters:
-        //    	@display("p=194,103");
+        //     parameters:
+        //     @display("p=194,103");
         //}
         notificationBoard: NotificationBoard { // Module for event notification
             parameters:

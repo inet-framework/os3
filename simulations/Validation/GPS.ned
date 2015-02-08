@@ -13,12 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package cni_os3.simulations.Validation;
+package os3.simulations.Validation;
 
-import cni_os3.base.Satellite;
+import os3.base.Satellite;
 import inet.world.radio.ChannelControl;
-import cni_os3.base.CNI_OS3;
-import cni_os3.base.Observer;
+import os3.base.CNI_OS3;
+import os3.base.Observer;
 
 
 network GPS

@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package cni_os3.base;
+package os3.base;
 
 //
 // Gets information from a web service (e.g. for Weather Information, TLE Files) and returns them to requesting modules.

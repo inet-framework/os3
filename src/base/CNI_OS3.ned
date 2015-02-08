@@ -13,9 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package cni_os3.base;
+package os3.base;
 
-import cni_os3.base.Calculation;
+import os3.base.Calculation;
 import inet.mobility.single.ConstSpeedMobility;
 
 //

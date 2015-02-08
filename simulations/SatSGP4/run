@@ -1,1 +1,1 @@
-../../src/run_cni-os3 -n .:../../src $*
+../../src/run_os3 -n .:../../src $*

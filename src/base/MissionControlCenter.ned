@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package cni_os3.base;
-import cni_os3.mobility.LUTMotionMobility;
+package os3.base;
+import os3.mobility.LUTMotionMobility;
 import inet.base.NotificationBoard;
 
 //

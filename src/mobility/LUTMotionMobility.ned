@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package cni_os3.mobility;
+package os3.mobility;
 
 import inet.mobility.common.MovingMobilityBase;
 import inet.mobility.contract.IMobility;

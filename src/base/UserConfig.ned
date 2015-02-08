@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package cni_os3.base;
+package os3.base;
 
 //
 // Interaction with user parameters set in omnetpp.ini and the omnet simulation. Also creates satellite mobility vectors.
