@@ -13,16 +13,16 @@
 #include "cOrbit.h"
 #include "cVector.h"
 
-const double zns    =  1.19459E-5;     const double c1ss   =  2.9864797E-6;   
-const double zes    =  0.01675;        const double znl    =  1.5835218E-4;   
+const double zns    =  1.19459E-5;     const double c1ss   =  2.9864797E-6;
+const double zes    =  0.01675;        const double znl    =  1.5835218E-4;
 const double c1l    =  4.7968065E-7;   const double zel    =  0.05490;
-const double zcosis =  0.91744867;     const double zsinis =  0.39785416;     
-const double zsings = -0.98088458;     const double zcosgs =  0.1945905;      
-const double q22    =  1.7891679E-6;   const double q31    =  2.1460748E-6;   
-const double q33    =  2.2123015E-7;   const double g22    =  5.7686396;      
+const double zcosis =  0.91744867;     const double zsinis =  0.39785416;
+const double zsings = -0.98088458;     const double zcosgs =  0.1945905;
+const double q22    =  1.7891679E-6;   const double q31    =  2.1460748E-6;
+const double q33    =  2.2123015E-7;   const double g22    =  5.7686396;
 const double g32    =  0.95240898;     const double g44    =  1.8014998;
-const double g52    =  1.0508330;      const double g54    =  4.4108898;      
-const double root22 =  1.7891679E-6;   const double root32 =  3.7393792E-7;   
+const double g52    =  1.0508330;      const double g54    =  4.4108898;
+const double root22 =  1.7891679E-6;   const double root32 =  3.7393792E-7;
 const double root44 =  7.3636953E-9;   const double root52 =  1.1428639E-7;
 const double root54 =  2.1765803E-9;   const double thdt   =  4.3752691E-3;
 
@@ -32,7 +32,7 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
 {
    m_sing = sin(m_Orbit.ArgPerigee());
    m_cosg = cos(m_Orbit.ArgPerigee());
-   
+
    dp_savtsn = 0.0;
    dp_zmos = 0.0;
    dp_se2 = 0.0;
@@ -111,19 +111,19 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
                           double *xmdot, double *omgdot, double *xnodott)
 {
    eqsq   = *eosq;
-   siniq  = *sinio;   
-   cosiq  = *cosio;   
+   siniq  = *sinio;
+   cosiq  = *cosio;
    rteqsq = *betao;
-   ao     = *aodp;    
-   cosq2  = *theta2;  
-   sinomo = *sing;    
+   ao     = *aodp;
+   cosq2  = *theta2;
+   sinomo = *sing;
    cosomo = *cosg;
-   bsq    = *betao2;  
-   xlldot = *xmdot;   
-   omgdt  = *omgdot;  
+   bsq    = *betao2;
+   xlldot = *xmdot;
+   omgdt  = *omgdot;
    xnodot = *xnodott;
 
-   // Deep space initialization 
+   // Deep space initialization
    cJulian jd = m_Orbit.Epoch();
 
    dp_thgr = jd.toGMST();
@@ -140,7 +140,7 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
 
    dp_omegaq = m_Orbit.ArgPerigee();
 
-   // Initialize lunar solar terms 
+   // Initialize lunar solar terms
    double day = jd.FromJan1_12h_1900();
 
    if (day != dpi_day)
@@ -186,8 +186,8 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
    double z31; double z32; double z33; double z1;  double z2;  double z3;
    double z11; double z12; double z13; double z21; double z22; double z23;
    double s3;  double s2;  double s4;  double s1;  double s5;  double s6;
-   double s7;  
-   double se  = 0.0;  double si = 0.0;  double sl = 0.0;  
+   double s7;
+   double se  = 0.0;  double si = 0.0;  double sl = 0.0;
    double sgh = 0.0;  double sh = 0.0;
 
    // Apply the solar and lunar terms on the first pass, then re-apply the
@@ -195,7 +195,7 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
 
    for (int pass = 1; pass <= 2; pass++)
    {
-      // Do solar terms 
+      // Do solar terms
       a1 =  zcosg * zcosh + zsing * zcosi * zsinh;
       a3 = -zsing * zcosh + zcosg * zcosi * zsinh;
       a7 = -zcosg * zsinh + zsing * zcosi * zcosh;
@@ -262,7 +262,7 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
 
       if (pass == 1)
       {
-         // Do lunar terms 
+         // Do lunar terms
          dp_sse = se;
          dp_ssi = si;
          dp_ssl = sl;
@@ -300,7 +300,7 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
    dp_ssg = dp_ssg + sgh - cosiq / siniq * sh;
    dp_ssh = dp_ssh + sh / siniq;
 
-   // Geopotential resonance initialization for 12 hour orbits 
+   // Geopotential resonance initialization for 12 hour orbits
    dp_iresfl = false;
    dp_isynfl = false;
 
@@ -323,7 +323,7 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
          double g201 = -0.306 - (eq - 0.64) * 0.440;
 
          double g211;   double g322;
-         double g410;   double g422;   
+         double g410;   double g422;
          double g520;
 
          if (eq <= 0.65)
@@ -349,8 +349,8 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
                g520 = -5149.66 + 29936.92 * eq - 54087.36 * eqsq + 31324.56 * eoc;
          }
 
-         double g533;   
-         double g521;   
+         double g533;
+         double g521;
          double g532;
 
          if (eq < 0.7)
@@ -408,7 +408,7 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
    }
    else
    {
-      // Synchronous resonance terms initialization 
+      // Synchronous resonance terms initialization
       dp_iresfl = true;
       dp_isynfl = true;
       double g200 = 1.0 + eqsq * (-2.5 + 0.8125 * eqsq);
@@ -434,7 +434,7 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
    {
       dp_xfact = bfact - m_xnodp;
 
-      // Initialize integrator 
+      // Initialize integrator
       dp_xli = dp_xlamo;
       dp_xni = m_xnodp;
       dp_atime = 0.0;
@@ -443,17 +443,17 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
       dp_step2 = 259200.0;
    }
 
-   *eosq   = eqsq;    
-   *sinio  = siniq;   
-   *cosio  = cosiq;   
+   *eosq   = eqsq;
+   *sinio  = siniq;
+   *cosio  = cosiq;
    *betao  = rteqsq;
-   *aodp   = ao;      
-   *theta2 = cosq2;   
-   *sing   = sinomo;  
+   *aodp   = ao;
+   *theta2 = cosq2;
+   *sing   = sinomo;
    *cosg   = cosomo;
-   *betao2 = bsq;     
-   *xmdot  = xlldot;  
-   *omgdot = omgdt;   
+   *betao2 = bsq;
+   *xmdot  = xlldot;
+   *omgdot = omgdt;
    *xnodott = xnodot;
 
    return true;
@@ -462,10 +462,10 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
 //////////////////////////////////////////////////////////////////////////////
 bool cNoradSDP4::DeepCalcDotTerms(double *pxndot, double *pxnddt, double *pxldot)
 {
-    // Dot terms calculated 
+    // Dot terms calculated
    if (dp_isynfl)
    {
-      *pxndot = dp_del1 * sin(dp_xli - dp_fasx2) + 
+      *pxndot = dp_del1 * sin(dp_xli - dp_fasx2) +
                 dp_del2 * sin(2.0 * (dp_xli - dp_fasx4)) +
                 dp_del3 * sin(3.0 * (dp_xli - dp_fasx6));
       *pxnddt = dp_del1 * cos(dp_xli - dp_fasx2) +
@@ -478,7 +478,7 @@ bool cNoradSDP4::DeepCalcDotTerms(double *pxndot, double *pxnddt, double *pxldot
       double x2omi = xomi + xomi;
       double x2li  = dp_xli + dp_xli;
 
-      *pxndot = dp_d2201 * sin(x2omi + dp_xli - g22) + 
+      *pxndot = dp_d2201 * sin(x2omi + dp_xli - g22) +
                 dp_d2211 * sin(dp_xli - g22)         +
                 dp_d3210 * sin(xomi + dp_xli - g32)  +
                 dp_d3222 * sin(-xomi + dp_xli - g32) +
@@ -508,7 +508,7 @@ bool cNoradSDP4::DeepCalcDotTerms(double *pxndot, double *pxnddt, double *pxldot
 }
 
 //////////////////////////////////////////////////////////////////////////////
-void cNoradSDP4::DeepCalcIntegrator(double *pxndot, double *pxnddt, 
+void cNoradSDP4::DeepCalcIntegrator(double *pxndot, double *pxnddt,
                                     double *pxldot, const double &delt)
 {
    DeepCalcDotTerms(pxndot, pxnddt, pxldot);
@@ -523,13 +523,13 @@ bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
                              double *emm,  double *xincc,  double *xnn,
                              double *tsince)
 {
-   xll    = *xmdf;    
-   omgasm = *omgadf;  
-   xnodes = *xnode;  
-   xn     = *xnn;  
+   xll    = *xmdf;
+   omgasm = *omgadf;
+   xnodes = *xnode;
+   xn     = *xnn;
    t      = *tsince;
 
-   // Deep space secular effects 
+   // Deep space secular effects
    xll    = xll + dp_ssl * t;
    omgasm = omgasm + dp_ssg * t;
    xnodes = xnodes + dp_ssh * t;
@@ -551,7 +551,7 @@ bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
 
    bool fDone = false;
 
-   if (dp_iresfl) 
+   if (dp_iresfl)
    {
       while (!fDone)
       {
@@ -564,7 +564,7 @@ bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
             else
                delt = dp_stepp;
 
-            // Epoch restart 
+            // Epoch restart
             dp_atime = 0.0;
             dp_xni = m_xnodp;
             dp_xli = dp_xlamo;
@@ -614,7 +614,7 @@ bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
          xll = xl + temp + temp;
    }
 
-   *xmdf   = xll; 
+   *xmdf   = xll;
    *omgadf = omgasm;
    *xnode  = xnodes;
    *emm    = _em;
@@ -630,13 +630,13 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
                                double *omgadf, double *xnode,
                                double *xmam)
 {
-   _em    = *e;       
-   xinc   = *xincc; 
+   _em    = *e;
+   xinc   = *xincc;
    omgasm = *omgadf;
    xnodes = *xnode;
    xll    = *xmam;
 
-   // Lunar-solar periodics 
+   // Lunar-solar periodics
    double sinis = sin(xinc);
    double cosis = cos(xinc);
 
@@ -687,7 +687,7 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
 
    if (dp_xqncl >= 0.2)
    {
-      // Apply periodics directly 
+      // Apply periodics directly
       ph  = ph / siniq;
       pgh = pgh - cosiq * ph;
       omgasm = omgasm + pgh;
@@ -696,7 +696,7 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
    }
    else
    {
-      // Apply periodics with Lyddane modification 
+      // Apply periodics with Lyddane modification
       double sinok = sin(xnodes);
       double cosok = cos(xnodes);
       double alfdp = sinis * sinok;
@@ -716,9 +716,9 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
       omgasm = xls - xll - cos(xinc) * xnodes;
    }
 
-   *e      = _em;      
-   *xincc  = xinc;    
-   *omgadf = omgasm;  
+   *e      = _em;
+   *xincc  = xinc;
+   *omgadf = omgasm;
    *xnode  = xnodes;
    *xmam   = xll;
 
@@ -735,17 +735,17 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
 // tsince  - Time in minutes since the TLE epoch (GMT).
 // pECI    - pointer to location to store the ECI data.
 //           To convert the returned ECI position vector to km,
-//           multiply each component by: 
+//           multiply each component by:
 //              (XKMPER_WGS72 / AE).
-//           To convert the returned ECI velocity vector to km/sec, 
+//           To convert the returned ECI velocity vector to km/sec,
 //           multiply each component by:
 //              (XKMPER_WGS72 / AE) * (MIN_PER_DAY / 86400).
 bool cNoradSDP4::getPosition(double tsince, cEci &eci)
 {
-   DeepInit(&m_eosq, &m_sinio, &m_cosio,  &m_betao, &m_aodp,   &m_theta2, 
+   DeepInit(&m_eosq, &m_sinio, &m_cosio,  &m_betao, &m_aodp,   &m_theta2,
             &m_sing, &m_cosg,  &m_betao2, &m_xmdot, &m_omgdot, &m_xnodot);
 
-   // Update for secular gravity and atmospheric drag 
+   // Update for secular gravity and atmospheric drag
    double xmdf   = m_Orbit.mnAnomaly() + m_xmdot * tsince;
    double omgadf = m_Orbit.ArgPerigee() + m_omgdot * tsince;
    double xnoddf = m_Orbit.RAAN() + m_xnodot * tsince;

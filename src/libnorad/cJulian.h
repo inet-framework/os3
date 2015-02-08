@@ -10,7 +10,6 @@
 #include <cstdio>
 #include <cstring>
 #include <assert.h>
-//#include "stdafx.h"
 #include "globals.h"
 
 //

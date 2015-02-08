@@ -3,26 +3,25 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
-#ifndef __CNI_OS3_OBSERVER_H_
-#define __CNI_OS3_OBSERVER_H_
+#ifndef __OS3_Observer_H__
+#define __OS3_Observer_H__
 
 #include <omnetpp.h>
+
 #include <SatSGP4FisheyeMobility.h>
 #include <iostream>
 #include <fstream>
 #include <Calculation.h>
-using namespace std;
-
 
 /**
  * @class Observer
@@ -33,16 +32,16 @@ using namespace std;
 
 class Observer : public cSimpleModule {
 private:
-    SatSGP4Mobility * Sat; // Reference to observed satellite
-    SatSGP4FisheyeMobility * gpsSats[31]; // GPS satellites for C/N0 validation
-    Calculation * calculation;
-    cMessage *timer; // Self message to trigger observation
+    SatSGP4Mobility* Sat; // Reference to observed satellite
+    SatSGP4FisheyeMobility* gpsSats[31]; // GPS satellites for C/N0 validation
+    Calculation* calculation;
+    cMessage* timer; // Self message to trigger observation
     double longitude; // Longitude of Observer
     double latitude; // Latitude of Observer
     double altitude; // Altitude of Observer
     double lastelv; // Last observed elevation is saved
     double interval; // Update interval for timer
-    ofstream outfile; // File where results are written/saved
+    std::ofstream outfile; // File where results are written/saved
     time_t timestamp; // Time stamp for starting simulation
     int numgps; // Number of GPS satellites for C/N0 validation
     bool gps; // Bool to check whether gps or ISS validation should run

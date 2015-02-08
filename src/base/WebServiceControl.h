@@ -3,20 +3,21 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
-#ifndef __CNI_OS3_WEBSERVICECONTROL_H_
-#define __CNI_OS3_WEBSERVICECONTROL_H_
+#ifndef __OS3_WebServiceControl_H__
+#define __OS3_WebServiceControl_H__
 
 #include <omnetpp.h>
+
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <cstdio>

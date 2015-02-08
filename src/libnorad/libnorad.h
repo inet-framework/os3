@@ -19,4 +19,4 @@
 #include "cTLE.h"
 #include "globals.h"
 
-#endif /* LIBNORAD_H_ */
+#endif

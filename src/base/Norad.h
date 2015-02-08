@@ -3,20 +3,21 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
-#ifndef __CNI_OS3_NORAD_H_
-#define __CNI_OS3_NORAD_H_
+#ifndef __OS3_Norad_H__
+#define __OS3_Norad_H__
 
 #include <omnetpp.h>
+
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -145,8 +146,8 @@ private:
     cJulian currentJulian;
     double gap;
 
-    cTle *tle;
-    cOrbit *orbit;
+    cTle* tle;
+    cOrbit* orbit;
     cCoordGeo geoCoord;
     std::string line0, line1, line2, line3;
 };

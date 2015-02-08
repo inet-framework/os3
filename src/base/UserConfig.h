@@ -1,7 +1,9 @@
-#ifndef __CNI_OS3_USERCONFIG_H_
-#define __CNI_OS3_USERCONFIG_H_
+
+#ifndef __OS3_UserConfig_H__
+#define __OS3_UserConfig_H__
 
 #include <omnetpp.h>
+
 #include <SatSGP4Mobility.h>
 #include <SatSGP4FisheyeMobility.h>
 #include <ChannelControl.h>
@@ -26,8 +28,6 @@ class UserConfig : public cSimpleModule {
 private:
     parameters userParameters;
     std::vector< SatSGP4Mobility* > satmoVector;
-
-    ChannelControl *channelcontrol;
 
 protected:
     /**

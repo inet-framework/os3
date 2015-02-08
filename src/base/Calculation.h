@@ -13,11 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#ifndef __CNI_OS3_CALCULATION_H_
-#define __CNI_OS3_CALCULATION_H_
+#ifndef __OS3_Calculation_H__
+#define __OS3_Calculation_H__
 
-#include <math.h>
 #include <omnetpp.h>
+
+#include <cmath>
 #include <WeatherControl.h>
 #include <UserConfig.h>
 
@@ -58,9 +59,9 @@ private:
     std::string rainTableFile;
     std::map< double, rainCoefficients > rainCoeffMap; // Used for calculation of specific rain attenuation
 
-    UserConfig *userConfig;
-    WeatherControl *weatherControl;
-    WebServiceControl *webserviceControl;
+    UserConfig* userConfig;
+    WeatherControl* weatherControl;
+    WebServiceControl* webserviceControl;
 
     struct SAT {
         int satIndex;
@@ -225,7 +226,6 @@ public:
             const double &tR = 150,
             const double &dR = 3);
 };
-
 
 #endif
 
