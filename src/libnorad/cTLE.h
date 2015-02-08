@@ -1,28 +1,26 @@
-//
-// cTle.h 
+//-----------------------------------------------------
+// cTle.h
 //
 // This class will accept a single set of two-line elements and then allow
-// a client to request specific fields, such as epoch, mean motion, 
+// a client to request specific fields, such as epoch, mean motion,
 // etc., from the set.
 //
 // Copyright 1996-2003 Michael F. Henry
-//
-#pragma once
+//-----------------------------------------------------
+#ifndef __LIBNORAD_cTle_H__
+#define __LIBNORAD_cTle_H__
+
 #include <string>
 #include <map>
-#include <assert.h>
-#include <cstdlib>
-#include <cstdio>
 #include "globals.h"
 
-/////////////////////////////////////////////////////////////////////////////
 class cTle
 {
 public:
    cTle(std::string&, std::string&, std::string&);
-   cTle(const cTle &tle);
+   cTle(const cTle& tle);
    ~cTle();
-   
+
    enum eTleLine
    {
       LINE_ZERO,
@@ -59,27 +57,27 @@ public:
       U_NATIVE,         // TLE format native units (no conversion)
       U_LAST            // MUST be last
    };
-   
+
    void Initialize();
-   
-   static int    CheckSum(const std::string&);
-   static bool   IsValidLine(std::string&, eTleLine);
+
+   static int CheckSum(const std::string&);
+   static bool IsValidLine(std::string&, eTleLine);
    static std::string ExpToDecimal(const std::string&);
 
    static void TrimLeft(std::string&);
    static void TrimRight(std::string&);
-   
-   double getField(eField fld,               // which field to retrieve
-                   eUnits unit  = U_NATIVE,  // return units in rad, deg etc.
+
+   double getField(eField fld,                    // which field to retrieve
+                   eUnits unit  = U_NATIVE,       // return units in rad, deg etc.
                    std::string *pstr = NULL,      // return ptr for str value
-                   bool bStrUnits = false)   // 'true': append units to str val
+                   bool bStrUnits = false)        // 'true': append units to str val
                    const;
-   std::string getName()  const { return m_strName; }
-   std::string getLine1() const { return m_strLine1;}
-   std::string getLine2() const { return m_strLine2;}
+   std::string getName()  const                   { return m_strName; }
+   std::string getLine1() const                   { return m_strLine1;}
+   std::string getLine2() const                   { return m_strLine2;}
 
 protected:
-   static double ConvertUnits(double val, eField fld, eUnits units); 
+   static double ConvertUnits(double val, eField fld, eUnits units);
 
 private:
    std::string getUnits(eField) const;
@@ -95,7 +93,7 @@ private:
 
    // Cache of field values in "double" format
    typedef int FldKey;
-   FldKey Key(eUnits u, eField f) const { return (u * 100) + f; }
+   FldKey Key(eUnits u, eField f) const           { return (u * 100) + f; }
    mutable std::map<FldKey, double>  m_mapCache;
 };
 
@@ -110,12 +108,12 @@ private:
 //  AAAAAAAAAAAAAAAAAAAAAA
 //  1 NNNNNU NNNNNAAA NNNNN.NNNNNNNN +.NNNNNNNN +NNNNN-N +NNNNN-N N NNNNN
 //  2 NNNNN NNN.NNNN NNN.NNNN NNNNNNN NNN.NNNN NNN.NNNN NN.NNNNNNNNNNNNNN
-//  
+//
 //  Line 0 is a twenty-two-character name.
-// 
+//
 //   Lines 1 and 2 are the standard Two-Line Orbital Element Set Format identical
 //   to that used by NORAD and NASA.  The format description is:
-//      
+//
 //     Line 1
 //     Column    Description
 //     01-01     Line Number of Element Data
@@ -148,12 +146,13 @@ private:
 //     53-63     Mean Motion [Revs per day]
 //     64-68     Revolution number at epoch [Revs]
 //     69-69     Check Sum (Modulo 10)
-//        
+//
 //     All other columns are blank or fixed.
-//          
+//
 // Example:
-//      
+//
 // NOAA 6
 // 1 11416U          86 50.28438588 0.00000140           67960-4 0  5293
 // 2 11416  98.5105  69.3305 0012788  63.2828 296.9658 14.24899292346978
 
+#endif

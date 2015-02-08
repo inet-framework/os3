@@ -1,23 +1,24 @@
-//
+//-----------------------------------------------------
 // cSite.cpp
 //
 // Copyright (c) 2003 Michael F. Henry
-//
-//////////////////////////////////////////////////////////////////////////////
-//#include "stdafx.h"
+//-----------------------------------------------------
+
 #include "cSite.h"
 #include "globals.h"
 
-//////////////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-cSite::cSite(const cCoordGeo &geo) : m_geo(geo)
+#include <cassert>
+#include <cstdio>
+
+cSite::cSite(const cCoordGeo& geo) : m_geo(geo)
 {}
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // c'tor accepting:
 //    Latitude  in degress (negative south)
 //    Longitude in degress (negative west)
 //    Altitude  in km
+//-----------------------------------------------------
 cSite::cSite(double degLat, double degLon, double kmAlt) :
    m_geo(deg2rad(degLat), deg2rad(degLon), kmAlt)
 {}
@@ -25,32 +26,35 @@ cSite::cSite(double degLat, double degLon, double kmAlt) :
 cSite::~cSite()
 {}
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // setGeo()
 // Set a new geographic position
-void cSite::setGeo(const cCoordGeo &geo)
+//-----------------------------------------------------
+void cSite::setGeo(const cCoordGeo& geo)
 {
    m_geo = geo;
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // getPosition()
 // Return the ECI coordinate of the site at the given time.
-cEci cSite::getPosition(const cJulian &date) const
+//-----------------------------------------------------
+cEci cSite::getPosition(const cJulian& date) const
 {
    return cEci(m_geo, date);
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // getLookAngle()
 // Return the topocentric (azimuth, elevation, etc.) coordinates for a target
 // object described by the input ECI coordinates.
-cCoordTopo cSite::getLookAngle(const cEci &eci) const
+//-----------------------------------------------------
+cCoordTopo cSite::getLookAngle(const cEci& eci) const
 {
    // Calculate the ECI coordinates for this cSite object at the time
    // of interest.
    cJulian date = eci.getDate();
-   cEci eciSite(m_geo, date); 
+   cEci eciSite(m_geo, date);
 
    // The Site ECI units are km-based; ensure target ECI units are same
    assert(eci.UnitsAreKm());
@@ -62,7 +66,7 @@ cCoordTopo cSite::getLookAngle(const cEci &eci) const
    double x = eci.getPos().m_x - eciSite.getPos().m_x;
    double y = eci.getPos().m_y - eciSite.getPos().m_y;
    double z = eci.getPos().m_z - eciSite.getPos().m_z;
-   double w = sqrt(sqr(x) + sqr(y) + sqr(z));
+   double w = std::sqrt(sqr(x) + sqr(y) + sqr(z));
    //cout << "Distance to satellite: "<< w ;
 
    cVector vecRange(x, y, z, w);
@@ -70,20 +74,20 @@ cCoordTopo cSite::getLookAngle(const cEci &eci) const
    // The site's Local Mean Sidereal Time at the time of interest.
    double theta = date.toLMST(getLon());
 
-   double sin_lat   = sin(getLat());
-   double cos_lat   = cos(getLat());
-   double sin_theta = sin(theta);
-   double cos_theta = cos(theta);
+   double sin_lat   = std::sin(getLat());
+   double cos_lat   = std::cos(getLat());
+   double sin_theta = std::sin(theta);
+   double cos_theta = std::cos(theta);
 
-   double top_s = sin_lat * cos_theta * vecRange.m_x + 
-                  sin_lat * sin_theta * vecRange.m_y - 
+   double top_s = sin_lat * cos_theta * vecRange.m_x +
+                  sin_lat * sin_theta * vecRange.m_y -
                   cos_lat * vecRange.m_z;
-   double top_e = -sin_theta * vecRange.m_x + 
+   double top_e = -sin_theta * vecRange.m_x +
                    cos_theta * vecRange.m_y;
-   double top_z = cos_lat * cos_theta * vecRange.m_x + 
-                  cos_lat * sin_theta * vecRange.m_y + 
+   double top_z = cos_lat * cos_theta * vecRange.m_x +
+                  cos_lat * sin_theta * vecRange.m_y +
                   sin_lat * vecRange.m_z;
-   double az    = atan(-top_e / top_s);
+   double az    = std::atan(-top_e / top_s);
 
    if (top_s > 0.0)
       az += PI;
@@ -91,9 +95,9 @@ cCoordTopo cSite::getLookAngle(const cEci &eci) const
    if (az < 0.0)
       az += 2.0*PI;
 
-   double el   = asin(top_z / vecRange.m_w);
-    double rate = (vecRange.m_x * vecRgRate.m_x + 
-                  vecRange.m_y * vecRgRate.m_y + 
+   double el   = std::asin(top_z / vecRange.m_w);
+   double rate = (vecRange.m_x * vecRgRate.m_x +
+                  vecRange.m_y * vecRgRate.m_y +
                   vecRange.m_z * vecRgRate.m_z) / vecRange.m_w;
 
    cCoordTopo topo(az,           // azimuth,   radians
@@ -105,8 +109,8 @@ cCoordTopo cSite::getLookAngle(const cEci &eci) const
    // Elevation correction for atmospheric refraction.
    // Reference:  Astronomical Algorithms by Jean Meeus, pp. 101-104
    // Note:  Correction is meaningless when apparent elevation is below horizon
-   topo.m_El += deg2rad((1.02 / 
-                        tan(deg2rad(rad2deg(el) + 10.3 / 
+   topo.m_El += deg2rad((1.02 /
+                        tan(deg2rad(rad2deg(el) + 10.3 /
                                     (rad2deg(el) + 5.11)))) / 60.0);
    if (topo.m_El < 0.0)
       topo.m_El = el;    // Reset to true elevation
@@ -118,10 +122,11 @@ cCoordTopo cSite::getLookAngle(const cEci &eci) const
    return topo;
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // toString()
 //
 // FIXME: String anstelle von char*
+//-----------------------------------------------------
 std::string cSite::toString() const
 {
    const int TEMP_SIZE = 128;
@@ -130,28 +135,26 @@ std::string cSite::toString() const
    bool LatNorth = true;
    bool LonEast  = true;
 
-   if (m_geo.m_Lat < 0.0) 
-   {
+   if (m_geo.m_Lat < 0.0) {
       LatNorth = false;
    }
 
-   if (m_geo.m_Lon < 0.0)
-   {
+   if (m_geo.m_Lon < 0.0) {
       LonEast = false;
    }
 
-   sprintf(sz,"%06.3f%c, ",fabs(rad2deg(m_geo.m_Lat)),(LatNorth ? 'N' : 'S'));
+   std::sprintf(sz,"%06.3f%c, ", std::fabs(rad2deg(m_geo.m_Lat)),(LatNorth ? 'N' : 'S'));
 
    std::string strLoc = sz;
 
-   sprintf(sz,
-             "%07.3f%c, ", 
-             fabs(rad2deg(m_geo.m_Lon)),
+   std::sprintf(sz,
+             "%07.3f%c, ",
+             std::fabs(rad2deg(m_geo.m_Lon)),
              (LonEast ? 'E' : 'W'));
    strLoc += sz;
 
-   sprintf(sz,
-            "%.1fm\n", 
+   std::sprintf(sz,
+            "%.1fm\n",
             (m_geo.m_Alt * 1000.0));
    strLoc += sz;
 

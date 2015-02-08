@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // cNoradBase.cpp
 //
 // Historical Note:
@@ -26,7 +26,7 @@
 // Copyright (c) 2003 Michael F. Henry
 //
 // mfh 12/07/2003
-//
+//-----------------------------------------------------
 #include "cNoradBase.h"
 #include "cOrbit.h"
 #include "ccoord.h"

@@ -3,15 +3,15 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
 #include "LUTMotionMobility.h"
 
@@ -58,7 +58,7 @@ void LUTMotionMobility::move()
 {
     lastPosition.y = ((-mapy * latitude) / 180) + (mapy / 2);
     lastPosition.x = mapx * longitude / 360 + (mapx / 2);
-    lastPosition.x = ((int)lastPosition.x % (int)mapx);
+    lastPosition.x = static_cast<int>(lastPosition.x) % static_cast<int>(mapx);
 }
 
 void LUTMotionMobility::initializePosition()

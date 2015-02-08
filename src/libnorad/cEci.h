@@ -1,42 +1,44 @@
-//
+//-----------------------------------------------------
 // cEci.h
 //
 // Copyright (c) 2003 Michael F. Henry
-//
-#pragma once
+//-----------------------------------------------------
+#ifndef __LIBNORAD_cEci_H__
+#define __LIBNORAD_cEci_H__
 
-#include <math.h>
 #include "ccoord.h"
 #include "cVector.h"
 #include "cJulian.h"
 
-//////////////////////////////////////////////////////////////////////
-// class cEci
-// Encapsulates an Earth-Centered Inertial position, velocity, and time.
+//-----------------------------------------------------
+// Class: cEci
+// Description: Encapsulates an Earth-Centered Inertial
+//              position, velocity, and time.
+//-----------------------------------------------------
 class cEci
 {
 public:
    cEci() { m_VecUnits = UNITS_NONE; }
-   cEci(const cCoordGeo &geo, const cJulian &cJulian);
-   cEci(const cVector &pos, const cVector &vel, 
-        const cJulian &date, bool IsAeUnits = true);
+   cEci(const cCoordGeo& geo, const cJulian& cJulian);
+   cEci(const cVector& pos, const cVector& vel,
+        const cJulian& date, bool IsAeUnits = true);
    virtual ~cEci() {};
 
-   cCoordGeo toGeo(); 
+   cCoordGeo toGeo();
 
-   cVector getPos()  const { return m_pos;  }
-   cVector getVel()  const { return m_vel;  }
-   cJulian getDate() const { return m_date; }
+   cVector getPos()  const             { return m_pos;  }
+   cVector getVel()  const             { return m_vel;  }
+   cJulian getDate() const             { return m_date; }
 
-   void setUnitsAe() { m_VecUnits = UNITS_AE; }
-   void setUnitsKm() { m_VecUnits = UNITS_KM; }
-   bool UnitsAreAe() const { return m_VecUnits == UNITS_AE; }
-   bool UnitsAreKm() const { return m_VecUnits == UNITS_KM; }
+   void setUnitsAe()                   { m_VecUnits = UNITS_AE; }
+   void setUnitsKm()                   { m_VecUnits = UNITS_KM; }
+   bool UnitsAreAe() const             { return m_VecUnits == UNITS_AE; }
+   bool UnitsAreKm() const             { return m_VecUnits == UNITS_KM; }
    void ae2km();  // Convert position, velocity vector units from AE to km
 
 protected:
-   void MulPos(double factor) { m_pos.Mul(factor); }
-   void MulVel(double factor) { m_vel.Mul(factor); }
+   void MulPos(double factor)          { m_pos.Mul(factor); }
+   void MulVel(double factor)          { m_vel.Mul(factor); }
 
    enum VecUnits
    {
@@ -50,3 +52,5 @@ protected:
    cJulian  m_date;
    VecUnits m_VecUnits;
 };
+
+#endif

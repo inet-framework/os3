@@ -1,11 +1,11 @@
-//
+//-----------------------------------------------------
 // cNoradSGP4.cpp
 //
 // NORAD SGP4 implementation. See historical note in cNoradBase.cpp
 // Copyright (c) 2003 Michael F. Henry
 //
 // mfh 12/07/2003
-//
+//-----------------------------------------------------
 
 #include "cNoradSGP4.h"
 #include  <cmath>
@@ -28,7 +28,7 @@ cNoradSGP4::cNoradSGP4(const cOrbit& orbit) :
 cNoradSGP4::~cNoradSGP4()
 {}
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // getPosition()
 // This procedure returns the ECI position and velocity for the satellite
 // in the orbit at the given number of minutes since the TLE epoch time
@@ -43,8 +43,8 @@ cNoradSGP4::~cNoradSGP4()
 //           To convert the returned ECI velocity vector to km/sec,
 //           multiply each component by:
 //              (XKMPER_WGS72 / AE) * (MIN_PER_DAY / 86400).
-
-bool cNoradSGP4::getPosition(double tsince, cEci &eci)
+//-----------------------------------------------------
+bool cNoradSGP4::getPosition(double tsince, cEci& eci)
 {
    // For m_perigee less than 220 kilometers, the isimp flag is set and
    // the equations are truncated to linear variation in sqrt a and

@@ -20,7 +20,6 @@
 
 #include <curl/curl.h>
 #include <curl/easy.h>
-#include <cstdio>
 
 struct WeatherData {
     std::string date;
@@ -92,7 +91,7 @@ protected:
      * @version 0.1
      * Method implemented
      */
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(cMessage* msg);
 
     /**
      * @brief Creation of request string for weather data
@@ -106,7 +105,7 @@ protected:
      * @version 0.2
      * Coordinates for the reference point are now required (formerly taken from UserConfig)
      */
-    std::string getRequestStringWeatherData(const double &latitude, const double &longitude);
+    std::string getRequestStringWeatherData(const double& latitude, const double& longitude);
 
     /**
      * @brief Creation of request string for altitude data
@@ -120,7 +119,7 @@ protected:
      * @version 0.2
      * Coordinates for the reference point are now required (formerly taken from UserConfig)
      */
-    std::string getRequestStringAltitudeData(const double &latitude, const double &longitude);
+    std::string getRequestStringAltitudeData(const double& latitude, const double& longitude);
 
     /**
      * @brief Creation of request string for TLE data
@@ -145,7 +144,7 @@ protected:
      * @version 0.2
      * Coordinates for the reference point are now required (formerly taken from UserConfig)
      */
-    std::string requestWeatherData(const double &latitude, const double &longitude);
+    std::string requestWeatherData(const double& latitude, const double& longitude);
 
     /**
      * @brief Creation of request for altitude data
@@ -159,7 +158,7 @@ protected:
      * @version 0.2
      * Coordinates for the reference point are now required (formerly taken from UserConfig)
      */
-    double requestAltitudeData(const double &latitude, const double &longitude);
+    double requestAltitudeData(const double& latitude, const double& longitude);
 
     /**
      * @brief Creation of request for TLE data
@@ -221,7 +220,7 @@ public:
      * @version 0.2
      * Coordinates for the reference point are now required (formerly taken from UserConfig)
      */
-    WeatherData getWeatherData(const double &latitude, const double &longitude);
+    WeatherData getWeatherData(const double& latitude, const double& longitude);
 
     /**
      * @brief Returns live weather data for initialized region
@@ -240,7 +239,7 @@ public:
      * @version 0.3
      * Added a cache, always storing the latest 'altitudeCacheThreshold' number of requests in a map (oldest first in map, latest last)
      */
-    double getAltitudeData(const double &latitude, const double &longitude);
+    double getAltitudeData(const double& latitude, const double& longitude);
 
     /**
      * @brief Returns actual TLE data for requested satellite (characterized by specific satellite number)

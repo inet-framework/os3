@@ -3,21 +3,22 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
 #include "WebServiceControl.h"
 
 Define_Module(WebServiceControl);
 
-void WebServiceControl::initialize() {
+void WebServiceControl::initialize()
+{
     // Read parameters
     altitudeCacheThreshold = par("altitudeCacheThreshold");
     tleCacheThreshold = par("tleCacheThreshold");
@@ -25,17 +26,16 @@ void WebServiceControl::initialize() {
     weatherApiKey = par("apiKeyWeather").stringValue();
     altitudeUsername = par("usernameAltitude").stringValue();
 
-    EV << "Web services are now available!" << endl;
-
-    return;
+    EV << "Web services are now available!" << std::endl;
 }
 
-void WebServiceControl::handleMessage(cMessage *msg) {
+void WebServiceControl::handleMessage(cMessage* msg)
+{
     error("Error in WebServiceControl::handleMessage(): This module is not able to handle messages");
 }
 
-std::string WebServiceControl::getRequestStringWeatherData(const double &latitude, const double &longitude) {
-
+std::string WebServiceControl::getRequestStringWeatherData(const double& latitude, const double& longitude)
+{
     std::ostringstream requestStream;
 
     // Create URL
@@ -59,7 +59,8 @@ std::string WebServiceControl::getRequestStringWeatherData(const double &latitud
     return requestStream.str();
 }
 
-std::string WebServiceControl::getRequestStringAltitudeData(const double &latitude, const double &longitude) {
+std::string WebServiceControl::getRequestStringAltitudeData(const double& latitude, const double& longitude)
+{
     std::ostringstream requestStream;
 
     // Check if URL exists
@@ -80,7 +81,8 @@ std::string WebServiceControl::getRequestStringAltitudeData(const double &latitu
     return requestStream.str();
 }
 
-std::string WebServiceControl::getRequestStringTLEData(std::string fileName) {
+std::string WebServiceControl::getRequestStringTLEData(std::string fileName)
+{
     std::ostringstream requestStream;
 
     // Create URL
@@ -103,7 +105,8 @@ std::string WebServiceControl::getRequestStringTLEData(std::string fileName) {
  * @version 0.1
  * Method defined
  */
-size_t write_data(char *ptr, size_t size, size_t nmemb, std::string *targetString) {
+size_t write_data(char* ptr, size_t size, size_t nmemb, std::string* targetString)
+{
     if (targetString) {
         targetString->append(ptr, size * nmemb);
         return size * nmemb;
@@ -111,7 +114,8 @@ size_t write_data(char *ptr, size_t size, size_t nmemb, std::string *targetStrin
     return 0;
 }
 
-bool WebServiceControl::urlExist(std::string url) {
+bool WebServiceControl::urlExist(std::string url)
+{
     // Check if url is set
     if (url.size() == 0) {
         return false;
@@ -136,7 +140,8 @@ bool WebServiceControl::urlExist(std::string url) {
     return true;
 }
 
-std::string WebServiceControl::requestWeatherData(const double &latitude, const double &longitude) {
+std::string WebServiceControl::requestWeatherData(const double& latitude, const double& longitude)
+{
     // Check if TLE data with name fileName is in cache
     std::map< std::pair< double, double >,std::string >::iterator cacheIt = weatherCache.find(
             std::pair< double, double >(latitude, longitude));
@@ -171,7 +176,8 @@ std::string WebServiceControl::requestWeatherData(const double &latitude, const 
     return resultString;
 }
 
-double WebServiceControl::requestAltitudeData(const double &latitude, const double &longitude) {
+double WebServiceControl::requestAltitudeData(const double& latitude, const double& longitude)
+{
     // Initialize cURL variables
     CURL* easyHandle = curl_easy_init();
 
@@ -191,7 +197,8 @@ double WebServiceControl::requestAltitudeData(const double &latitude, const doub
     return atof(resultString.c_str());
 }
 
-std::string WebServiceControl::requestTLEData(std::string fileName) {
+std::string WebServiceControl::requestTLEData(std::string fileName)
+{
     // Check if TLE data with name fileName is in cache
     std::map< std::string, std::string >::iterator cacheIt = tleCache.find(fileName);
     if (cacheIt != tleCache.end()) {
@@ -226,7 +233,8 @@ std::string WebServiceControl::requestTLEData(std::string fileName) {
     return resultString;
 }
 
-WeatherData WebServiceControl::evaluateWeatherInformation(std::string dataString) {
+WeatherData WebServiceControl::evaluateWeatherInformation(std::string dataString)
+{
     WeatherData resultData;
 
     // Go to line 10 (contains interesting data) => skip first 9 lines
@@ -287,7 +295,8 @@ WeatherData WebServiceControl::evaluateWeatherInformation(std::string dataString
     return resultData;
 }
 
-TLEData WebServiceControl::evaluateTLEData(std::string dataString, unsigned int numSat) {
+TLEData WebServiceControl::evaluateTLEData(std::string dataString, unsigned int numSat)
+{
     TLEData resultData;
 
     // Count number of lines in text file => number of lines / 3 = number of satellites in textfile
@@ -329,7 +338,8 @@ TLEData WebServiceControl::evaluateTLEData(std::string dataString, unsigned int 
     return resultData;
 }
 
-TLEData WebServiceControl::evaluateTLEData(std::string dataString, std::string satName) {
+TLEData WebServiceControl::evaluateTLEData(std::string dataString, std::string satName)
+{
     TLEData resultData;
 
     // Find satellite with name satName
@@ -358,7 +368,8 @@ TLEData WebServiceControl::evaluateTLEData(std::string dataString, std::string s
     return resultData;
 }
 
-WeatherData WebServiceControl::getWeatherData(const double &latitude, const double &longitude) {
+WeatherData WebServiceControl::getWeatherData(const double& latitude, const double& longitude)
+{
     // Fetch current weather data
     std::string weatherData = requestWeatherData(latitude, longitude);
     WeatherData currentWeatherData = evaluateWeatherInformation(weatherData);
@@ -366,7 +377,8 @@ WeatherData WebServiceControl::getWeatherData(const double &latitude, const doub
     return currentWeatherData;
 }
 
-double WebServiceControl::getAltitudeData(const double &latitude, const double &longitude) {
+double WebServiceControl::getAltitudeData(const double& latitude, const double& longitude)
+{
     double currentAltitude = -9999;
 
     std::pair< double, double > key = std::make_pair(latitude, longitude);
@@ -401,7 +413,8 @@ double WebServiceControl::getAltitudeData(const double &latitude, const double &
     return currentAltitude;
 }
 
-TLEData WebServiceControl::getTLEData(std::string fileName, unsigned int numSat) {
+TLEData WebServiceControl::getTLEData(std::string fileName, unsigned int numSat)
+{
     std::cout << "satellite index: " << numSat << std::endl;
     // Fetch TLE data file
     std::string dataString = requestTLEData(fileName);
@@ -410,7 +423,8 @@ TLEData WebServiceControl::getTLEData(std::string fileName, unsigned int numSat)
     return evaluateTLEData(dataString, numSat);
 }
 
-TLEData WebServiceControl::getTLEData(std::string fileName, std::string satName) {
+TLEData WebServiceControl::getTLEData(std::string fileName, std::string satName)
+{
     // Fetch TLE data file
     std::string dataString = requestTLEData(fileName);
 

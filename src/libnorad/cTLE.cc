@@ -1,12 +1,14 @@
-//
+//-----------------------------------------------------
 // cTle.cpp
 // This class encapsulates a single set of standard NORAD two line elements.
 //
 // Copyright 1996-2005 Michael F. Henry
-//
-//#include "stdafx.h"
+//-----------------------------------------------------
 
 #include "cTLE.h"
+
+#include <cstdio>
+#include <cassert>
 
 // Note: The column offsets are ZERO based.
 
@@ -37,7 +39,6 @@ const int TLE2_COL_MEANANOMALY   = 43; const int TLE2_LEN_MEANANOMALY   =  8;
 const int TLE2_COL_MEANMOTION    = 52; const int TLE2_LEN_MEANMOTION    = 11;
 const int TLE2_COL_REVATEPOCH    = 63; const int TLE2_LEN_REVATEPOCH    =  5;
 
-/////////////////////////////////////////////////////////////////////////////
 cTle::cTle(std::string& strName, std::string& strLine1, std::string& strLine2)
 {
    m_strName  = strName;
@@ -47,8 +48,7 @@ cTle::cTle(std::string& strName, std::string& strLine1, std::string& strLine2)
    Initialize();
 }
 
-/////////////////////////////////////////////////////////////////////////////
-cTle::cTle(const cTle &tle)
+cTle::cTle(const cTle& tle)
 {
    m_strName  = tle.m_strName;
    m_strLine1 = tle.m_strLine1;
@@ -62,12 +62,10 @@ cTle::cTle(const cTle &tle)
    m_mapCache = tle.m_mapCache;
 }
 
-/////////////////////////////////////////////////////////////////////////////
 cTle::~cTle()
-{
-}
+{}
 
-/////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // getField()
 // Return requested field as a double (function return value) or as a text
 // std::string (*pstr) in the units requested (eUnit). Set 'bStrUnits' to true
@@ -75,6 +73,7 @@ cTle::~cTle()
 //
 // Note: numeric return values are cached; asking for the same field more
 // than once incurs minimal overhead.
+//-----------------------------------------------------
 double cTle::getField(eField   fld,
                       eUnits   units,    /* = U_NATIVE */
                       std::string  *pstr      /* = NULL     */,
@@ -83,8 +82,7 @@ double cTle::getField(eField   fld,
    assert((FLD_FIRST <= fld) && (fld < FLD_LAST));
    assert((U_FIRST <= units) && (units < U_LAST));
 
-   if (pstr)
-   {
+   if (pstr) {
       // Return requested field in std::string form.
       *pstr = m_Field[fld];
 
@@ -92,33 +90,29 @@ double cTle::getField(eField   fld,
          *pstr += getUnits(fld);
 
       return 0.0;
-   }
-   else
-   {
+   } else {
       // Return requested field in floating-point form.
       // Return cache contents if it exists, else populate cache
       FldKey key = Key(units, fld);
 
-      if (m_mapCache.find(key) == m_mapCache.end())
-      {
+      if (m_mapCache.find(key) == m_mapCache.end()) {
          // Value not in cache; add it
          double valNative = atof(m_Field[fld].c_str());
          double valConv   = ConvertUnits(valNative, fld, units);
          m_mapCache[key]  = valConv;
 
          return valConv;
-      }
-      else
-      {
+      } else {
          // return cached value
          return m_mapCache[key];
       }
    }
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Convert the given field into the requested units. It is assumed that
 // the value being converted is in the TLE format's "native" form.
+//-----------------------------------------------------
 double cTle::ConvertUnits(double valNative, // value to convert
                           eField fld,       // what field the value is
                           eUnits units)     // what units to convert to
@@ -143,7 +137,6 @@ double cTle::ConvertUnits(double valNative, // value to convert
    return valNative; // return value in unconverted native format
 }
 
-//////////////////////////////////////////////////////////////////////////////
 std::string cTle::getUnits(eField fld) const
 {
    static const std::string strDegrees    = " degrees";
@@ -166,7 +159,7 @@ std::string cTle::getUnits(eField fld) const
    }
 }
 
-/////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // ExpToDecimal()
 // Converts TLE-style exponential notation of the form [ |-]00000[+|-]0 to
 // decimal notation. Assumes implied decimal point to the left of the first
@@ -174,7 +167,8 @@ std::string cTle::getUnits(eField fld) const
 //       " 12345-3" =  0.00012345
 //       "-23429-5" = -0.0000023429
 //       " 40436+1" =  4.0436
-std::string cTle::ExpToDecimal(const std::string &str)
+//-----------------------------------------------------
+std::string cTle::ExpToDecimal(const std::string& str)
 {
    const int COL_EXP_SIGN = 6;
    const int LEN_EXP      = 2;
@@ -185,7 +179,7 @@ std::string cTle::ExpToDecimal(const std::string &str)
    int nExp;
 
    // sscanf(%d) will read up to the exponent sign
-   sscanf(str.c_str(), "%d", &nMan);
+   std::sscanf(str.c_str(), "%d", &nMan);
 
    double dblMan = nMan;
    bool  bNeg    = (nMan < 0);
@@ -201,13 +195,13 @@ std::string cTle::ExpToDecimal(const std::string &str)
       dblMan *= -1;
 
    // now read exponent
-   sscanf(str.substr(COL_EXP_SIGN, LEN_EXP).c_str(), "%d", &nExp);
+   std::sscanf(str.substr(COL_EXP_SIGN, LEN_EXP).c_str(), "%d", &nExp);
 
    double dblVal = dblMan * pow(10.0, nExp);
    char szVal[LEN_BUFREAL];
 
    //_snprintf(szVal, sizeof(szVal), "%.9f", dblVal);
-   sprintf(szVal,"%.9f", dblVal);
+   std::sprintf(szVal,"%.9f", dblVal);
 
    std::string strVal = szVal;
 
@@ -215,9 +209,10 @@ std::string cTle::ExpToDecimal(const std::string &str)
 
 } // ExpToDecimal()
 
-/////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Initialize()
 // Initialize the std::string array.
+//-----------------------------------------------------
 void cTle::Initialize()
 {
    // Have we already been initialized?
@@ -239,14 +234,12 @@ void cTle::Initialize()
    m_Field[FLD_EPOCHDAY] =
          m_strLine1.substr(TLE1_COL_EPOCH_B, TLE1_LEN_EPOCH_B);
 
-   if (m_strLine1[TLE1_COL_MEANMOTIONDT] == '-')
-   {
+   if (m_strLine1[TLE1_COL_MEANMOTIONDT] == '-') {
       // value is negative
       m_Field[FLD_MMOTIONDT] = "-0";
-   }
-   else
+   } else {
       m_Field[FLD_MMOTIONDT] = "0";
-
+   }
    m_Field[FLD_MMOTIONDT] += m_strLine1.substr(TLE1_COL_MEANMOTIONDT + 1,
                                                TLE1_LEN_MEANMOTIONDT);
 
@@ -295,9 +288,9 @@ void cTle::Initialize()
                                              TLE2_LEN_REVATEPOCH);
    TrimLeft(m_Field[FLD_ORBITNUM]);
 
-} // InitStrVars()
+}
 
-/////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // IsTleFormat()
 // Returns true if "str" is a valid data line of a two-line element set,
 //   else false.
@@ -307,7 +300,7 @@ void cTle::Initialize()
 //      Have as the second character a blank
 //      Be TLE_LEN_LINE_DATA characters long
 //      Have a valid checksum (note: no longer required as of 12/96)
-//
+//-----------------------------------------------------
 bool cTle::IsValidLine(std::string& str, eTleLine line)
 {
    TrimLeft(str);
@@ -340,9 +333,9 @@ bool cTle::IsValidLine(std::string& str, eTleLine line)
 
    return true;
 
-} // IsTleFormat()
+}
 
-/////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // CheckSum()
 // Calculate the check sum for a given line of TLE data, the last character
 // of which is the current checksum. (Although there is no check here,
@@ -350,7 +343,7 @@ bool cTle::IsValidLine(std::string& str, eTleLine line)
 // The checksum algorithm:
 //      Each number in the data line is summed, modulo 10.
 //    Non-numeric characters are zero, except minus signs, which are 1.
-//
+//-----------------------------------------------------
 int cTle::CheckSum(const std::string& str)
 {
    // The length is "- 1" because we don't include the current (existing)
@@ -369,16 +362,14 @@ int cTle::CheckSum(const std::string& str)
 
    return (xsum % 10);
 
-} // CheckSum()
+}
 
-/////////////////////////////////////////////////////////////////////////////
 void cTle::TrimLeft(std::string& s)
 {
    while (s[0] == ' ')
       s.erase(0, 1);
 }
 
-/////////////////////////////////////////////////////////////////////////////
 void cTle::TrimRight(std::string& s)
 {
    while (s[s.size() - 1] == ' ')

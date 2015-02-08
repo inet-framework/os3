@@ -90,7 +90,7 @@ void SatSGP4Mobility::setTargetPosition()
     noradModule->updateTime(nextChange);
 
     lastPosition.x = mapX * noradModule->getLongitude() / 360 + (mapX / 2);
-    lastPosition.x = ((int)lastPosition.x % (int)mapX);
+    lastPosition.x = static_cast<int>(lastPosition.x) % static_cast<int>(mapX);
     lastPosition.y = ((-mapY * noradModule->getLatitude()) / 180) + (mapY / 2); // from the "original" move function.
 
     targetPosition.x = lastPosition.x;

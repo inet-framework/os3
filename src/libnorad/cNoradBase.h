@@ -1,11 +1,11 @@
-//
+//-----------------------------------------------------
 // cNoradBase.h
 //
 // This class provides a base class for the NORAD SGP4/SDP4
 // orbit models.
 //
 // Copyright (c) 2003 Michael F. Henry
-//
+//-----------------------------------------------------
 #ifndef __LIBNORAD_cNoradBase_H__
 #define __LIBNORAD_cNoradBase_H__
 

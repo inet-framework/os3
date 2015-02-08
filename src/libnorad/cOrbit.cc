@@ -1,15 +1,17 @@
-//
+//-----------------------------------------------------
 // cOrbit.cpp
 //
 // Copyright (c) 2002-2003 Michael F. Henry
 //
 // mfh 11/15/2003
-//
+//-----------------------------------------------------
 
 #include "cOrbit.h"
 
 #include <cmath>
 #include <ctime>
+#include <cassert>
+
 #include "cVector.h"
 #include "cEci.h"
 #include "ccoord.h"
@@ -17,15 +19,14 @@
 #include "cNoradSGP4.h"
 #include "cNoradSDP4.h"
 
-//////////////////////////////////////////////////////////////////////
 cOrbit::cOrbit(const cTle &tle) :
    m_tle(tle),
    m_pNoradModel(NULL)
 {
    m_tle.Initialize();
 
-   int    epochYear = (int)m_tle.getField(cTle::FLD_EPOCHYEAR);
-   const double epochDay  =      m_tle.getField(cTle::FLD_EPOCHDAY );
+   int epochYear = static_cast<int>(m_tle.getField(cTle::FLD_EPOCHYEAR));
+   const double epochDay = m_tle.getField(cTle::FLD_EPOCHDAY );
 
    if (epochYear < 57)
       epochYear += 2000;
@@ -41,7 +42,7 @@ cOrbit::cOrbit(const cTle &tle) :
    const double mm     = mnMotion();
    const double rpmin  = mm * 2 * PI / MIN_PER_DAY;   // rads per minute
 
-   const double a1     = pow(XKE / rpmin, TWOTHRD);
+   const double a1     = std::pow(XKE / rpmin, TWOTHRD);
    const double e      = Eccentricity();
    const double i      = Inclination();
    const double temp   = (1.5 * CK2 * (3.0 * sqr(cos(i)) - 1.0) / std::pow(1.0 - e * e, 1.5));
@@ -68,14 +69,14 @@ cOrbit::cOrbit(const cTle &tle) :
    }
 }
 
-/////////////////////////////////////////////////////////////////////////////
 cOrbit::~cOrbit()
 {
    delete m_pNoradModel;
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Return the period in seconds
+//-----------------------------------------------------
 double cOrbit::Period() const
 {
    if (m_secPeriod < 0.0) {
@@ -88,17 +89,19 @@ double cOrbit::Period() const
    return m_secPeriod;
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Returns elapsed number of seconds from epoch to given time.
 // Note: "Predicted" TLEs can have epochs in the future.
+//-----------------------------------------------------
 double cOrbit::TPlusEpoch(const cJulian& gmt) const
 {
    return gmt.spanSec(Epoch());
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Returns the mean anomaly in radians at given GMT.
 // At epoch, the mean anomaly is given by the elements data.
+//-----------------------------------------------------
 double cOrbit::mnAnomaly(cJulian gmt) const
 {
    const double span = TPlusEpoch(gmt);
@@ -109,12 +112,13 @@ double cOrbit::mnAnomaly(cJulian gmt) const
    return std::fmod(mnAnomaly() + (TWOPI * (span / P)), TWOPI);
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // getPosition()
 // This procedure returns the ECI position and velocity for the satellite
 // at "tsince" minutes from the (GMT) TLE epoch. The vectors returned in
 // the ECI object are kilometer-based.
 // tsince  - Time in minutes since the TLE epoch (GMT).
+//-----------------------------------------------------
 bool cOrbit::getPosition(double tsince, cEci* pEci) const
 {
    const bool rc = m_pNoradModel->getPosition(tsince, *pEci);
@@ -122,13 +126,14 @@ bool cOrbit::getPosition(double tsince, cEci* pEci) const
    return rc;
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // SatName()
 // Return the name of the satellite. If requested, the NORAD number is
 // appended to the end of the name, i.e., "ISS (ZARYA) #25544".
 // The name of the satellite with the NORAD number appended is important
 // because many satellites, especially debris, have the same name and
 // would otherwise appear to be the same satellite in ouput data.
+//-----------------------------------------------------
 std::string cOrbit::SatName(bool fAppendId /* = false */) const
 {
    std::string str = m_tle.getName();

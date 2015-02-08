@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // cNoradSDP4.h
 //
 // This class implements the NORAD Simple Deep Perturbation 4 orbit
@@ -6,7 +6,7 @@
 // with periods >= 225 minutes.
 //
 // Copyright (c) 2003 Michael F. Henry
-//
+//-----------------------------------------------------
 #ifndef __LIBNORAD_cNoradSDP4_H__
 #define __LIBNORAD_cNoradSDP4_H__
 
@@ -20,7 +20,7 @@ public:
    cNoradSDP4(const cOrbit& orbit);
    virtual ~cNoradSDP4();
 
-   virtual bool getPosition(double tsince, cEci &eci);
+   virtual bool getPosition(double tsince, cEci& eci);
 
 protected:
    bool DeepInit(double* eosq,    double* sinio,    double* cosio,  double* m_betao,

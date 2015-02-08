@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // cOrbit.h
 //
 // This is the header file for the class cOrbit. This class accepts a
@@ -7,7 +7,7 @@
 // ECI coordinates/velocity, etc., using the SGP4/SDP4 orbital models.
 //
 // Copyright (c) 2002-2003 Michael F. Henry
-//
+//-----------------------------------------------------
 
 #ifndef __LIBNORAD_cOrbit_H__
 #define __LIBNORAD_cOrbit_H__
@@ -15,14 +15,11 @@
 #include "cTLE.h"
 #include "cJulian.h"
 
-//////////////////////////////////////////////////////////////////////////////
-
 class cVector;
 class cGeoCoord;
 class cEci;
 class cNoradBase;
 
-//////////////////////////////////////////////////////////////////////////////
 class cOrbit
 {
 public:

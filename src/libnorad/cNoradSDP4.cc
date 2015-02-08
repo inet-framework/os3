@@ -1,11 +1,11 @@
-//
+//-----------------------------------------------------
 // cNoradSDP4.cpp
 //
 // NORAD SDP4 implementation. See historical note in cNoradBase.cpp
 // Copyright (c) 2003 Michael F. Henry
 //
 // mfh 12/07/2003
-//
+//-----------------------------------------------------
 #include "cNoradSDP4.h"
 #include "cTLE.h"
 #include "ccoord.h"
@@ -103,7 +103,6 @@ cNoradSDP4::cNoradSDP4(const cOrbit& orbit) :
 cNoradSDP4::~cNoradSDP4()
 {}
 
-//////////////////////////////////////////////////////////////////////////////
 bool cNoradSDP4::DeepInit(double* eosq,  double* sinio,  double* cosio,
                           double* betao, double* aodp,   double* theta2,
                           double* sing,  double* cosg,   double* betao2,
@@ -258,8 +257,7 @@ bool cNoradSDP4::DeepInit(double* eosq,  double* sinio,  double* cosio,
       dp_xh2 = -2.0 * s2 * z22;
       dp_xh3 = -2.0 * s2 * (z23 - z21);
 
-      if (pass == 1)
-      {
+      if (pass == 1) {
          // Do lunar terms
          dp_sse = se;
          dp_ssi = si;
@@ -444,7 +442,6 @@ bool cNoradSDP4::DeepInit(double* eosq,  double* sinio,  double* cosio,
    return true;
 }
 
-//////////////////////////////////////////////////////////////////////////////
 bool cNoradSDP4::DeepCalcDotTerms(double* pxndot, double* pxnddt, double* pxldot)
 {
     // Dot terms calculated
@@ -489,7 +486,7 @@ bool cNoradSDP4::DeepCalcDotTerms(double* pxndot, double* pxnddt, double* pxldot
    return true;
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//
 void cNoradSDP4::DeepCalcIntegrator(double* pxndot, double* pxnddt,
                                     double* pxldot, const double& delt)
 {
@@ -500,7 +497,7 @@ void cNoradSDP4::DeepCalcIntegrator(double* pxndot, double* pxnddt,
    dp_atime = dp_atime + delt;
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//
 bool cNoradSDP4::DeepSecular(double* xmdf, double* omgadf, double* xnode,
                              double* emm,  double* xincc,  double* xnn,
                              double* tsince)
@@ -598,7 +595,7 @@ bool cNoradSDP4::DeepSecular(double* xmdf, double* omgadf, double* xnode,
    return true;
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//
 bool cNoradSDP4::DeepPeriodics(double* e,      double* xincc,
                                double* omgadf, double* xnode,
                                double* xmam)
@@ -694,7 +691,7 @@ bool cNoradSDP4::DeepPeriodics(double* e,      double* xincc,
    return true;
 }
 
-//////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // getPosition()
 // This procedure returns the ECI position and velocity for the satellite
 // in the orbit at the given number of minutes since the TLE epoch time
@@ -709,6 +706,7 @@ bool cNoradSDP4::DeepPeriodics(double* e,      double* xincc,
 //           To convert the returned ECI velocity vector to km/sec,
 //           multiply each component by:
 //              (XKMPER_WGS72 / AE) * (MIN_PER_DAY / 86400).
+//-----------------------------------------------------
 bool cNoradSDP4::getPosition(double tsince, cEci& eci)
 {
    DeepInit(&m_eosq, &m_sinio, &m_cosio,  &m_betao, &m_aodp,   &m_theta2,

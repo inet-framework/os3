@@ -1,11 +1,12 @@
+//-----------------------------------------------------
 // cVector.h: interface for the cVector class.
 //
 // Copyright 2003 (c) Michael F. Henry
-//
-//////////////////////////////////////////////////////////////////////
-#pragma once
+//-----------------------------------------------------
+#ifndef __LIBNORAD_cVector_H__
+#define __LIBNORAD_cVector_H__
 
-class cVector  
+class cVector
 {
 public:
    cVector(double x = 0.0, double y = 0.0, double z = 0.0, double w = 0.0) :
@@ -19,9 +20,10 @@ public:
    double Magnitude() const;              // vector magnitude
    double Dot(const cVector& vec) const;  // dot product
 
-// protected:
    double m_x;
    double m_y;
    double m_z;
    double m_w;
 };
+
+#endif

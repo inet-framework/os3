@@ -5,8 +5,8 @@
  * @author Marian Felder, Florian Schweikowski
  */
 
-#ifndef LIBNORAD_H_
-#define LIBNORAD_H_
+#ifndef __LIBNORAD_H__
+#define __LIBNORAD_H__
 
 #include "ccoord.h"
 #include "cEci.h"
