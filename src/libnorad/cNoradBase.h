@@ -6,14 +6,11 @@
 //
 // Copyright (c) 2003 Michael F. Henry
 //
-#pragma once
-
-//////////////////////////////////////////////////////////////////////////////
+#ifndef __LIBNORAD_cNoradBase_H__
+#define __LIBNORAD_cNoradBase_H__
 
 class cEci;
 class cOrbit;
-
-//////////////////////////////////////////////////////////////////////////////
 
 class cNoradBase
 {
@@ -31,7 +28,7 @@ protected:
                       double     a, double    xl,  double xnode,
                       double    xn, double tsince, cEci &eci);
 
-   const cOrbit &m_Orbit;
+   const cOrbit& m_Orbit;
 
    // Orbital parameter variables which need only be calculated one
    // time for a given orbit (ECI position time-independent).
@@ -48,3 +45,5 @@ protected:
    double m_xnodcf;  double m_t2cof;   double m_xlcof;   double m_aycof;
    double m_x7thm1;
 };
+
+#endif

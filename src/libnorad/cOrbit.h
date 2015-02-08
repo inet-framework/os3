@@ -2,35 +2,36 @@
 // cOrbit.h
 //
 // This is the header file for the class cOrbit. This class accepts a
-// single satellite's NORAD two-line element set and provides information 
+// single satellite's NORAD two-line element set and provides information
 // regarding the satellite's orbit such as period, axis length,
 // ECI coordinates/velocity, etc., using the SGP4/SDP4 orbital models.
-// 
+//
 // Copyright (c) 2002-2003 Michael F. Henry
 //
-#pragma once
+
+#ifndef __LIBNORAD_cOrbit_H__
+#define __LIBNORAD_cOrbit_H__
 
 #include "cTLE.h"
 #include "cJulian.h"
-#include "cNoradBase.h"
-#include <math.h>
 
 //////////////////////////////////////////////////////////////////////////////
 
 class cVector;
 class cGeoCoord;
 class cEci;
+class cNoradBase;
 
 //////////////////////////////////////////////////////////////////////////////
-class cOrbit  
+class cOrbit
 {
 public:
-   cOrbit(const cTle &tle);
+   cOrbit(const cTle& tle);
    virtual ~cOrbit();
 
    // Return satellite ECI data at given minutes since element's epoch.
-   bool getPosition(double tsince, cEci *pEci) const;
-   
+   bool getPosition(double tsince, cEci* pEci) const;
+
    double Inclination()  const { return radGet(cTle::FLD_I);                 }
    double Eccentricity() const { return m_tle.getField(cTle::FLD_E);         }
    double RAAN()         const { return radGet(cTle::FLD_RAAN);              }
@@ -43,10 +44,10 @@ public:
 
    cJulian Epoch() const { return m_jdEpoch; }
 
-   double TPlusEpoch(const cJulian &t) const;    // time span [t - epoch] in secs
+   double TPlusEpoch(const cJulian& t) const;    // time span [t - epoch] in secs
 
    std::string SatName(bool fAppendId = false) const;
-   
+
    // "Recovered" from the input elements
    double SemiMajor()   const { return m_aeAxisSemiMajorRec; }
    double SemiMinor()   const { return m_aeAxisSemiMinorRec; }
@@ -67,7 +68,7 @@ protected:
 private:
    cTle        m_tle;
    cJulian     m_jdEpoch;
-   cNoradBase *m_pNoradModel;
+   cNoradBase* m_pNoradModel;
 
    // Caching variables; note units are not necessarily the same as tle units
    mutable double m_secPeriod;
@@ -80,3 +81,4 @@ private:
    double m_kmApogeeRec;         // apogee, in km
 };
 
+#endif

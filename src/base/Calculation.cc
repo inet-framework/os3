@@ -15,13 +15,16 @@
 
 #include "Calculation.h"
 
+#include <cmath>
+
 Define_Module(Calculation);
 
 const double Calculation::C = 299792458; // In m/s;
 const double Calculation::Boltzmann = -228.6; // In dBWs/K
 const double Calculation::EarthRadius = 6378.137764899274; // In km
 
-void Calculation::initialize() {
+void Calculation::initialize()
+{
     userConfig = dynamic_cast< UserConfig* >(this->getParentModule()->getSubmodule("userConfig"));
     if (userConfig == NULL)
         error("Error in Calculation::initialize(): Could not find module 'UserConfig'.");
@@ -38,7 +41,8 @@ void Calculation::initialize() {
     fillRainMap();
 }
 
-void Calculation::fillRainMap() {
+void Calculation::fillRainMap()
+{
     std::string fileName = par("rainTableFile"); // source: 'The aR^b Relation in the Calculation of Rain Attenuation', Olsen and Rogers and Hodge
     std::fstream fileStream;
 
@@ -58,37 +62,37 @@ void Calculation::fillRainMap() {
         if (tmpString.find("#") == std::string::npos) {
             // Search for new values and parse them into rainCoeffMap
             rainCoefficients newCoeff;
-            double newFreq = atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            double newFreq = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
-            newCoeff.aLPl = atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            newCoeff.aLPl = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
-            newCoeff.aLPh = atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            newCoeff.aLPh = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
-            newCoeff.aMP = atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            newCoeff.aMP = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
-            newCoeff.aJt = atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            newCoeff.aJt = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
-            newCoeff.aJd = atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            newCoeff.aJd = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
-            newCoeff.bLPl = atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            newCoeff.bLPl = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
-            newCoeff.bLPh = atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            newCoeff.bLPh = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
-            newCoeff.bMP = atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            newCoeff.bMP = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
-            newCoeff.bJt = atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            newCoeff.bJt = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
-            newCoeff.bJd = atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            newCoeff.bJd = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
             if (rainCoeffMap.find(newFreq) != rainCoeffMap.end()) {
@@ -105,20 +109,24 @@ void Calculation::fillRainMap() {
     fileStream.close();
 }
 
-void Calculation::handleMessage(cMessage *msg) {
+void Calculation::handleMessage(cMessage* msg)
+{
     error("Error in Calculation::handleMessage(): This module is not able to handle messages.");
 }
 
-double Calculation::rad2deg(const double &deg) {
+double Calculation::rad2deg(const double& deg)
+{
     return deg * 180 / PI;
 }
 
-double Calculation::deg2rad(const double &rad) {
+double Calculation::deg2rad(const double& rad)
+{
     return rad * PI / 180;
 }
 
-double Calculation::calcFSL(const int &satIndex,     const double &lambda,  const double &latitude,
-                            const double &longitude, const double &altitude) {
+double Calculation::calcFSL(const int& satIndex,     const double& lambda,  const double& latitude,
+                            const double& longitude, const double& altitude)
+{
     SatSGP4Mobility* sat = userConfig->getSatMobility().at(satIndex);
 
     double alt;
@@ -127,29 +135,31 @@ double Calculation::calcFSL(const int &satIndex,     const double &lambda,  cons
     else
         alt = altitude;
 
-    double distance = sat->getDistance(latitude, longitude, alt);
-    double FSL = 20 * log10((4 * PI * distance) / (lambda / 1000)); // lambda in m <-> distance in km
+    const double distance = sat->getDistance(latitude, longitude, alt);
+    const double FSL = 20 * std::log10((4 * PI * distance) / (lambda / 1000)); // lambda in m <-> distance in km
     return FSL;
 }
 
-double Calculation::calcDistance(const double &latitude1, const double &longitude1,
-                                 const double &latitude2, const double &longitude2) {
+double Calculation::calcDistance(const double& latitude1, const double& longitude1,
+                                 const double& latitude2, const double& longitude2)
+{
     return EarthRadius
-            * (acos(
-                    sin(deg2rad(latitude1)) * sin(deg2rad(latitude2))
-                  + cos(deg2rad(latitude1)) * cos(deg2rad(latitude2)) * cos(deg2rad(longitude2 - longitude1))));
+            * (std::acos(
+                  std::sin(deg2rad(latitude1)) * std::sin(deg2rad(latitude2))
+                  + std::cos(deg2rad(latitude1)) * std::cos(deg2rad(latitude2)) * std::cos(deg2rad(longitude2 - longitude1))));
 }
 
-double Calculation::calcSNR(const double &transmitterGain, const double &receiverGain, const double &transmitterPower,
-                            const double &lambda,          const int &satIndex,        const double &bandwidth,
-                            const double &latitude,        const double &longitude,    const double &altitude,
-                            const double &dG,              const double &tR,           const double &dR) {
+double Calculation::calcSNR(const double& transmitterGain, const double& receiverGain, const double& transmitterPower,
+                            const double& lambda,          const int& satIndex,        const double& bandwidth,
+                            const double& latitude,        const double& longitude,    const double& altitude,
+                            const double& dG,              const double& tR,           const double& dR)
+{
 
-    double tB = 2.725;  // Cosmic microwave background in K +- 0.002K
-    double tM = 270;    // Approximated atmospheric noise temperature in K
-    double t0 = 290;    // Average temperature of earth surface in K
+    const double tB = 2.725;  // Cosmic microwave background in K +- 0.002K
+    const double tM = 270;    // Approximated atmospheric noise temperature in K
+    const double t0 = 290;    // Average temperature of earth surface in K
 
-    double frequency = C / lambda; // In Hz
+    const double frequency = C / lambda; // In Hz
     double alt;
     if (altitude == -9999)
         alt = webserviceControl->getAltitudeData(latitude, longitude);
@@ -169,38 +179,39 @@ double Calculation::calcSNR(const double &transmitterGain, const double &receive
         return -1;
     }
 
-    double a = rainCoeffMapIt->second.aMP;    // Coefficient a from table, using Marshall-Palmer distribution
-    double b = rainCoeffMapIt->second.bMP;    // Coefficient b from table, using Marshall-Palmer distribution
-    double rp = weatherControl->getPrecipPerHour(latitude, longitude);  // Current weather Data
+    const double a = rainCoeffMapIt->second.aMP;    // Coefficient a from table, using Marshall-Palmer distribution
+    const double b = rainCoeffMapIt->second.bMP;    // Coefficient b from table, using Marshall-Palmer distribution
+    const double rp = weatherControl->getPrecipPerHour(latitude, longitude);  // Current weather Data
 
-    double le = dR / sin(deg2rad(elevation));          // Length of signal path through rain
-    double gammaR = a * pow(rp, b);           // Specific attenuation depending on frequency and rain density
-    double aRain = gammaR * le;               // Attenuation depending on weather
-    double aRain_lin = pow(10, (aRain / 10)); // Transform aRain from dB to linear unit
-    double tANoise = tB / aRain_lin + tM * (1 - 1 / aRain_lin) + t0 * dG; // Noise temperature; source: 'Satellite Communications Systems', Maral et. Bousquet
-    double tSysNoise = tANoise + tR;        // System noise temperature in K
-    double tSdB = 10 * log10(tSysNoise);    // System noise temperature in dBK
+    const double le = dR / std::sin(deg2rad(elevation));          // Length of signal path through rain
+    const double gammaR = a * std::pow(rp, b);           // Specific attenuation depending on frequency and rain density
+    const double aRain = gammaR * le;               // Attenuation depending on weather
+    const double aRain_lin = std::pow(10, (aRain / 10)); // Transform aRain from dB to linear unit
+    const double tANoise = tB / aRain_lin + tM * (1 - 1 / aRain_lin) + t0 * dG; // Noise temperature; source: 'Satellite Communications Systems', Maral et. Bousquet
+    const double tSysNoise = tANoise + tR;        // System noise temperature in K
+    const double tSdB = 10 * std::log10(tSysNoise);    // System noise temperature in dBK
 
-    double snr =   transmitterPower
-                 + transmitterGain
-                 + receiverGain
-                 - tSdB
-                 - aRain
-                 - calcFSL(satIndex, lambda, latitude, longitude, altitude)
-                 - Boltzmann
-                 - 10 * log10(bandwidth);
+    const double snr = transmitterPower
+                     + transmitterGain
+                     + receiverGain
+                     - tSdB
+                     - aRain
+                     - calcFSL(satIndex, lambda, latitude, longitude, altitude)
+                     - Boltzmann
+                     - 10 * std::log10(bandwidth);
 
     return snr;
 }
 
-int Calculation::getScoredSatfromSNR(const double &latitude, const double &longitude, const double &transmitterGain,
-                                     const double &receiverGain, const double &transmitterPower, const double &bandwidth,
-                                     const double &altitude, const double &dG, const double &tR, const double &dR) {
+int Calculation::getScoredSatfromSNR(const double& latitude, const double& longitude, const double& transmitterGain,
+                                     const double& receiverGain, const double& transmitterPower, const double& bandwidth,
+                                     const double& altitude, const double& dG, const double& tR, const double& dR)
+{
     // Initialize parameters
     std::list< SAT > scoredSatList;
     std::vector< SatSGP4Mobility* > satmoVector = userConfig->getSatMobility();
-    int sat_count = userConfig->getParameters().numOfSats;
-    double lambda = C / userConfig->getParameters().frequency;
+    const int sat_count = userConfig->getParameters().numOfSats;
+    const double lambda = C / userConfig->getParameters().frequency;
 
     for (int index = 0; index < sat_count; index++) {
 
@@ -238,7 +249,8 @@ int Calculation::getScoredSatfromSNR(const double &latitude, const double &longi
     return -1;
 }
 
-double Calculation::getMappedFrequency(const double &frequency) {
+double Calculation::getMappedFrequency(const double& frequency)
+{
     double mindist = -1;
     double freq;
 
@@ -249,7 +261,7 @@ double Calculation::getMappedFrequency(const double &frequency) {
     else {
         std::map< double, rainCoefficients >::iterator rainCoeffMapIt;
         for (rainCoeffMapIt = rainCoeffMap.begin(); rainCoeffMapIt != rainCoeffMap.end(); rainCoeffMapIt++) {
-            double dist = abs(frequency - rainCoeffMapIt->first); // Calculate euclidean distance
+            const double dist = std::abs(frequency - rainCoeffMapIt->first); // Calculate euclidean distance
             if (dist < mindist || mindist == -1) {
                 mindist = dist;
                 freq = rainCoeffMapIt->first;

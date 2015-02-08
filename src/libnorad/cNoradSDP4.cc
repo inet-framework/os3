@@ -6,12 +6,13 @@
 //
 // mfh 12/07/2003
 //
-//#include "stdafx.h"
 #include "cNoradSDP4.h"
 #include "cTLE.h"
 #include "ccoord.h"
 #include "cOrbit.h"
 #include "cVector.h"
+
+#include <cmath>
 
 const double zns    =  1.19459E-5;     const double c1ss   =  2.9864797E-6;
 const double zes    =  0.01675;        const double znl    =  1.5835218E-4;
@@ -26,12 +27,11 @@ const double root22 =  1.7891679E-6;   const double root32 =  3.7393792E-7;
 const double root44 =  7.3636953E-9;   const double root52 =  1.1428639E-7;
 const double root54 =  2.1765803E-9;   const double thdt   =  4.3752691E-3;
 
-//////////////////////////////////////////////////////////////////////////////
-cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
+cNoradSDP4::cNoradSDP4(const cOrbit& orbit) :
    cNoradBase(orbit)
 {
-   m_sing = sin(m_Orbit.ArgPerigee());
-   m_cosg = cos(m_Orbit.ArgPerigee());
+   m_sing = std::sin(m_Orbit.ArgPerigee());
+   m_cosg = std::cos(m_Orbit.ArgPerigee());
 
    dp_savtsn = 0.0;
    dp_zmos = 0.0;
@@ -100,15 +100,14 @@ cNoradSDP4::cNoradSDP4(const cOrbit &orbit) :
 
 }
 
-cNoradSDP4::~cNoradSDP4(void)
-{
-}
+cNoradSDP4::~cNoradSDP4()
+{}
 
 //////////////////////////////////////////////////////////////////////////////
-bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
-                          double *betao, double *aodp,   double *theta2,
-                          double *sing,  double *cosg,   double *betao2,
-                          double *xmdot, double *omgdot, double *xnodott)
+bool cNoradSDP4::DeepInit(double* eosq,  double* sinio,  double* cosio,
+                          double* betao, double* aodp,   double* theta2,
+                          double* sing,  double* cosg,   double* betao2,
+                          double* xmdot, double* omgdot, double* xnodott)
 {
    eqsq   = *eosq;
    siniq  = *sinio;
@@ -128,39 +127,38 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
 
    dp_thgr = jd.toGMST();
 
-   double eq   = m_Orbit.Eccentricity();
-   double aqnv = 1.0 / ao;
+   const double eq   = m_Orbit.Eccentricity();
+   const double aqnv = 1.0 / ao;
 
    dp_xqncl = m_Orbit.Inclination();
 
-   double xmao   = m_Orbit.mnAnomaly();
-   double xpidot = omgdt + xnodot;
-   double sinq   = sin(m_Orbit.RAAN());
-   double cosq   = cos(m_Orbit.RAAN());
+   const double xmao   = m_Orbit.mnAnomaly();
+   const double xpidot = omgdt + xnodot;
+   const double sinq   = std::sin(m_Orbit.RAAN());
+   const double cosq   = std::cos(m_Orbit.RAAN());
 
    dp_omegaq = m_Orbit.ArgPerigee();
 
    // Initialize lunar solar terms
-   double day = jd.FromJan1_12h_1900();
+   const double day = jd.FromJan1_12h_1900();
 
-   if (day != dpi_day)
-   {
+   if (day != dpi_day) {
       dpi_day    = day;
       dpi_xnodce = 4.5236020 - 9.2422029E-4 * day;
-      dpi_stem   = sin(dpi_xnodce);
-      dpi_ctem   = cos(dpi_xnodce);
+      dpi_stem   = std::sin(dpi_xnodce);
+      dpi_ctem   = std::cos(dpi_xnodce);
       dpi_zcosil = 0.91375164 - 0.03568096 * dpi_ctem;
-      dpi_zsinil = sqrt(1.0 - dpi_zcosil * dpi_zcosil);
+      dpi_zsinil = std::sqrt(1.0 - dpi_zcosil * dpi_zcosil);
       dpi_zsinhl = 0.089683511 *dpi_stem / dpi_zsinil;
-      dpi_zcoshl = sqrt(1.0 - dpi_zsinhl * dpi_zsinhl);
+      dpi_zcoshl = std::sqrt(1.0 - dpi_zsinhl * dpi_zsinhl);
       dpi_c      = 4.7199672 + 0.22997150 * day;
       dpi_gam    = 5.8351514 + 0.0019443680 * day;
       dp_zmol    = Fmod2p(dpi_c - dpi_gam);
       dpi_zx     = 0.39785416 * dpi_stem / dpi_zsinil;
       dpi_zy     = dpi_zcoshl * dpi_ctem + 0.91744867 * dpi_zsinhl * dpi_stem;
       dpi_zx     = AcTan(dpi_zx,dpi_zy) + dpi_gam - dpi_xnodce;
-      dpi_zcosgl = cos(dpi_zx);
-      dpi_zsingl = sin(dpi_zx);
+      dpi_zcosgl = std::cos(dpi_zx);
+      dpi_zsingl = std::sin(dpi_zx);
       dp_zmos    = 6.2565837 + 0.017201977 * day;
       dp_zmos    = Fmod2p(dp_zmos);
    }
@@ -309,14 +307,10 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
    double f220;
    double bfact = 0.0;
 
-   if ((m_xnodp >= 0.0052359877) || (m_xnodp <= 0.0034906585))
-   {
-      if ((m_xnodp < 8.26E-3) || (m_xnodp > 9.24E-3) || (eq < 0.5))
-      {
+   if ((m_xnodp >= 0.0052359877) || (m_xnodp <= 0.0034906585)) {
+      if ((m_xnodp < 8.26E-3) || (m_xnodp > 9.24E-3) || (eq < 0.5)) {
          bInitOnExit = false;
-      }
-      else
-      {
+      } else {
          dp_iresfl = true;
 
          double eoc  = eq * eqsq;
@@ -326,17 +320,14 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
          double g410;   double g422;
          double g520;
 
-         if (eq <= 0.65)
-         {
+         if (eq <= 0.65) {
             g211 = 3.616 - 13.247 * eq + 16.290 * eqsq;
             g310 = -19.302 + 117.390 * eq - 228.419 * eqsq + 156.591 * eoc;
             g322 = -18.9068 + 109.7927 * eq - 214.6334 * eqsq + 146.5816 * eoc;
             g410 = -41.122 + 242.694 * eq - 471.094 * eqsq + 313.953 * eoc;
             g422 = -146.407 + 841.880 * eq - 1629.014 * eqsq + 1083.435 * eoc;
             g520 = -532.114 + 3017.977 * eq - 5740.0 * eqsq + 3708.276 * eoc;
-         }
-         else
-         {
+         } else {
             g211 = -72.099 + 331.819 * eq - 508.738 * eqsq + 266.724 * eoc;
             g310 = -346.844 + 1582.851 * eq - 2415.925 * eqsq + 1246.113 * eoc;
             g322 = -342.585 + 1554.908 * eq - 2366.899 * eqsq + 1215.972 * eoc;
@@ -353,34 +344,31 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
          double g521;
          double g532;
 
-         if (eq < 0.7)
-         {
+         if (eq < 0.7) {
             g533 = -919.2277 + 4988.61 * eq - 9064.77 * eqsq + 5542.21 * eoc;
             g521 = -822.71072 + 4568.6173 * eq - 8491.4146 * eqsq + 5337.524 * eoc;
             g532 = -853.666 + 4690.25 * eq - 8624.77 * eqsq + 5341.4 * eoc;
-         }
-         else
-         {
+         } else {
             g533 = -37995.78 + 161616.52 * eq - 229838.2 * eqsq + 109377.94 * eoc;
             g521 = -51752.104 + 218913.95 * eq - 309468.16 * eqsq + 146349.42 * eoc;
             g532 = -40023.88 + 170470.89 * eq - 242699.48 * eqsq + 115605.82 * eoc;
          }
 
-         double sini2 = siniq * siniq;
+         const double sini2 = siniq * siniq;
          f220 = 0.75*(1.0 + 2.0 * cosiq + cosq2);
-         double f221 = 1.5 * sini2;
-         double f321 = 1.875 * siniq*(1.0 - 2.0 * cosiq - 3.0 * cosq2);
-         double f322 = -1.875 * siniq*(1.0 + 2.0 * cosiq - 3.0 * cosq2);
-         double f441 = 35.0 * sini2 * f220;
-         double f442 = 39.3750 * sini2 * sini2;
-         double f522 = 9.84375 * siniq*(sini2*(1.0 - 2.0 * cosiq - 5.0 * cosq2) +
-                       0.33333333*(-2.0 + 4.0 * cosiq + 6.0 * cosq2));
-         double f523 = siniq*(4.92187512 * sini2*(-2.0 - 4.0 * cosiq + 10.0 * cosq2) +
+         const double f221 = 1.5 * sini2;
+         const double f321 = 1.875 * siniq*(1.0 - 2.0 * cosiq - 3.0 * cosq2);
+         const double f322 = -1.875 * siniq*(1.0 + 2.0 * cosiq - 3.0 * cosq2);
+         const double f441 = 35.0 * sini2 * f220;
+         const double f442 = 39.3750 * sini2 * sini2;
+         const double f522 = 9.84375 * siniq*(sini2*(1.0 - 2.0 * cosiq - 5.0 * cosq2) +
+                             0.33333333*(-2.0 + 4.0 * cosiq + 6.0 * cosq2));
+         const double f523 = siniq*(4.92187512 * sini2*(-2.0 - 4.0 * cosiq + 10.0 * cosq2) +
                        6.56250012 * (1.0 + 2.0 * cosiq - 3.0 * cosq2));
-         double f542 = 29.53125 * siniq*(2.0 - 8.0 * cosiq + cosq2 * (-12.0 + 8.0 * cosiq + 10.0 * cosq2));
-         double f543 = 29.53125 * siniq*(-2.0 - 8.0 * cosiq + cosq2 * (12.0 + 8.0 * cosiq - 10.0 * cosq2));
-         double xno2 = m_xnodp * m_xnodp;
-         double ainv2 = aqnv * aqnv;
+         const double f542 = 29.53125 * siniq*(2.0 - 8.0 * cosiq + cosq2 * (-12.0 + 8.0 * cosiq + 10.0 * cosq2));
+         const double f543 = 29.53125 * siniq*(-2.0 - 8.0 * cosiq + cosq2 * (12.0 + 8.0 * cosiq - 10.0 * cosq2));
+         const double xno2 = m_xnodp * m_xnodp;
+         const double ainv2 = aqnv * aqnv;
          double temp1 = 3.0 * xno2 * ainv2;
          double temp = temp1 * root22;
 
@@ -405,17 +393,15 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
          bfact = xlldot + xnodot + xnodot - thdt - thdt;
          bfact = bfact + dp_ssl + dp_ssh + dp_ssh;
       }
-   }
-   else
-   {
+   } else {
       // Synchronous resonance terms initialization
       dp_iresfl = true;
       dp_isynfl = true;
-      double g200 = 1.0 + eqsq * (-2.5 + 0.8125 * eqsq);
+      const double g200 = 1.0 + eqsq * (-2.5 + 0.8125 * eqsq);
       g310 = 1.0 + 2.0 * eqsq;
-      double g300 = 1.0 + eqsq * (-6.0 + 6.60937 * eqsq);
+      const double g300 = 1.0 + eqsq * (-6.0 + 6.60937 * eqsq);
       f220 = 0.75 * (1.0 + cosiq) * (1.0 + cosiq);
-      double f311 = 0.9375 * siniq * siniq * (1.0 + 3 * cosiq) - 0.75 * (1.0 + cosiq);
+      const double f311 = 0.9375 * siniq * siniq * (1.0 + 3 * cosiq) - 0.75 * (1.0 + cosiq);
       double f330 = 1.0 + cosiq;
       f330 = 1.875 * f330 * f330 * f330;
       dp_del1 = 3.0 * m_xnodp * m_xnodp * aqnv * aqnv;
@@ -430,8 +416,7 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
       bfact = bfact + dp_ssl + dp_ssg + dp_ssh;
    }
 
-   if (bInitOnExit)
-   {
+   if (bInitOnExit) {
       dp_xfact = bfact - m_xnodp;
 
       // Initialize integrator
@@ -460,45 +445,42 @@ bool cNoradSDP4::DeepInit(double *eosq,  double *sinio,  double *cosio,
 }
 
 //////////////////////////////////////////////////////////////////////////////
-bool cNoradSDP4::DeepCalcDotTerms(double *pxndot, double *pxnddt, double *pxldot)
+bool cNoradSDP4::DeepCalcDotTerms(double* pxndot, double* pxnddt, double* pxldot)
 {
     // Dot terms calculated
-   if (dp_isynfl)
-   {
-      *pxndot = dp_del1 * sin(dp_xli - dp_fasx2) +
-                dp_del2 * sin(2.0 * (dp_xli - dp_fasx4)) +
-                dp_del3 * sin(3.0 * (dp_xli - dp_fasx6));
-      *pxnddt = dp_del1 * cos(dp_xli - dp_fasx2) +
-                2.0 * dp_del2 * cos(2.0 * (dp_xli - dp_fasx4)) +
-                3.0 * dp_del3 * cos(3.0 * (dp_xli - dp_fasx6));
-   }
-   else
-   {
-      double xomi  = dp_omegaq + omgdt * dp_atime;
-      double x2omi = xomi + xomi;
-      double x2li  = dp_xli + dp_xli;
+   if (dp_isynfl) {
+      *pxndot = dp_del1 * std::sin(dp_xli - dp_fasx2) +
+                dp_del2 * std::sin(2.0 * (dp_xli - dp_fasx4)) +
+                dp_del3 * std::sin(3.0 * (dp_xli - dp_fasx6));
+      *pxnddt = dp_del1 * std::cos(dp_xli - dp_fasx2) +
+                2.0 * dp_del2 * std::cos(2.0 * (dp_xli - dp_fasx4)) +
+                3.0 * dp_del3 * std::cos(3.0 * (dp_xli - dp_fasx6));
+   } else {
+      const double xomi  = dp_omegaq + omgdt * dp_atime;
+      const double x2omi = xomi + xomi;
+      const double x2li  = dp_xli + dp_xli;
 
-      *pxndot = dp_d2201 * sin(x2omi + dp_xli - g22) +
-                dp_d2211 * sin(dp_xli - g22)         +
-                dp_d3210 * sin(xomi + dp_xli - g32)  +
-                dp_d3222 * sin(-xomi + dp_xli - g32) +
-                dp_d4410 * sin(x2omi + x2li - g44)   +
-                dp_d4422 * sin(x2li - g44)           +
-                dp_d5220 * sin(xomi + dp_xli - g52)  +
-                dp_d5232 * sin(-xomi + dp_xli - g52) +
-                dp_d5421 * sin(xomi + x2li - g54)    +
-                dp_d5433 * sin(-xomi + x2li - g54);
+      *pxndot = dp_d2201 * std::sin(x2omi + dp_xli - g22) +
+                dp_d2211 * std::sin(dp_xli - g22)         +
+                dp_d3210 * std::sin(xomi + dp_xli - g32)  +
+                dp_d3222 * std::sin(-xomi + dp_xli - g32) +
+                dp_d4410 * std::sin(x2omi + x2li - g44)   +
+                dp_d4422 * std::sin(x2li - g44)           +
+                dp_d5220 * std::sin(xomi + dp_xli - g52)  +
+                dp_d5232 * std::sin(-xomi + dp_xli - g52) +
+                dp_d5421 * std::sin(xomi + x2li - g54)    +
+                dp_d5433 * std::sin(-xomi + x2li - g54);
 
-      *pxnddt = dp_d2201 * cos(x2omi + dp_xli - g22) +
-                dp_d2211 * cos(dp_xli - g22)         +
-                dp_d3210 * cos(xomi + dp_xli - g32)  +
-                dp_d3222 * cos(-xomi + dp_xli - g32) +
-                dp_d5220 * cos(xomi + dp_xli - g52)  +
-                dp_d5232 * cos(-xomi + dp_xli - g52) +
-                2.0 * (dp_d4410 * cos(x2omi + x2li - g44) +
-                dp_d4422 * cos(x2li - g44)         +
-                dp_d5421 * cos(xomi + x2li - g54)  +
-                dp_d5433 * cos(-xomi + x2li - g54));
+      *pxnddt = dp_d2201 * std::cos(x2omi + dp_xli - g22) +
+                dp_d2211 * std::cos(dp_xli - g22)         +
+                dp_d3210 * std::cos(xomi + dp_xli - g32)  +
+                dp_d3222 * std::cos(-xomi + dp_xli - g32) +
+                dp_d5220 * std::cos(xomi + dp_xli - g52)  +
+                dp_d5232 * std::cos(-xomi + dp_xli - g52) +
+                2.0 * (dp_d4410 * std::cos(x2omi + x2li - g44) +
+                dp_d4422 * std::cos(x2li - g44)         +
+                dp_d5421 * std::cos(xomi + x2li - g54)  +
+                dp_d5433 * std::cos(-xomi + x2li - g54));
    }
 
    *pxldot = dp_xni + dp_xfact;
@@ -508,8 +490,8 @@ bool cNoradSDP4::DeepCalcDotTerms(double *pxndot, double *pxnddt, double *pxldot
 }
 
 //////////////////////////////////////////////////////////////////////////////
-void cNoradSDP4::DeepCalcIntegrator(double *pxndot, double *pxnddt,
-                                    double *pxldot, const double &delt)
+void cNoradSDP4::DeepCalcIntegrator(double* pxndot, double* pxnddt,
+                                    double* pxldot, const double& delt)
 {
    DeepCalcDotTerms(pxndot, pxnddt, pxldot);
 
@@ -519,9 +501,9 @@ void cNoradSDP4::DeepCalcIntegrator(double *pxndot, double *pxnddt,
 }
 
 //////////////////////////////////////////////////////////////////////////////
-bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
-                             double *emm,  double *xincc,  double *xnn,
-                             double *tsince)
+bool cNoradSDP4::DeepSecular(double* xmdf, double* omgadf, double* xnode,
+                             double* emm,  double* xincc,  double* xnn,
+                             double* tsince)
 {
    xll    = *xmdf;
    omgasm = *omgadf;
@@ -536,8 +518,7 @@ bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
    _em    = m_Orbit.Eccentricity() + dp_sse * t;
    xinc   = m_Orbit.Inclination()  + dp_ssi * t;
 
-   if (xinc < 0.0)
-   {
+   if (xinc < 0.0) {
       xinc   = -xinc;
       xnodes = xnodes + PI;
       omgasm = omgasm - PI;
@@ -551,14 +532,12 @@ bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
 
    bool fDone = false;
 
-   if (dp_iresfl)
-   {
-      while (!fDone)
-      {
+   if (dp_iresfl) {
+      while (!fDone) {
          if ((dp_atime == 0.0)                ||
             ((t >= 0.0) && (dp_atime <  0.0)) ||
-            ((t <  0.0) && (dp_atime >= 0.0)))
-         {
+            ((t <  0.0) && (dp_atime >= 0.0))) {
+
             if (t < 0)
                delt = dp_stepn;
             else
@@ -570,20 +549,15 @@ bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
             dp_xli = dp_xlamo;
 
             fDone = true;
-         }
-         else
-         {
-            if (fabs(t) < fabs(dp_atime))
-            {
+         } else {
+            if (std::fabs(t) < std::fabs(dp_atime)) {
                delt = dp_stepp;
 
                if (t >= 0.0)
                   delt = dp_stepn;
 
                DeepCalcIntegrator(&xndot, &xnddt, &xldot, delt);
-            }
-            else
-            {
+            } else {
                delt = dp_stepn;
 
                if (t > 0.0)
@@ -594,8 +568,7 @@ bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
          }
       }
 
-      while (fabs(t - dp_atime) >= dp_stepp)
-      {
+      while (std::fabs(t - dp_atime) >= dp_stepp) {
          DeepCalcIntegrator(&xndot, &xnddt, &xldot, delt);
       }
 
@@ -626,9 +599,9 @@ bool cNoradSDP4::DeepSecular(double *xmdf, double *omgadf, double *xnode,
 }
 
 //////////////////////////////////////////////////////////////////////////////
-bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
-                               double *omgadf, double *xnode,
-                               double *xmam)
+bool cNoradSDP4::DeepPeriodics(double* e,      double* xincc,
+                               double* omgadf, double* xnode,
+                               double* xmam)
 {
    _em    = *e;
    xinc   = *xincc;
@@ -637,8 +610,8 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
    xll    = *xmam;
 
    // Lunar-solar periodics
-   double sinis = sin(xinc);
-   double cosis = cos(xinc);
+   const double sinis = std::sin(xinc);
+   const double cosis = std::cos(xinc);
 
    double sghs = 0.0;
    double shs  = 0.0;
@@ -648,15 +621,14 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
    double pl   = 0.0;
    double sghl = 0.0;
 
-   if (fabs(dp_savtsn - t) >= 30.0)
-   {
+   if (std::fabs(dp_savtsn - t) >= 30.0) {
       dp_savtsn = t;
 
       double zm = dp_zmos + zns * t;
-      double zf = zm + 2.0 * zes * sin(zm);
-      double sinzf = sin(zf);
+      double zf = zm + 2.0 * zes * std::sin(zm);
+      double sinzf = std::sin(zf);
       double f2  = 0.5 * sinzf * sinzf - 0.25;
-      double f3  = -0.5 * sinzf * cos(zf);
+      double f3  = -0.5 * sinzf * std::cos(zf);
       double ses = dp_se2 * f2 + dp_se3 * f3;
       double sis = dp_si2 * f2 + dp_si3 * f3;
       double sls = dp_sl2 * f2 + dp_sl3 * f3 + dp_sl4 * sinzf;
@@ -664,10 +636,10 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
       sghs = dp_sgh2 * f2 + dp_sgh3 * f3 + dp_sgh4 * sinzf;
       shs = dp_sh2 * f2 + dp_sh3 * f3;
       zm = dp_zmol + znl * t;
-      zf = zm + 2.0 * zel * sin(zm);
-      sinzf = sin(zf);
+      zf = zm + 2.0 * zel * std::sin(zm);
+      sinzf = std::sin(zf);
       f2 = 0.5 * sinzf * sinzf - 0.25;
-      f3 = -0.5 * sinzf * cos(zf);
+      f3 = -0.5 * sinzf * std::cos(zf);
 
       double sel  = dp_ee2 * f2 + dp_e3 * f3;
       double sil  = dp_xi2 * f2 + dp_xi3 * f3;
@@ -685,20 +657,17 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
    xinc = xinc + pinc;
    _em  = _em + pe;
 
-   if (dp_xqncl >= 0.2)
-   {
+   if (dp_xqncl >= 0.2) {
       // Apply periodics directly
       ph  = ph / siniq;
       pgh = pgh - cosiq * ph;
       omgasm = omgasm + pgh;
       xnodes = xnodes + ph;
       xll = xll + pl;
-   }
-   else
-   {
+   } else {
       // Apply periodics with Lyddane modification
-      double sinok = sin(xnodes);
-      double cosok = cos(xnodes);
+      double sinok = std::sin(xnodes);
+      double cosok = std::cos(xnodes);
       double alfdp = sinis * sinok;
       double betdp = sinis * cosok;
       double dalf  =  ph * cosok + pinc * cosis * sinok;
@@ -713,7 +682,7 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
       xls    = xls + dls;
       xnodes = AcTan(alfdp, betdp);
       xll    = xll + pl;
-      omgasm = xls - xll - cos(xinc) * xnodes;
+      omgasm = xls - xll - std::cos(xinc) * xnodes;
    }
 
    *e      = _em;
@@ -740,7 +709,7 @@ bool cNoradSDP4::DeepPeriodics(double *e,      double *xincc,
 //           To convert the returned ECI velocity vector to km/sec,
 //           multiply each component by:
 //              (XKMPER_WGS72 / AE) * (MIN_PER_DAY / 86400).
-bool cNoradSDP4::getPosition(double tsince, cEci &eci)
+bool cNoradSDP4::getPosition(double tsince, cEci& eci)
 {
    DeepInit(&m_eosq, &m_sinio, &m_cosio,  &m_betao, &m_aodp,   &m_theta2,
             &m_sing, &m_cosg,  &m_betao2, &m_xmdot, &m_omgdot, &m_xnodot);
@@ -760,7 +729,7 @@ bool cNoradSDP4::getPosition(double tsince, cEci &eci)
 
    DeepSecular(&xmdf, &omgadf, &xnode, &em, &xinc, &xn, &tsince);
 
-   double a    = pow(XKE / xn, TWOTHRD) * sqr(tempa);
+   double a    = std::pow(XKE / xn, TWOTHRD) * sqr(tempa);
    double e    = em - tempe;
    double xmam = xmdf + m_xnodp * templ;
 
@@ -768,7 +737,7 @@ bool cNoradSDP4::getPosition(double tsince, cEci &eci)
 
    double xl = xmam + omgadf + xnode;
 
-   xn = XKE / pow(a, 1.5);
+   xn = XKE / std::pow(a, 1.5);
 
    return FinalPosition(xinc, omgadf, e, a, xl, xnode, xn, tsince, eci);
 }

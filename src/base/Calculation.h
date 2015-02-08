@@ -18,7 +18,6 @@
 
 #include <omnetpp.h>
 
-#include <cmath>
 #include <WeatherControl.h>
 #include <UserConfig.h>
 
@@ -101,7 +100,7 @@ protected:
      * @author Dennis Kaulbars, Sarah Lehnhausen
      * @version 0.1
      */
-    double getMappedFrequency(const double &frequency);
+    double getMappedFrequency(const double& frequency);
 
 public:
 
@@ -113,7 +112,7 @@ public:
      * @version 0.1
      * created
      */
-    static inline double rad2deg(const double &rad);
+    static inline double rad2deg(const double& rad);
 
     /**
      * @brief Convenience function
@@ -123,7 +122,7 @@ public:
      * @version 0.1
      * created
      */
-    static inline double deg2rad(const double &deg);
+    static inline double deg2rad(const double& deg);
 
     /**
      * Calculates the free space loss
@@ -140,8 +139,8 @@ public:
      * @version 0.4
      * Now requires a reference point (formerly taken from UserConfig)
      */
-    double calcFSL(const int &satIndex, const double &lambda, const double &latitude,
-                   const double &longitude, const double &altitude = -9999);
+    double calcFSL(const int& satIndex, const double& lambda, const double& latitude,
+                   const double& longitude, const double& altitude = -9999);
 
     /**
      * Calculates the euclidean distance between two nodes (planar, i.e., without respect to altitude. E.g., sub-satellite point and base station)
@@ -153,8 +152,8 @@ public:
      * @author Dennis Kaulbars, Sarah Lehnhausen, Daniel Merget
      * @version 0.1
      */
-    double calcDistance(const double &latitude1, const double &longitude1,
-                        const double &latitude2, const double &longitude2);
+    double calcDistance(const double& latitude1, const double& longitude1,
+                        const double& latitude2, const double& longitude2);
 
     /**
      * Calculates the SNR for a transmission (in dBHz)
@@ -182,18 +181,18 @@ public:
      * includes variabel tR
      */
     double calcSNR(
-            const double &transmitterGain,     // in dB
-            const double &receiverGain,        // in dB
-            const double &transmitterPower,    // in dbW
-            const double &lambda,              // in m
-            const int &satIndex,
-            const double &bandwidth,           // in Hz
-            const double &latitutde,
-            const double &longitude,
-            const double &altitude = -9999,
-            const double &dG = 0.1,
-            const double &tR = 150,
-            const double &dR = 3);
+            const double& transmitterGain,     // in dB
+            const double& receiverGain,        // in dB
+            const double& transmitterPower,    // in dbW
+            const double& lambda,              // in m
+            const int& satIndex,
+            const double& bandwidth,           // in Hz
+            const double& latitutde,
+            const double& longitude,
+            const double& altitude = -9999,
+            const double& dG = 0.1,
+            const double& tR = 150,
+            const double& dR = 3);
 
    /**
      * Determines the best-in-reach satellite depending on calculated SNR in dBHz
@@ -215,16 +214,16 @@ public:
      * Now requires more input parameters (fitting calcSNR parameters)
      */
     int getScoredSatfromSNR(
-            const double &latitude,
-            const double &longitude,
-            const double &transmitterGain,     // in dB
-            const double &receiverGain,        // in dB
-            const double &transmitterPower,    // in dbW
-            const double &bandwidth,           // in Hz
-            const double &altitude = -9999,
-            const double &dG = 0.1,
-            const double &tR = 150,
-            const double &dR = 3);
+            const double& latitude,
+            const double& longitude,
+            const double& transmitterGain,     // in dB
+            const double& receiverGain,        // in dB
+            const double& transmitterPower,    // in dbW
+            const double& bandwidth,           // in Hz
+            const double& altitude = -9999,
+            const double& dG = 0.1,
+            const double& tR = 150,
+            const double& dR = 3);
 };
 
 #endif

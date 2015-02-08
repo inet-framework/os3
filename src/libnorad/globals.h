@@ -1,16 +1,14 @@
 //
 // globals.h
 //
-//#pragma once
-#ifndef __GLOBALS_H__
-#define __GLOBALS_H__
+#ifndef __LIBNORAD_Globals_H__
+#define __LIBNORAD_Globals_H__
 
 #include <cmath>
 
 #ifndef PI
 #define PI  3.1415926535
 #endif //PI
-
 
 //const double PI           = 3.141592653589793;
 const double TWOPI        = 2.0 * PI;
@@ -42,9 +40,9 @@ const double HR_PER_DAY   = 24.0;          // Hours per day   (solar)
 const double MIN_PER_DAY  = 1440.0;        // Minutes per day (solar)
 const double SEC_PER_DAY  = 86400.0;       // Seconds per day (solar)
 const double OMEGA_E      = 1.00273790934; // earth rotation per sideral day
-const double XKE          = sqrt(3600.0 * GE /           //sqrt(ge) ER^3/min^2
+const double XKE          = std::sqrt(3600.0 * GE /           //sqrt(ge) ER^3/min^2
                                 (XKMPER_WGS72 * XKMPER_WGS72 * XKMPER_WGS72));
-const double QOMS2T       = pow((QO - S), 4);            //(QO - S)^4 ER^4
+const double QOMS2T       = std::pow((QO - S), 4);            //(QO - S)^4 ER^4
 
 // Utility functions
 double sqr   (const double x);
@@ -54,4 +52,4 @@ double AcTan (const double sinx, double cosx);
 double rad2deg(const double);
 double deg2rad(const double);
 
-#endif //__GLOBALS_H__
+#endif

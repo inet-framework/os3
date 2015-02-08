@@ -7,25 +7,27 @@
 //
 // Copyright (c) 2003 Michael F. Henry
 //
-#pragma once
+#ifndef __LIBNORAD_cNoradSGP4_H__
+#define __LIBNORAD_cNoradSGP4_H__
 
 #include "cNoradBase.h"
 
 class cOrbit;
 
-//////////////////////////////////////////////////////////////////////////////
 class cNoradSGP4 : public cNoradBase
 {
 public:
-   cNoradSGP4(const cOrbit &orbit);
-   ~cNoradSGP4(void);
+   cNoradSGP4(const cOrbit& orbit);
+   virtual ~cNoradSGP4();
 
-   virtual bool getPosition(double tsince, cEci &eci);
+   virtual bool getPosition(double tsince, cEci& eci);
 
 protected:
-   double m_c5; 
+   double m_c5;
    double m_omgcof;
    double m_xmcof;
    double m_delmo;
    double m_sinmo;
 };
+
+#endif

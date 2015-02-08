@@ -7,43 +7,43 @@
 //
 // Copyright (c) 2003 Michael F. Henry
 //
-#pragma once
+#ifndef __LIBNORAD_cNoradSDP4_H__
+#define __LIBNORAD_cNoradSDP4_H__
 
 #include "cNoradBase.h"
 
 class cOrbit;
 
-//////////////////////////////////////////////////////////////////////////////
 class cNoradSDP4 : public cNoradBase
 {
-public: 
-   cNoradSDP4(const cOrbit &orbit);
-   ~cNoradSDP4(void);
+public:
+   cNoradSDP4(const cOrbit& orbit);
+   virtual ~cNoradSDP4();
 
    virtual bool getPosition(double tsince, cEci &eci);
 
 protected:
-   bool DeepInit(double *eosq,    double *sinio,    double *cosio,  double *m_betao, 
-                 double *m_aodp,  double *m_theta2, double *m_sing, double *m_cosg,
-                 double *m_betao2,double *xmdot,    double *omgdot, double *xnodott);
+   bool DeepInit(double* eosq,    double* sinio,    double* cosio,  double* m_betao,
+                 double* m_aodp,  double* m_theta2, double* m_sing, double* m_cosg,
+                 double* m_betao2,double* xmdot,    double* omgdot, double* xnodott);
 
-   bool DeepSecular(double *xmdf,  double *omgadf,double *xnode, double *emm, 
-                    double *xincc, double *xnn,   double *tsince);
-   bool DeepCalcDotTerms  (double *pxndot, double *pxnddt, double *pxldot);
-   void DeepCalcIntegrator(double *pxndot, double *pxnddt, double *pxldot, 
-                           const double &delt);
-   bool DeepPeriodics(double *e,     double *xincc,  double *omgadf, 
-                      double *xnode, double *xmam);
+   bool DeepSecular(double* xmdf,  double* omgadf,double* xnode, double* emm,
+                    double* xincc, double* xnn,   double* tsince);
+   bool DeepCalcDotTerms  (double* pxndot, double* pxnddt, double* pxldot);
+   void DeepCalcIntegrator(double* pxndot, double* pxnddt, double* pxldot,
+                           const double& delt);
+   bool DeepPeriodics(double* e,     double* xincc,  double* omgadf,
+                      double* xnode, double* xmam);
    double m_sing;
    double m_cosg;
 
    // Deep Initialization
-   double eqsq;   double siniq;  double cosiq;  double rteqsq; double ao;   
+   double eqsq;   double siniq;  double cosiq;  double rteqsq; double ao;
    double cosq2;  double sinomo; double cosomo; double bsq;    double xlldot;
    double omgdt;  double xnodot;
-   
+
    // Deep Secular, Periodic
-   double xll;    double omgasm; double xnodes; double _em;    
+   double xll;    double omgasm; double xnodes; double _em;
    double xinc;   double xn;     double t;
 
    // Variables shared by "Deep" routines
@@ -75,4 +75,6 @@ protected:
    double dpi_zx;     double dpi_zy;
 
 };
+
+#endif
 
