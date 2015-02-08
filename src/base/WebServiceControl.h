@@ -61,17 +61,83 @@ struct TLEData {
  * @version 0.5
  * Integrated local cache for weather data in order to reduce requests to Web Service
  */
-class WebServiceControl : public cSimpleModule {
-private:
-    //Variables
-    std::string weatherApiKey;
-    std::string altitudeUsername;
-    unsigned int altitudeCacheThreshold;
-    unsigned int tleCacheThreshold;
-    unsigned int weatherCacheThreshold;
-    std::map< std::pair< double, double >, double > altitudeCache;
-    std::map< std::string, std::string > tleCache;
-    std::map< std::pair< double, double >, std::string > weatherCache;
+class WebServiceControl : public cSimpleModule
+{
+public:
+    /**
+     * @brief Returns live weather data for initialized region
+     * This method returns live weather data for a reference point. Data is fetched from
+     * www.worldweatheronline.com via free local weather API.
+     * @param latitude Coordinate for the reference point
+     * @param longitude Coordinate for the reference point
+     * @return Weather data
+     * @author Dennis Kaulbars, Daniel Merget
+     * @version 0.1
+     * Method implemented
+     * @version 0.2
+     * Coordinates for the reference point are now required (formerly taken from UserConfig)
+     */
+    WeatherData getWeatherData(const double& latitude, const double& longitude);
+
+    /**
+     * @brief Returns live weather data for initialized region
+     * This method returns live altitude data for a reference point. Data is fetched from
+     * www.geonames.org using astergdem database (30mx30m rastered, worldwide database) and saved in
+     * a local cache in order to reduce unnecessary requests to the geonames database. If the cache
+     * contains too many elements, the oldest accessed element will be deleted from the local storage.
+     * @param latitude Coordinate for the reference point
+     * @param longitude Coordinate for the reference point
+     * @return Weather data. If an error occurs this method returns -9999 as altitude value.
+     * @author Dennis Kaulbars, Daniel Merget
+     * @version 0.1
+     * Method implemented
+     * @version 0.2
+     * Coordinates for the reference point are now required (formerly taken from UserConfig)
+     * @version 0.3
+     * Added a cache, always storing the latest 'altitudeCacheThreshold' number of requests in a map (oldest first in map, latest last)
+     */
+    double getAltitudeData(const double& latitude, const double& longitude);
+
+    /**
+     * @brief Returns actual TLE data for requested satellite (characterized by specific satellite number)
+     * This method returns actual TLE data for a number of satellites which are contained in file with file name fileName.
+     * The data is taken from celestrak.com. The file name must be identical to the one which is located at the website
+     * (e.g. the ISS can be found in file "stations.txt" so the variable fileName has to be set to "stations.txt").
+     * The method extracts the satellite number numSat (beginning from 0). So the satellite has to be present in celestrak's textfile.
+     * @param fileName file name of the TLE-File (corresponding to file located at www.clestrak.com/NORAD/elements/xxx.txt)
+     * @param numSat number of satellite for which TLE data is requested
+     * @return TLEData containing the TLE data for the requested satellites. On error, error will be displayed and TLEData struct will be empty
+     * @author Dennis Kaulbars
+     * @version 0.1
+     * Method implemented
+     */
+    TLEData getTLEData(std::string fileName, unsigned int numSat);
+
+    /**
+     * @brief Returns actual TLE data for requested satellite (characterized by specific satellite name)
+     * This method returns actual TLE data for a number of satellites which are contained in file with file name fileName.
+     * The data is taken from celestrak.com. The file name must be identical to the one which is located at the website
+     * (e.g. the ISS can be found in file "stations.txt" so the variable fileName has to be set to "stations.txt").
+     * The method extracts the satellite data for the satellite named with satName. So the satellite has to be present in celestrak's textfile.
+     * @param fileName file name of the TLE-File (corresponding to file located at www.clestrak.com/NORAD/elements/xxx.txt)
+     * @param satName name of the satellite for which TLE data is requested
+     * @return TLEData containing the TLE data for the requested satellites. On error, error will be displayed and TLEData struct will be empty
+     * @author Dennis Kaulbars
+     * @version 0.1
+     * Method implemented
+     */
+    TLEData getTLEData(std::string fileName, std::string satName);
+
+    /**
+     * @brief Checks if an url exists
+     * This method checks if an URL exists or not (=code 404). Checking procedure is done via libCURL.
+     * @param url url which has to be checked (inclusive "http://")
+     * @return true if url exists, false if not
+     * @author Dennis Kaulbars
+     * @version 0.1
+     * Method implemented
+     */
+    bool urlExist(std::string url);
 
 protected:
     /**
@@ -206,81 +272,16 @@ protected:
      */
     TLEData evaluateTLEData(std::string dataString, std::string satName);
 
-public:
-    /**
-     * @brief Returns live weather data for initialized region
-     * This method returns live weather data for a reference point. Data is fetched from
-     * www.worldweatheronline.com via free local weather API.
-     * @param latitude Coordinate for the reference point
-     * @param longitude Coordinate for the reference point
-     * @return Weather data
-     * @author Dennis Kaulbars, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Coordinates for the reference point are now required (formerly taken from UserConfig)
-     */
-    WeatherData getWeatherData(const double& latitude, const double& longitude);
-
-    /**
-     * @brief Returns live weather data for initialized region
-     * This method returns live altitude data for a reference point. Data is fetched from
-     * www.geonames.org using astergdem database (30mx30m rastered, worldwide database) and saved in
-     * a local cache in order to reduce unnecessary requests to the geonames database. If the cache
-     * contains too many elements, the oldest accessed element will be deleted from the local storage.
-     * @param latitude Coordinate for the reference point
-     * @param longitude Coordinate for the reference point
-     * @return Weather data. If an error occurs this method returns -9999 as altitude value.
-     * @author Dennis Kaulbars, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Coordinates for the reference point are now required (formerly taken from UserConfig)
-     * @version 0.3
-     * Added a cache, always storing the latest 'altitudeCacheThreshold' number of requests in a map (oldest first in map, latest last)
-     */
-    double getAltitudeData(const double& latitude, const double& longitude);
-
-    /**
-     * @brief Returns actual TLE data for requested satellite (characterized by specific satellite number)
-     * This method returns actual TLE data for a number of satellites which are contained in file with file name fileName.
-     * The data is taken from celestrak.com. The file name must be identical to the one which is located at the website
-     * (e.g. the ISS can be found in file "stations.txt" so the variable fileName has to be set to "stations.txt").
-     * The method extracts the satellite number numSat (beginning from 0). So the satellite has to be present in celestrak's textfile.
-     * @param fileName file name of the TLE-File (corresponding to file located at www.clestrak.com/NORAD/elements/xxx.txt)
-     * @param numSat number of satellite for which TLE data is requested
-     * @return TLEData containing the TLE data for the requested satellites. On error, error will be displayed and TLEData struct will be empty
-     * @author Dennis Kaulbars
-     * @version 0.1
-     * Method implemented
-     */
-    TLEData getTLEData(std::string fileName, unsigned int numSat);
-
-    /**
-     * @brief Returns actual TLE data for requested satellite (characterized by specific satellite name)
-     * This method returns actual TLE data for a number of satellites which are contained in file with file name fileName.
-     * The data is taken from celestrak.com. The file name must be identical to the one which is located at the website
-     * (e.g. the ISS can be found in file "stations.txt" so the variable fileName has to be set to "stations.txt").
-     * The method extracts the satellite data for the satellite named with satName. So the satellite has to be present in celestrak's textfile.
-     * @param fileName file name of the TLE-File (corresponding to file located at www.clestrak.com/NORAD/elements/xxx.txt)
-     * @param satName name of the satellite for which TLE data is requested
-     * @return TLEData containing the TLE data for the requested satellites. On error, error will be displayed and TLEData struct will be empty
-     * @author Dennis Kaulbars
-     * @version 0.1
-     * Method implemented
-     */
-    TLEData getTLEData(std::string fileName, std::string satName);
-
-    /**
-     * @brief Checks if an url exists
-     * This method checks if an URL exists or not (=code 404). Checking procedure is done via libCURL.
-     * @param url url which has to be checked (inclusive "http://")
-     * @return true if url exists, false if not
-     * @author Dennis Kaulbars
-     * @version 0.1
-     * Method implemented
-     */
-    bool urlExist(std::string url);
+private:
+    //Variables
+    std::string weatherApiKey;
+    std::string altitudeUsername;
+    unsigned int altitudeCacheThreshold;
+    unsigned int tleCacheThreshold;
+    unsigned int weatherCacheThreshold;
+    std::map< std::pair< double, double >, double > altitudeCache;
+    std::map< std::string, std::string > tleCache;
+    std::map< std::pair< double, double >, std::string > weatherCache;
 };
 
 #endif

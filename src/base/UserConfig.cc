@@ -3,21 +3,26 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
 #include "UserConfig.h"
 
+#include <SatSGP4Mobility.h>
+#include <SatSGP4FisheyeMobility.h>
+#include <ChannelControl.h>
+
 Define_Module(UserConfig);
 
-void UserConfig::initialize() {
+void UserConfig::initialize()
+{
     userParameters.numOfSats = par("numOfSats");
     userParameters.frequency = par("frequency");
     userParameters.min_snr = par("min_snr");
@@ -28,7 +33,8 @@ void UserConfig::initialize() {
     initializeSatMobility();
 }
 
-void UserConfig::handleMessage(cMessage *msg) {
+void UserConfig::handleMessage(cMessage* msg)
+{
     error("Error in UserConfig::handleMessage(): This module is not able to handle messages");
 }
 

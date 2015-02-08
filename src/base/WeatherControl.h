@@ -18,7 +18,7 @@
 
 #include <omnetpp.h>
 
-#include <WebServiceControl.h>
+class WebServiceControl;
 
 /**
  * @class WeatherControl
@@ -28,31 +28,8 @@
  * @version 0.1
  * Class defined
  */
-class WeatherControl : public cSimpleModule {
-private:
-    WebServiceControl* webServiceControl;
-    double defaultPrecipPerHour;
-
-protected:
-    /**
-     * @brief Initialize reference to WebServiceControl module and set weather icon.
-     * This method initializes a connection to the WebServiceControl module and predefines weather icon.
-     * @author Sarah Lehnhausen, Dennis Kaulbars
-     * @version 0.1
-     * Method defined
-     */
-    virtual void initialize();
-
-    /**
-     * @brief Dummy
-     * This method is just a dummy method. No action is taking place here.
-     * @param msg omnet-message
-     * @author Sarah Lehnhausen, Dennis Kaulbars
-     * @version 0.1
-     * Method implemented
-     */
-    virtual void handleMessage(cMessage* msg);
-
+class WeatherControl : public cSimpleModule
+{
 public:
     /**
      * @brief Sets weather symbol depending on weather situation.
@@ -102,6 +79,30 @@ public:
      * Method defined
      */
     void setDefaultPrecipPerHour(double precipValue);
+
+protected:
+    /**
+     * @brief Initialize reference to WebServiceControl module and set weather icon.
+     * This method initializes a connection to the WebServiceControl module and predefines weather icon.
+     * @author Sarah Lehnhausen, Dennis Kaulbars
+     * @version 0.1
+     * Method defined
+     */
+    virtual void initialize();
+
+    /**
+     * @brief Dummy
+     * This method is just a dummy method. No action is taking place here.
+     * @param msg omnet-message
+     * @author Sarah Lehnhausen, Dennis Kaulbars
+     * @version 0.1
+     * Method implemented
+     */
+    virtual void handleMessage(cMessage* msg);
+
+private:
+    WebServiceControl* webServiceControl;
+    double defaultPrecipPerHour;
 };
 
 #endif

@@ -4,9 +4,7 @@
 
 #include <omnetpp.h>
 
-#include <SatSGP4Mobility.h>
-#include <SatSGP4FisheyeMobility.h>
-#include <ChannelControl.h>
+class SatSGP4Mobility;
 
 struct parameters {
     int numOfSats;
@@ -24,10 +22,32 @@ struct parameters {
  * @version 0.1
  * Class defined
  */
-class UserConfig : public cSimpleModule {
-private:
-    parameters userParameters;
-    std::vector< SatSGP4Mobility* > satmoVector;
+class UserConfig : public cSimpleModule
+{
+public:
+    /**
+     * @brief returns the user settings
+     * This method is just a dummy method. No action is taking place here.
+     * @return object of type parameters which contains user-specific parameters set in omnetpp.ini
+     * @author Sarah Lehnhausen, Dennis Kaulbars, Daniel Merget
+     * @version 0.1
+     * Method implemented
+     * @version 0.2
+     * Method is now inline and constant
+     */
+    const parameters& getParameters() const                          { return userParameters; };
+
+    /**
+     * @brief Initializes the mobility for SatMobility
+     * This method fills the mobility-module-vector (satmoGEO and satmoLEO Vectors) with satellite-mobilities (number of satellites set in omnetpp.ini).
+     * @return a vector of type LineSegmentsMobilityBase (parent class of SatSGP4Mobilty and SatSGPFisheyeMobility). If an error occurs, the method returns an empty vector.
+     * @author Sarah Lehnhausen, Dennis Kaulbars, Daniel Merget
+     * @version 0.1
+     * Method implemented
+     * @version 0.2
+     * Method is now inline and constant
+     */
+    const std::vector< SatSGP4Mobility* >& getSatMobility() const    { return satmoVector;   };
 
 protected:
     /**
@@ -47,7 +67,7 @@ protected:
      * @version 0.1
      * Method implemented
      */
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(cMessage* msg);
 
     /**
      * @brief Initializes the mobilities for the Satellites
@@ -61,34 +81,9 @@ protected:
      */
     void initializeSatMobility();
 
-public:
-    /**
-     * @brief returns the user settings
-     * This method is just a dummy method. No action is taking place here.
-     * @return object of type parameters which contains user-specific parameters set in omnetpp.ini
-     * @author Sarah Lehnhausen, Dennis Kaulbars, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now inline and constant
-     */
-    inline const parameters& getParameters() const {
-        return userParameters;
-    };
-
-    /**
-     * @brief Initializes the mobility for SatMobility
-     * This method fills the mobility-module-vector (satmoGEO and satmoLEO Vectors) with satellite-mobilities (number of satellites set in omnetpp.ini).
-     * @return a vector of type LineSegmentsMobilityBase (parent class of SatSGP4Mobilty and SatSGPFisheyeMobility). If an error occurs, the method returns an empty vector.
-     * @author Sarah Lehnhausen, Dennis Kaulbars, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now inline and constant
-     */
-    inline const std::vector< SatSGP4Mobility* >& getSatMobility() const {
-        return satmoVector;
-    };
+private:
+    parameters userParameters;
+    std::vector< SatSGP4Mobility* > satmoVector;
 };
 
 #endif

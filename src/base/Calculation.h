@@ -48,60 +48,8 @@ struct rainCoefficients {
  * @version 0.2
  * Removed some unnecessary member variables and general cleanup
  */
-class Calculation : public cSimpleModule {
-private:
-    // Constants
-    static const double C;              // In m/s;
-    static const double Boltzmann;      // In dBWs/K
-    static const double EarthRadius;    // In km
-
-    std::string rainTableFile;
-    std::map< double, rainCoefficients > rainCoeffMap; // Used for calculation of specific rain attenuation
-
-    UserConfig* userConfig;
-    WeatherControl* weatherControl;
-    WebServiceControl* webserviceControl;
-
-    struct SAT {
-        int satIndex;
-        double snr;
-    };
-
-protected:
-
-    /**
-     * Initializes Calculation module and calls fillRainMap()
-     * @author Dennis Kaulbars, Sarah Lehnhausen
-     * @version 0.1
-     */
-    virtual void initialize();
-
-    /**
-     * @brief dummy
-     * This method is just a dummy method. No action is taking place here.
-     * @param msg Omnetpp-message
-     * @author Dennis Kaulbars
-     * @version 0.1
-     * Method implemented
-     */
-    virtual void handleMessage(cMessage *msg);
-
-    /**
-     * Fills the rainCoeffMap with the Values from CSV file (default: misc/TablespecRain.csv)
-     * @author Dennis Kaulbars, Sarah Lehnhausen
-     * @version 0.1
-     */
-    void fillRainMap();
-
-    /**
-     * Maps the given frequency to an frequency existing in the table for RainCoefficients
-     * @param Frequency Frequency of used system
-     * @return Nearest frequency existing in rainCoeffMap
-     * @author Dennis Kaulbars, Sarah Lehnhausen
-     * @version 0.1
-     */
-    double getMappedFrequency(const double& frequency);
-
+class Calculation : public cSimpleModule
+{
 public:
 
     /**
@@ -224,6 +172,59 @@ public:
             const double& dG = 0.1,
             const double& tR = 150,
             const double& dR = 3);
+
+protected:
+
+    /**
+     * Initializes Calculation module and calls fillRainMap()
+     * @author Dennis Kaulbars, Sarah Lehnhausen
+     * @version 0.1
+     */
+    virtual void initialize();
+
+    /**
+     * @brief dummy
+     * This method is just a dummy method. No action is taking place here.
+     * @param msg Omnetpp-message
+     * @author Dennis Kaulbars
+     * @version 0.1
+     * Method implemented
+     */
+    virtual void handleMessage(cMessage *msg);
+
+    /**
+     * Fills the rainCoeffMap with the Values from CSV file (default: misc/TablespecRain.csv)
+     * @author Dennis Kaulbars, Sarah Lehnhausen
+     * @version 0.1
+     */
+    void fillRainMap();
+
+    /**
+     * Maps the given frequency to an frequency existing in the table for RainCoefficients
+     * @param Frequency Frequency of used system
+     * @return Nearest frequency existing in rainCoeffMap
+     * @author Dennis Kaulbars, Sarah Lehnhausen
+     * @version 0.1
+     */
+    double getMappedFrequency(const double& frequency);
+
+private:
+    // Constants
+    static const double C;              // In m/s;
+    static const double Boltzmann;      // In dBWs/K
+    static const double EarthRadius;    // In km
+
+    std::string rainTableFile;
+    std::map< double, rainCoefficients > rainCoeffMap; // Used for calculation of specific rain attenuation
+
+    UserConfig* userConfig;
+    WeatherControl* weatherControl;
+    WebServiceControl* webserviceControl;
+
+    struct SAT {
+        int satIndex;
+        double snr;
+    };
 };
 
 #endif

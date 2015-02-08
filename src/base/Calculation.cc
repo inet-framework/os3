@@ -17,6 +17,8 @@
 
 #include <cmath>
 #include <fstream>
+#include "WebServiceControl.h"
+#include "SatSGP4Mobility.h"
 
 Define_Module(Calculation);
 
