@@ -3,15 +3,15 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
 #ifndef __CNI_OS3_CALCULATION_H_
 #define __CNI_OS3_CALCULATION_H_
@@ -51,9 +51,9 @@ struct rainCoefficients {
 class Calculation : public cSimpleModule {
 private:
     // Constants
-    static const double C = 299792458; // In m/s;
-    static const double Boltzmann = -228.6; // In dBWs/K
-    static const double EarthRadius = 6378.137764899274; // In km
+    static const double C;              // In m/s;
+    static const double Boltzmann;      // In dBWs/K
+    static const double EarthRadius;    // In km
 
     std::string rainTableFile;
     std::map< double, rainCoefficients > rainCoeffMap; // Used for calculation of specific rain attenuation

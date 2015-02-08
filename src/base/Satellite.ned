@@ -17,7 +17,7 @@
 package cni_os3.base;
 import cni_os3.base.Norad;
 import inet.base.NotificationBoard;
-import inet.mobility.IMobility;
+import inet.mobility.contract.IMobility;
 import cni_os3.mobility.SatSGP4Mobility;
 
 

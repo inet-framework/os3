@@ -15,8 +15,9 @@
 
 package cni_os3.mobility;
 
-import inet.mobility.models.MovingMobilityBase;
-import inet.mobility.IMobility;
+import inet.mobility.common.MovingMobilityBase;
+import inet.mobility.contract.IMobility;
+
 //
 // Initializes the initial positions of Base Stations (LUT = Local User Terminal)
 //

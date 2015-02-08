@@ -16,8 +16,7 @@
 package cni_os3.base;
 
 import cni_os3.base.Calculation;
-import inet.mobility.models.ConstSpeedMobility;
-
+import inet.mobility.single.ConstSpeedMobility;
 
 //
 // Bundles the control modules for the OS³ satellite simulator.

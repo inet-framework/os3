@@ -15,8 +15,8 @@
 
 package cni_os3.mobility;
 
-import inet.mobility.IMobility;
-import inet.mobility.models.MobilityBase;
+import inet.mobility.contract.IMobility;
+import inet.mobility.common.MobilityBase;
 
 //
 // Manages the SatSGP4Fisheye Mobility

@@ -15,7 +15,7 @@
 
 package cni_os3.mobility;
 
-import inet.mobility.models.MobilityBase;
+import inet.mobility.common.MobilityBase;
 
 //
 // Manages the SatSGP4 Mobility
