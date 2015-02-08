@@ -18,7 +18,7 @@
 #include <ctime>
 #include <fstream>
 
-#include "cTle.h"
+#include "cTLE.h"
 #include "cOrbit.h"
 #include "libnorad.h"
 

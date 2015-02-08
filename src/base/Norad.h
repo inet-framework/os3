@@ -19,6 +19,7 @@
 #include <omnetpp.h>
 
 #include <string>
+#include <ctime>
 
 #include "cEci.h"
 #include "cJulian.h"
@@ -26,7 +27,6 @@
 
 class cTle;
 class cOrbit;
-namespace std { class tm; }
 
 /**
  * @class Norad
