@@ -1,4 +1,4 @@
-CNI OS3 Satellite tracking library for OMNeT++/INET-Framework
+OS3 Satellite tracking library for OMNeT++/INET-Framework
 -------------------------------------------------------------
 
 This project provides mobility modules that can be used during satellite 
