@@ -19,7 +19,7 @@ class cNoradBase
 {
 public:
    cNoradBase(const cOrbit&);
-   ~cNoradBase(void);
+   virtual ~cNoradBase(void);
 
    virtual bool getPosition(double tsince, cEci &eci) = 0;
 
@@ -27,8 +27,8 @@ protected:
    cNoradBase& operator=(const cNoradBase&);
 
    void Initialize();
-   bool FinalPosition(double  incl, double omega,  double     e,   
-                      double     a, double    xl,  double xnode, 
+   bool FinalPosition(double  incl, double omega,  double     e,
+                      double     a, double    xl,  double xnode,
                       double    xn, double tsince, cEci &eci);
 
    const cOrbit &m_Orbit;
@@ -38,7 +38,7 @@ protected:
    double m_satInc;  // inclination
    double m_satEcc;  // eccentricity
 
-   double m_cosio;   double m_theta2;  double m_x3thm1;  double m_eosq;  
+   double m_cosio;   double m_theta2;  double m_x3thm1;  double m_eosq;
    double m_betao2;  double m_betao;   double m_aodp;    double m_xnodp;
    double m_s4;      double m_qoms24;  double m_perigee; double m_tsi;
    double m_eta;     double m_etasq;   double m_eeta;    double m_coef;
