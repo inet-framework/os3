@@ -6,3 +6,4 @@ if [ -x $DIR/os3 -o -x $DIR/os3.exe ]; then
 else
   opp_run -l $DIR/os3 -n $DIR/../simulations:$DIR:$DIR/../../inet/src $*
 fi
+

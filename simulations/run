@@ -1,4 +1,8 @@
 #!/bin/sh
 cd `dirname $0`
-../src/os3 -n .:../src $*
-# for shared lib, use: opp_run -l ../src/os3 -n .:../src $*
+#
+# executable
+#../src/os3 -n .:../src $*
+# shared lib
+opp_run -l ../src/os3 -n .:../src $*
+
