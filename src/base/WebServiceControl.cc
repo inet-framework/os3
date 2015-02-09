@@ -349,8 +349,7 @@ TLEData WebServiceControl::evaluateTLEData(std::string dataString, std::string s
     if (pos == std::string::npos) {
         error("Error in WebServiceControl::evaluateTLEData(): satellite can not be found!");
         return resultData;
-    }
-    else {
+    } else {
         // Extract TLE data and parse them into the result struct
         dataString = dataString.erase(0, pos);
 
