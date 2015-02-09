@@ -21,9 +21,9 @@
 #include <string>
 #include <ctime>
 
-#include "cEci.h"
-#include "cJulian.h"
-#include "ccoord.h"
+#include "libnorad/cEci.h"
+#include "libnorad/cJulian.h"
+#include "libnorad/ccoord.h"
 
 class cTle;
 class cOrbit;

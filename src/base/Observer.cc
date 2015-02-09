@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#include "Observer.h"
+#include "base/Observer.h"
 
 Define_Module(Observer);
 
@@ -21,6 +21,11 @@ Define_Module(Observer);
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+
+#include "base/Calculation.h"
+
+#include "mobility/SatSGP4Mobility.h"
+#include "mobility/SatSGP4FisheyeMobility.h"
 
 void Observer::initialize()
 {
@@ -100,10 +105,9 @@ void Observer::initialize()
         // Set Position on map
         setPosition(latitude, longitude);
     }
-
 }
 
-void Observer::handleMessage(cMessage *msg)
+void Observer::handleMessage(cMessage* msg)
 {
     if (msg->isSelfMessage()) {
         if (gps == true) {
@@ -158,7 +162,6 @@ void Observer::handleMessage(cMessage *msg)
 
             }
             scheduleAt(simTime() + interval, timer);
-
         }
     } else
         error("Observer should not receive Message other than self message");

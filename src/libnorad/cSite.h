@@ -8,8 +8,9 @@
 #define __LIBNORAD_cSite_H__
 
 #include <string>
-#include "ccoord.h"
-#include "cEci.h"
+
+#include "libnorad/ccoord.h"
+#include "libnorad/cEci.h"
 
 //-----------------------------------------------------
 // Class: cSite

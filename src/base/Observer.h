@@ -18,10 +18,13 @@
 
 #include <omnetpp.h>
 
-#include <SatSGP4FisheyeMobility.h>
 #include <iostream>
 #include <fstream>
-#include <Calculation.h>
+#include <ctime>
+
+class SatSGP4Mobility;
+class SatSGP4FisheyeMobility;
+class Calculation;
 
 /**
  * @class Observer
@@ -30,22 +33,8 @@
  * @version 0.1
  */
 
-class Observer : public cSimpleModule {
-private:
-    SatSGP4Mobility* Sat; // Reference to observed satellite
-    SatSGP4FisheyeMobility* gpsSats[31]; // GPS satellites for C/N0 validation
-    Calculation* calculation;
-    cMessage* timer; // Self message to trigger observation
-    double longitude; // Longitude of Observer
-    double latitude; // Latitude of Observer
-    double altitude; // Altitude of Observer
-    double lastelv; // Last observed elevation is saved
-    double interval; // Update interval for timer
-    std::ofstream outfile; // File where results are written/saved
-    time_t timestamp; // Time stamp for starting simulation
-    int numgps; // Number of GPS satellites for C/N0 validation
-    bool gps; // Bool to check whether gps or ISS validation should run
-
+class Observer : public cSimpleModule
+{
 protected:
 
     /**
@@ -61,7 +50,7 @@ protected:
      * @author Sarah Lehnhausen
      * @version 0.1
      */
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(cMessage* msg);
 
     /**
      * The written file is closed
@@ -87,6 +76,21 @@ protected:
      * @version 0.1
      */
     double checksnr(int satindex, double bandwidth);
+
+private:
+    SatSGP4Mobility* Sat;                // Reference to observed satellite
+    SatSGP4FisheyeMobility* gpsSats[31]; // GPS satellites for C/N0 validation
+    Calculation* calculation;
+    cMessage* timer;                     // Self message to trigger observation
+    double longitude;                    // Longitude of Observer
+    double latitude;                     // Latitude of Observer
+    double altitude;                     // Altitude of Observer
+    double lastelv;                      // Last observed elevation is saved
+    double interval;                     // Update interval for timer
+    std::ofstream outfile;               // File where results are written/saved
+    std::time_t timestamp;               // Time stamp for starting simulation
+    int numgps;                          // Number of GPS satellites for C/N0 validation
+    bool gps;                            // bool to check whether gps or ISS validation should run
 };
 
 #endif

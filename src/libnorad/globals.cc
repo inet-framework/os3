@@ -1,5 +1,5 @@
 
-#include "globals.h"
+#include "libnorad/globals.h"
 
 #include <cmath>
 

@@ -6,9 +6,9 @@
 #ifndef __LIBNORAD_cEci_H__
 #define __LIBNORAD_cEci_H__
 
-#include "ccoord.h"
-#include "cVector.h"
-#include "cJulian.h"
+#include "libnorad/ccoord.h"
+#include "libnorad/cVector.h"
+#include "libnorad/cJulian.h"
 
 //-----------------------------------------------------
 // Class: cEci

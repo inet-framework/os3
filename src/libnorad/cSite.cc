@@ -4,11 +4,12 @@
 // Copyright (c) 2003 Michael F. Henry
 //-----------------------------------------------------
 
-#include "cSite.h"
-#include "globals.h"
+#include "libnorad/cSite.h"
+#include "libnorad/globals.h"
 
 #include <cassert>
 #include <cstdio>
+#include <cmath>
 
 cSite::cSite(const cCoordGeo& geo) : m_geo(geo)
 {}
@@ -110,7 +111,7 @@ cCoordTopo cSite::getLookAngle(const cEci& eci) const
    // Reference:  Astronomical Algorithms by Jean Meeus, pp. 101-104
    // Note:  Correction is meaningless when apparent elevation is below horizon
    topo.m_El += deg2rad((1.02 /
-                        tan(deg2rad(rad2deg(el) + 10.3 /
+                        std::tan(deg2rad(rad2deg(el) + 10.3 /
                                     (rad2deg(el) + 5.11)))) / 60.0);
    if (topo.m_El < 0.0)
       topo.m_El = el;    // Reset to true elevation

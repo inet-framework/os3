@@ -13,11 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#include "UserConfig.h"
+#include "base/UserConfig.h"
 
-#include <SatSGP4Mobility.h>
-#include <SatSGP4FisheyeMobility.h>
-#include <ChannelControl.h>
+#include "ChannelControl.h"   // inet
+
+#include "mobility/SatSGP4Mobility.h"
+#include "mobility/SatSGP4FisheyeMobility.h"
 
 Define_Module(UserConfig);
 

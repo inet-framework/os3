@@ -18,9 +18,7 @@
 
 #include <omnetpp.h>
 
-#include <MovingMobilityBase.h>
-
-// TODO: Final Cleanup: Doxygen!
+#include "MovingMobilityBase.h"    // inet
 
 /**
  * @class LUTMotionMobility
@@ -31,7 +29,8 @@
  * @ingroup mobility
  * @author Andras Varga
  */
-class LUTMotionMobility : public MovingMobilityBase {
+class LUTMotionMobility : public MovingMobilityBase
+{
 public:
 
     /** @brief Returns longitude.*/
@@ -42,8 +41,8 @@ public:
 
     virtual Coord getCurrentPosition();
     virtual Coord getCurrentSpeed();
-protected:
 
+protected:
     /** @brief Initializes mobility model parameters.
      * Positions Mission Control Center on map
      */

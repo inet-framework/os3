@@ -10,7 +10,7 @@
 #ifndef __LIBNORAD_cNoradSGP4_H__
 #define __LIBNORAD_cNoradSGP4_H__
 
-#include "cNoradBase.h"
+#include "libnorad/cNoradBase.h"
 
 class cOrbit;
 

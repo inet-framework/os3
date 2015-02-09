@@ -12,7 +12,8 @@
 
 #include <string>
 #include <map>
-#include "globals.h"
+
+#include "libnorad/globals.h"
 
 class cTle
 {

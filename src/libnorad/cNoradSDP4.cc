@@ -6,11 +6,11 @@
 //
 // mfh 12/07/2003
 //-----------------------------------------------------
-#include "cNoradSDP4.h"
-#include "cTLE.h"
-#include "ccoord.h"
-#include "cOrbit.h"
-#include "cVector.h"
+#include "libnorad/cNoradSDP4.h"
+#include "libnorad/cTLE.h"
+#include "libnorad/ccoord.h"
+#include "libnorad/cOrbit.h"
+#include "libnorad/cVector.h"
 
 #include <cmath>
 

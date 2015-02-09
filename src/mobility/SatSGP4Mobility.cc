@@ -13,10 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //-----------------------------------------------------
 
-#include "SatSGP4Mobility.h"
+#include "mobility/SatSGP4Mobility.h"
 
 #include <ctime>
-#include "Norad.h"
+#include <cmath>
+
+#include "base/Norad.h"
 
 Define_Module(SatSGP4Mobility);
 
@@ -33,15 +35,15 @@ void SatSGP4Mobility::initialize(int stage)
         error("Error in SatSGP4Mobility::initializeMobility(): Cannot find module Norad.");
     }
 
-    tm* currentTime;
-    time_t timestamp = std::time(0);
+    std::tm* currentTime;
+    std::time_t timestamp = std::time(0);
     currentTime = std::gmtime(&timestamp);
 
     // Convert to julian time
     noradModule->setJulian(currentTime);
 
-    mapX = atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 0));
-    mapY = atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 1));
+    mapX = std::atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 0));
+    mapY = std::atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 1));
 
     transmitPower = this->getParentModule()->par("transmitPower");
 
@@ -56,20 +58,20 @@ double SatSGP4Mobility::getAltitude() const
     return noradModule->getAltitude();
 }
 
-double SatSGP4Mobility::getElevation(const double &refLatitude, const double &refLongitude,
-                                     const double &refAltitude) const
+double SatSGP4Mobility::getElevation(const double& refLatitude, const double& refLongitude,
+                                     const double& refAltitude) const
 {
     return noradModule->getElevation(refLatitude, refLongitude, refAltitude);
 }
 
-double SatSGP4Mobility::getAzimuth(const double &refLatitude, const double &refLongitude,
-                                   const double &refAltitude) const
+double SatSGP4Mobility::getAzimuth(const double& refLatitude, const double& refLongitude,
+                                   const double& refAltitude) const
 {
     return noradModule->getAzimuth(refLatitude, refLongitude, refAltitude);
 }
 
-double SatSGP4Mobility::getDistance(const double &refLatitude, const double &refLongitude,
-                                    const double &refAltitude) const
+double SatSGP4Mobility::getDistance(const double& refLatitude, const double& refLongitude,
+                                    const double& refAltitude) const
 {
     return noradModule->getDistance(refLatitude, refLongitude, refAltitude);
 }

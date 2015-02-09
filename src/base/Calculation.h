@@ -18,9 +18,6 @@
 
 #include <omnetpp.h>
 
-#include <WeatherControl.h>
-#include <UserConfig.h>
-
 /** Source: 'The aR^b Relation in the Calculation of Rain Attenuation', Olsen and Rogers and Hodge
  * a and b are coefficients for different average dropsize distributions to calculate rain specific attenuation
  * LPl: Laws and Parsons Distribution - low rain rate
@@ -41,6 +38,10 @@ struct rainCoefficients {
     double bJt;
     double bJd;
 };
+
+class UserConfig;
+class WeatherControl;
+class WebServiceControl;
 
 /**
  * @class Calculation
@@ -190,7 +191,7 @@ protected:
      * @version 0.1
      * Method implemented
      */
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(cMessage* msg);
 
     /**
      * Fills the rainCoeffMap with the Values from CSV file (default: misc/TablespecRain.csv)

@@ -13,12 +13,16 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#include "Calculation.h"
+#include "base/Calculation.h"
 
 #include <cmath>
 #include <fstream>
-#include "WebServiceControl.h"
-#include "SatSGP4Mobility.h"
+
+#include "base/WebServiceControl.h"
+#include "base/WeatherControl.h"
+#include "base/UserConfig.h"
+
+#include "mobility/SatSGP4Mobility.h"
 
 Define_Module(Calculation);
 

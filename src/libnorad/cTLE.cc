@@ -5,7 +5,7 @@
 // Copyright 1996-2005 Michael F. Henry
 //-----------------------------------------------------
 
-#include "cTLE.h"
+#include "libnorad/cTLE.h"
 
 #include <cstdio>
 #include <cassert>
@@ -19,18 +19,20 @@ const unsigned int TLE_LEN_LINE_DATA      = 69;
 // Line 1
 const int TLE1_COL_SATNUM        =  2; const int TLE1_LEN_SATNUM        =  5;
 const int TLE1_COL_INTLDESC_A    =  9; const int TLE1_LEN_INTLDESC_A    =  2;
-const int TLE1_COL_INTLDESC_B    = 11; const int TLE1_LEN_INTLDESC_B    =  3;
-const int TLE1_COL_INTLDESC_C    = 14; const int TLE1_LEN_INTLDESC_C    =  3;
+//const int TLE1_COL_INTLDESC_B    = 11;
+const int TLE1_LEN_INTLDESC_B    =  3;
+//const int TLE1_COL_INTLDESC_C    = 14;
+const int TLE1_LEN_INTLDESC_C    =  3;
 const int TLE1_COL_EPOCH_A       = 18; const int TLE1_LEN_EPOCH_A       =  2;
 const int TLE1_COL_EPOCH_B       = 20; const int TLE1_LEN_EPOCH_B       = 12;
 const int TLE1_COL_MEANMOTIONDT  = 33; const int TLE1_LEN_MEANMOTIONDT  = 10;
 const int TLE1_COL_MEANMOTIONDT2 = 44; const int TLE1_LEN_MEANMOTIONDT2 =  8;
 const int TLE1_COL_BSTAR         = 53; const int TLE1_LEN_BSTAR         =  8;
-const int TLE1_COL_EPHEMTYPE     = 62; const int TLE1_LEN_EPHEMTYPE     =  1;
+//const int TLE1_COL_EPHEMTYPE     = 62; const int TLE1_LEN_EPHEMTYPE     =  1;
 const int TLE1_COL_ELNUM         = 64; const int TLE1_LEN_ELNUM         =  4;
 
 // Line 2
-const int TLE2_COL_SATNUM        = 2;  const int TLE2_LEN_SATNUM        =  5;
+//const int TLE2_COL_SATNUM        = 2;  const int TLE2_LEN_SATNUM        =  5;
 const int TLE2_COL_INCLINATION   = 8;  const int TLE2_LEN_INCLINATION   =  8;
 const int TLE2_COL_RAASCENDNODE  = 17; const int TLE2_LEN_RAASCENDNODE  =  8;
 const int TLE2_COL_ECCENTRICITY  = 26; const int TLE2_LEN_ECCENTRICITY  =  7;

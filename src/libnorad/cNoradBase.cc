@@ -27,12 +27,12 @@
 //
 // mfh 12/07/2003
 //-----------------------------------------------------
-#include "cNoradBase.h"
-#include "cOrbit.h"
-#include "ccoord.h"
-#include "cEci.h"
-#include "cVector.h"
-#include "cJulian.h"
+#include "libnorad/cNoradBase.h"
+#include "libnorad/cOrbit.h"
+#include "libnorad/ccoord.h"
+#include "libnorad/cEci.h"
+#include "libnorad/cVector.h"
+#include "libnorad/cJulian.h"
 
 #include <cmath>
 
@@ -111,7 +111,7 @@ void cNoradBase::Initialize()
                      (8.0 + 3.0 * m_etasq * (8.0 + m_etasq)));
 
    m_c1    = m_Orbit.BStar() * c2;
-   m_sinio = sin(m_satInc);
+   m_sinio = std::sin(m_satInc);
 
    const double a3ovk2 = -XJ3 / CK2 * std::pow(AE,3.0);
 
@@ -124,7 +124,7 @@ void cNoradBase::Initialize()
               (-3.0 * m_x3thm1 * (1.0 - 2.0 * m_eeta + m_etasq * (1.5 - 0.5 * m_eeta)) +
               0.75 * m_x1mth2 *
               (2.0 * m_etasq - m_eeta * (1.0 + m_etasq)) *
-              cos(2.0 * m_Orbit.ArgPerigee())));
+              std::cos(2.0 * m_Orbit.ArgPerigee())));
 
    const double theta4 = m_theta2 * m_theta2;
    const double temp1  = 3.0 * CK2 * pinvsq * m_xnodp;

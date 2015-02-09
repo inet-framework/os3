@@ -7,22 +7,24 @@
 // mfh 12/07/2003
 //-----------------------------------------------------
 
-#include "cNoradSGP4.h"
+#include "libnorad/cNoradSGP4.h"
+
 #include  <cmath>
-#include "cJulian.h"
-#include "cOrbit.h"
-#include "cVector.h"
-#include "ccoord.h"
+
+#include "libnorad/cJulian.h"
+#include "libnorad/cOrbit.h"
+#include "libnorad/cVector.h"
+#include "libnorad/ccoord.h"
 
 cNoradSGP4::cNoradSGP4(const cOrbit& orbit) :
    cNoradBase(orbit)
 {
    m_c5     = 2.0 * m_coef1 * m_aodp * m_betao2 *
               (1.0 + 2.75 * (m_etasq + m_eeta) + m_eeta * m_etasq);
-   m_omgcof = m_Orbit.BStar() * m_c3 * cos(m_Orbit.ArgPerigee());
+   m_omgcof = m_Orbit.BStar() * m_c3 * std::cos(m_Orbit.ArgPerigee());
    m_xmcof  = -TWOTHRD * m_coef * m_Orbit.BStar() * AE / m_eeta;
-   m_delmo  = pow(1.0 + m_eta * cos(m_Orbit.mnAnomaly()), 3.0);
-   m_sinmo  = sin(m_Orbit.mnAnomaly());
+   m_delmo  = std::pow(1.0 + m_eta * std::cos(m_Orbit.mnAnomaly()), 3.0);
+   m_sinmo  = std::sin(m_Orbit.mnAnomaly());
 }
 
 cNoradSGP4::~cNoradSGP4()

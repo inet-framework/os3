@@ -8,7 +8,7 @@
 
 #include <ctime>
 
-#include "globals.h"
+#include "libnorad/globals.h"
 
 //-----------------------------------------------------
 // See note in cJulian.cpp for information on this class and the epoch dates

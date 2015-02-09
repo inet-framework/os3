@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#include "LUTMotionMobility.h"
+#include "mobility/LUTMotionMobility.h"
 
 #include <cmath>
 

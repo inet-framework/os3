@@ -4,7 +4,7 @@
 // Copyright (c) 2002-2003 Michael F. Henry
 //
 
-#include "cEci.h"
+#include "libnorad/cEci.h"
 
 #include <cmath>
 
@@ -37,15 +37,15 @@ cEci::cEci(const cCoordGeo& geo, const cJulian& date)
 
    // Calculate Local Mean Sidereal Time (theta)
    double theta = date.toLMST(lon);
-   double c = 1.0 / std::sqrt(1.0 + F * (F - 2.0) * sqr(sin(lat)));
+   double c = 1.0 / std::sqrt(1.0 + F * (F - 2.0) * sqr(std::sin(lat)));
    double s = sqr(1.0 - F) * c;
-   double achcp = (XKMPER_WGS72 * c + alt) * cos(lat);
+   double achcp = (XKMPER_WGS72 * c + alt) * std::cos(lat);
 
    m_date = date;
 
-   m_pos.m_x = achcp * std::cos(theta);               // km
-   m_pos.m_y = achcp * std::sin(theta);               // km
-   m_pos.m_z = (XKMPER_WGS72 * s + alt) * sin(lat);   // km
+   m_pos.m_x = achcp * std::cos(theta);                    // km
+   m_pos.m_y = achcp * std::sin(theta);                    // km
+   m_pos.m_z = (XKMPER_WGS72 * s + alt) * std::sin(lat);   // km
    m_pos.m_w = std::sqrt(sqr(m_pos.m_x) +
                          sqr(m_pos.m_y) +
                          sqr(m_pos.m_z));            // range, km

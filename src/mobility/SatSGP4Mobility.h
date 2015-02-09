@@ -16,7 +16,7 @@
 #ifndef __OS3_SatSGP4Mobility_H__
 #define __OS3_SatSGP4Mobility_H__
 
-#include <LineSegmentsMobilityBase.h>
+#include "LineSegmentsMobilityBase.h"    // inet
 
 class Norad;
 
@@ -32,8 +32,98 @@ class Norad;
  */
 class SatSGP4Mobility : public LineSegmentsMobilityBase
 {
-protected:
+public:
+    /**
+     * @brief Get x position of satellite
+     * This method returns the x position of the satellite.
+     * @return x-position of satellite on playground (not longitude!)
+     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
+     * @version 0.1
+     * Method implemented
+     * @version 0.2
+     * Method is now virtual, inline and const
+     */
+    virtual double getPositionX() const                  { return lastPosition.x; };
 
+    /**
+     * @brief Get y position of satellite
+     * This method returns the y position of the satellite.
+     * @return y-position of satellite on playground (not latitude!)
+     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
+     * @version 0.1
+     * Method implemented
+     * @version 0.2
+     * Method is now virtual, inline and const
+     */
+    virtual double getPositionY() const                  { return lastPosition.y; };
+
+    /**
+     * @brief Get altitude of satellite
+     * This method returns the altitude of the satellite.
+     * @return Altitude of the satellite
+     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
+     * @version 0.1
+     * Method implemented
+     * @version 0.2
+     * Method is now virtual and const
+     */
+    virtual double getAltitude() const;
+
+    /**
+     * @brief Get elevation for satellite
+     * This method returns the elevation for the satellite.
+     * @return Elevation for the satellite in degrees
+     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
+     * @version 0.1
+     * Method implemented
+     * @version 0.2
+     * Method is now virtual and const
+     */
+    virtual double getElevation(const double& refLatitude, const double& refLongitude, const double& refAltitude = -9999) const;
+
+    /**
+     * @brief Calculate the azimuth from satellite to reference point
+     * @return Azimuth in degrees
+     * @author Daniel Merget
+     * @version 0.1
+     * Method implemented
+     */
+    virtual double getAzimuth(const double& refLatitude, const double& refLongitude, const double& refAltitude = -9999) const;
+
+    /**
+     * @brief Calculate the distance from satellite to reference point
+     * @return Euclidean distance
+     * @author Daniel Merget
+     * @version 0.1
+     * Method implemented
+     */
+    virtual double getDistance(const double& refLatitude, const double& refLongitude, const double& refAltitude = -9999) const;
+
+    /**
+     * @brief Get elevation for satellite
+     * This method returns the elevation for the satellite.
+     * @return Elevation for the satellite
+     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
+     * @version 0.1
+     * Method implemented
+     * @version 0.2
+     * Method is now virtual and const
+     */
+    virtual double getLatitude() const;
+
+    /**
+     * @brief Get elevation for satellite
+     * This method returns the elevation for the satellite.
+     * @return Elevation for the satellite
+     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
+     * @version 0.1
+     * Method implemented
+     * @version 0.2
+     * Method is now virtual and const
+     */
+    virtual double getLongitude() const;
+
+protected:
     Norad* noradModule;
     int mapX, mapY;
     double transmitPower;
@@ -77,97 +167,6 @@ protected:
      * Method implemented
      */
     virtual void move();
-
-public:
-    /**
-     * @brief Get x position of satellite
-     * This method returns the x position of the satellite.
-     * @return x-position of satellite on playground (not longitude!)
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual, inline and const
-     */
-    inline virtual double getPositionX() const {return lastPosition.x;};
-
-    /**
-     * @brief Get y position of satellite
-     * This method returns the y position of the satellite.
-     * @return y-position of satellite on playground (not latitude!)
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual, inline and const
-     */
-    inline virtual double getPositionY() const {return lastPosition.y;};
-
-    /**
-     * @brief Get altitude of satellite
-     * This method returns the altitude of the satellite.
-     * @return Altitude of the satellite
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual and const
-     */
-    virtual double getAltitude() const;
-
-    /**
-     * @brief Get elevation for satellite
-     * This method returns the elevation for the satellite.
-     * @return Elevation for the satellite in degrees
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual and const
-     */
-    virtual double getElevation(const double &refLatitude, const double &refLongitude, const double &refAltitude = -9999) const;
-
-    /**
-     * @brief Calculate the azimuth from satellite to reference point
-     * @return Azimuth in degrees
-     * @author Daniel Merget
-     * @version 0.1
-     * Method implemented
-     */
-    virtual double getAzimuth(const double &refLatitude, const double &refLongitude, const double &refAltitude = -9999) const;
-
-    /**
-     * @brief Calculate the distance from satellite to reference point
-     * @return Euclidean distance
-     * @author Daniel Merget
-     * @version 0.1
-     * Method implemented
-     */
-    virtual double getDistance(const double &refLatitude, const double &refLongitude, const double &refAltitude = -9999) const;
-
-    /**
-     * @brief Get elevation for satellite
-     * This method returns the elevation for the satellite.
-     * @return Elevation for the satellite
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual and const
-     */
-    virtual double getLatitude() const;
-
-    /**
-     * @brief Get elevation for satellite
-     * This method returns the elevation for the satellite.
-     * @return Elevation for the satellite
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual and const
-     */
-    virtual double getLongitude() const;
 };
 
 #endif
