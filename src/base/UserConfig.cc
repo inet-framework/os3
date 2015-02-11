@@ -15,10 +15,11 @@
 
 #include "base/UserConfig.h"
 
-#include "ChannelControl.h"   // inet
-
 #include "mobility/SatSGP4Mobility.h"
 #include "mobility/SatSGP4FisheyeMobility.h"
+
+#include <cmath>
+#include <cstdio>
 
 Define_Module(UserConfig);
 
@@ -28,8 +29,8 @@ void UserConfig::initialize()
     userParameters.frequency = par("frequency");
     userParameters.min_snr = par("min_snr");
 
-    userParameters.mapX = atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 0));
-    userParameters.mapY = atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 1));
+    userParameters.mapX = std::atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 0));
+    userParameters.mapY = std::atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 1));
 
     initializeSatMobility();
 }
@@ -44,13 +45,13 @@ void UserConfig::initializeSatMobility()
     // Initialize satellite mobilities for view
     for (int i = 0; i < userParameters.numOfSats; i++) {
         char name[128];
-        sprintf(name, "satellite[%d].mobility", i);
+        std::sprintf(name, "satellite[%d].mobility", i);
         SatSGP4Mobility* mob = check_and_cast< SatSGP4Mobility* >(simulation.getModuleByPath(name));
 
         if (mob != NULL)
             satmoVector.push_back(mob);
         else {
-            sprintf(name, "Error in UserConfig::initializeSatFisheyeMobility(): Could not find module \"%s\".", name);
+            std::sprintf(name, "Error in UserConfig::initializeSatFisheyeMobility(): Could not find module \"%s\".", name);
             error(name);
         }
     }
