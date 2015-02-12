@@ -13,45 +13,44 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-// Copyright Andreas Lewandowski / Brian Niehoefer
-
-package os3.simulations.SatSGP4;
+package os3.examples.Validation;
 
 import os3.base.Satellite;
-import os3.base.MissionControlCenter;
 import inet.world.radio.ChannelControl;
 import os3.base.CNI_OS3;
+import os3.base.Observer;
+
 //
-// Network SatSGP4 enables satellite movement on worldmap
+// Network Validate used to show Observer functionalities
 //
-network SatSGP4
+// @author Sarah Lehnhausen
+network Validate
 {
     parameters:
-        int numOfSats; // Number of satellites
-        int numOfMCCs; // Number of Mission Control Centers
+        double playgroundSizeX; // Width of map in pixels
+        double playgroundSizeY; // Height of map in pixels
+        int numOfSats;	// Number of satellites
 
-        @display("bgi=background_earth;bgb=2160,1080");
+        @display("bgi=background_earth");
 
     submodules:
         satellite[numOfSats]: Satellite {
             parameters:
-                @display("p=80,150;r=10,,#707070;i=device/satellite_l");
-        }
-        MCC[numOfMCCs]: MissionControlCenter {
-            parameters:
-                @display("p=240,150;i=misc/building;r=10,,black");
+                @display("p=80,200;r=10,,#707070;i=device/satellite_l");
         }
         channelcontrol: ChannelControl {
             parameters:
                 //playgroundSizeX = playgroundSizeX;
-                //playgroundSizeY = playgroundSizeY; note: https://groups.google.com/forum/#!msg/omnetpp/iofWt9w-o7A/bRuaO3KrMfcJ
+                //playgroundSizeY = playgroundSizeY;
                 numChannels = 2;
-                @display("p=240,70;i=misc/sun");
+                @display("p=220,70;i=misc/sun");
         }
         cni_os3: CNI_OS3 {
             @display("p=80,70,i;i=old/bluebox");
         }
+        observer: Observer {
+            numgps = 0;
+            @display("p=220,200");
+        }
     connections allowunconnected:
 }
-
-

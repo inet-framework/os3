@@ -1,5 +1,5 @@
 
-package os3.simulations.example1;
+package os3.examples.example1;
 
 import os3.base.Satellite;
 import inet.world.radio.ChannelControl;

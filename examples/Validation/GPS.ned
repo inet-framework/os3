@@ -13,44 +13,45 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package os3.simulations.Validation;
+package os3.examples.Validation;
 
 import os3.base.Satellite;
 import inet.world.radio.ChannelControl;
 import os3.base.CNI_OS3;
 import os3.base.Observer;
 
-//
-// Network Validate used to show Observer functionalities
-//
-// @author Sarah Lehnhausen
-network Validate
+
+network GPS
 {
     parameters:
         double playgroundSizeX; // Width of map in pixels
         double playgroundSizeY; // Height of map in pixels
-        int numOfSats;	// Number of satellites
+        int numOfSats; // Number of satellites
 
-        @display("bgi=background_earth");
+        @display("bgi=binocular,c;bgb=980,980");
 
     submodules:
         satellite[numOfSats]: Satellite {
             parameters:
-                @display("p=80,200;r=10,,#707070;i=device/satellite_l");
+                @display("p=70,180;r=10,,#707070;i=device/satellite_l");
         }
+
         channelcontrol: ChannelControl {
             parameters:
                 //playgroundSizeX = playgroundSizeX;
                 //playgroundSizeY = playgroundSizeY;
                 numChannels = 2;
-                @display("p=220,70;i=misc/sun");
+                @display("p=180,70;i=misc/sun");
         }
         cni_os3: CNI_OS3 {
-            @display("p=80,70,i;i=old/bluebox");
+            @display("p=50,70,i;i=old/bluebox");
         }
         observer: Observer {
-            numgps = 0;
-            @display("p=220,200");
+            @display("p=490,490");
+            numgps = numOfSats;
         }
     connections allowunconnected:
+
+
 }
+

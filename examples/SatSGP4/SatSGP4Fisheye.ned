@@ -15,7 +15,7 @@
 
 // Copyright Andreas Lewandowski / Brian Niehoefer
 
-package os3.simulations.SatSGP4;
+package os3.examples.SatSGP4;
 
 import os3.base.Satellite;
 import inet.world.radio.ChannelControl;

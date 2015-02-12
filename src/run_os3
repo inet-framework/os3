@@ -2,8 +2,8 @@
 DIR=`dirname $0`
 
 if [ -x $DIR/os3 -o -x $DIR/os3.exe ]; then
-  $DIR/os3 -n $DIR/../simulations:$DIR:$DIR/../../inet/src $*
+  $DIR/os3 -n $DIR/../examples:$DIR:$DIR/../../inet/src $*
 else
-  opp_run -l $DIR/os3 -n $DIR/../simulations:$DIR:$DIR/../../inet/src $*
+  opp_run -l $DIR/os3 -n $DIR/../examples:$DIR:$DIR/../../inet/src $*
 fi
 
