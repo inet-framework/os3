@@ -18,7 +18,7 @@
 
 #include <omnetpp.h>
 
-#include "MovingMobilityBase.h"    // inet
+#include "mobility/common/MovingMobilityBase.h"    // inet
 
 /**
  * @class LUTMotionMobility

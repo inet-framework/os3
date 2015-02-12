@@ -16,7 +16,7 @@
 #ifndef __OS3_SatSGP4FisheyeMobility_H__
 #define __OS3_SatSGP4FisheyeMobility_H__
 
-#include "mobility/SatSGP4Mobility.h"
+#include "os3/mobility/SatSGP4Mobility.h"
 
 /**
  * @class SatSGP4FisheyeMobility

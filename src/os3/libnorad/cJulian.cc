@@ -20,7 +20,7 @@
 // mfh 12/24/2003
 //
 
-#include "libnorad/cJulian.h"
+#include "os3/libnorad/cJulian.h"
 
 #include <cassert>
 #include <cstring>

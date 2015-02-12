@@ -13,10 +13,10 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#include "base/UserConfig.h"
+#include "os3/base/UserConfig.h"
 
-#include "mobility/SatSGP4Mobility.h"
-#include "mobility/SatSGP4FisheyeMobility.h"
+#include "os3/mobility/SatSGP4Mobility.h"
+#include "os3/mobility/SatSGP4FisheyeMobility.h"
 
 #include <cmath>
 #include <cstdio>

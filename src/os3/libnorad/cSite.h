@@ -9,8 +9,8 @@
 
 #include <string>
 
-#include "libnorad/ccoord.h"
-#include "libnorad/cEci.h"
+#include "os3/libnorad/ccoord.h"
+#include "os3/libnorad/cEci.h"
 
 //-----------------------------------------------------
 // Class: cSite

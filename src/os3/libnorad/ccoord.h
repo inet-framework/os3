@@ -6,7 +6,7 @@
 #ifndef __LIBNORAD_ccoord_H__
 #define __LIBNORAD_ccoord_H__
 
-#include "libnorad/globals.h"
+#include "os3/libnorad/globals.h"
 
 //-----------------------------------------------------
 // Geocentric coordinates.

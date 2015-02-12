@@ -4,8 +4,8 @@
 // Copyright (c) 2003 Michael F. Henry
 //-----------------------------------------------------
 
-#include "libnorad/cSite.h"
-#include "libnorad/globals.h"
+#include "os3/libnorad/cSite.h"
+#include "os3/libnorad/globals.h"
 
 #include <cassert>
 #include <cstdio>

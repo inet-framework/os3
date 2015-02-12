@@ -3,7 +3,7 @@
 //
 // Copyright (c) 2003 Michael F. Henry
 //
-#include "ccoord.h"
+#include "os3/libnorad/ccoord.h"
 
 cCoordGeo::cCoordGeo()
 {

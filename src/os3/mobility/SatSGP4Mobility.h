@@ -16,7 +16,7 @@
 #ifndef __OS3_SatSGP4Mobility_H__
 #define __OS3_SatSGP4Mobility_H__
 
-#include "LineSegmentsMobilityBase.h"    // inet
+#include "mobility/common/LineSegmentsMobilityBase.h"    // inet
 
 class Norad;
 

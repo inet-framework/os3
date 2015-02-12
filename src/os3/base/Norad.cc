@@ -13,20 +13,21 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#include "base/Norad.h"
+#include "os3/base/Norad.h"
 
 #include <ctime>
 #include <fstream>
 
-#include "libnorad/cTLE.h"
-#include "libnorad/cOrbit.h"
-#include "libnorad/cSite.h"
+#include "os3/libnorad/cTLE.h"
+#include "os3/libnorad/cOrbit.h"
+#include "os3/libnorad/cSite.h"
 
-#include "base/WebServiceControl.h"
+#include "os3/base/WebServiceControl.h"
 
 Define_Module(Norad);
 
-void Norad::finish() {
+void Norad::finish()
+{
     delete orbit;
     delete tle;
 }

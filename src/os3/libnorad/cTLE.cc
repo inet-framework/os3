@@ -5,7 +5,7 @@
 // Copyright 1996-2005 Michael F. Henry
 //-----------------------------------------------------
 
-#include "libnorad/cTLE.h"
+#include "os3/libnorad/cTLE.h"
 
 #include <cstdio>
 #include <cassert>

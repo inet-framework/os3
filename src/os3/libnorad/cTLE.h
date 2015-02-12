@@ -13,7 +13,7 @@
 #include <string>
 #include <map>
 
-#include "libnorad/globals.h"
+#include "os3/libnorad/globals.h"
 
 class cTle
 {

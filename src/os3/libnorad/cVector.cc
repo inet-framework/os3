@@ -4,7 +4,7 @@
 // Copyright (c) 2001-2003 Michael F. Henry
 //-----------------------------------------------------
 
-#include "libnorad/cVector.h"
+#include "os3/libnorad/cVector.h"
 
 #include <cmath>
 

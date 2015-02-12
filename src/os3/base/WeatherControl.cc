@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#include "base/WeatherControl.h"
-#include "base/WebServiceControl.h"
+#include "os3/base/WeatherControl.h"
+#include "os3/base/WebServiceControl.h"
 
 Define_Module(WeatherControl);
 

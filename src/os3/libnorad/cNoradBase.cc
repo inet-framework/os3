@@ -27,12 +27,12 @@
 //
 // mfh 12/07/2003
 //-----------------------------------------------------
-#include "libnorad/cNoradBase.h"
-#include "libnorad/cOrbit.h"
-#include "libnorad/ccoord.h"
-#include "libnorad/cEci.h"
-#include "libnorad/cVector.h"
-#include "libnorad/cJulian.h"
+#include "os3/libnorad/cNoradBase.h"
+#include "os3/libnorad/cOrbit.h"
+#include "os3/libnorad/ccoord.h"
+#include "os3/libnorad/cEci.h"
+#include "os3/libnorad/cVector.h"
+#include "os3/libnorad/cJulian.h"
 
 #include <cmath>
 

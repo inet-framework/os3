@@ -12,8 +12,8 @@
 #ifndef __LIBNORAD_cOrbit_H__
 #define __LIBNORAD_cOrbit_H__
 
-#include "libnorad/cTLE.h"
-#include "libnorad/cJulian.h"
+#include "os3/libnorad/cTLE.h"
+#include "os3/libnorad/cJulian.h"
 
 class cVector;
 class cGeoCoord;

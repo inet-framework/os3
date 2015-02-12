@@ -7,14 +7,14 @@
 // mfh 12/07/2003
 //-----------------------------------------------------
 
-#include "libnorad/cNoradSGP4.h"
+#include "os3/libnorad/cNoradSGP4.h"
 
 #include  <cmath>
 
-#include "libnorad/cJulian.h"
-#include "libnorad/cOrbit.h"
-#include "libnorad/cVector.h"
-#include "libnorad/ccoord.h"
+#include "os3/libnorad/cJulian.h"
+#include "os3/libnorad/cOrbit.h"
+#include "os3/libnorad/cVector.h"
+#include "os3/libnorad/ccoord.h"
 
 cNoradSGP4::cNoradSGP4(const cOrbit& orbit) :
    cNoradBase(orbit)

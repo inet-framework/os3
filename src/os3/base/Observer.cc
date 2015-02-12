@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#include "base/Observer.h"
+#include "os3/base/Observer.h"
 
 Define_Module(Observer);
 
@@ -22,10 +22,10 @@ Define_Module(Observer);
 #include <cstring>
 #include <ctime>
 
-#include "base/Calculation.h"
+#include "os3/base/Calculation.h"
 
-#include "mobility/SatSGP4Mobility.h"
-#include "mobility/SatSGP4FisheyeMobility.h"
+#include "os3/mobility/SatSGP4Mobility.h"
+#include "os3/mobility/SatSGP4FisheyeMobility.h"
 
 void Observer::initialize()
 {

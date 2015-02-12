@@ -13,11 +13,11 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //-----------------------------------------------------
 
-#include "mobility/SatSGP4FisheyeMobility.h"
+#include "os3/mobility/SatSGP4FisheyeMobility.h"
 
 #include <cmath>
 
-#include "base/Norad.h"
+#include "os3/base/Norad.h"
 
 Define_Module(SatSGP4FisheyeMobility);
 

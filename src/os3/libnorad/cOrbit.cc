@@ -6,18 +6,18 @@
 // mfh 11/15/2003
 //-----------------------------------------------------
 
-#include "libnorad/cOrbit.h"
+#include "os3/libnorad/cOrbit.h"
 
 #include <cmath>
 #include <ctime>
 #include <cassert>
 
-#include "libnorad/cVector.h"
-#include "libnorad/cEci.h"
-#include "libnorad/ccoord.h"
-#include "libnorad/cJulian.h"
-#include "libnorad/cNoradSGP4.h"
-#include "libnorad/cNoradSDP4.h"
+#include "os3/libnorad/cVector.h"
+#include "os3/libnorad/cEci.h"
+#include "os3/libnorad/ccoord.h"
+#include "os3/libnorad/cJulian.h"
+#include "os3/libnorad/cNoradSGP4.h"
+#include "os3/libnorad/cNoradSDP4.h"
 
 cOrbit::cOrbit(const cTle &tle) :
    m_tle(tle),

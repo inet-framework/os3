@@ -4,7 +4,7 @@
 // Copyright (c) 2002-2003 Michael F. Henry
 //
 
-#include "libnorad/cEci.h"
+#include "os3/libnorad/cEci.h"
 
 #include <cmath>
 
