@@ -1,2 +1,4 @@
-examples
+examples/SatSGP4
+examples/Validation
+examples/example1
 src/os3
