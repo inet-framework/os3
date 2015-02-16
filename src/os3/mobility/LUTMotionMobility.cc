@@ -41,19 +41,18 @@ double LUTMotionMobility::getLUTPositionY()
     return latitude;
 }
 
-/*void LUTMotionMobility::handleSelfMessage(cMessage *msg)
-{
-    ASSERT("LUTMotionMobility: Caught message when should not!");
-}*/
-
 Coord LUTMotionMobility::getCurrentPosition()
 {
-    return Coord(longitude,latitude);
+    return Coord(longitude, latitude);
 }
 
+//
+// this mobility model does not deal with speed, but it must be implemented
+// because it is a pure virtual function declared in IMobility
+//
 Coord LUTMotionMobility::getCurrentSpeed()
 {
-    return Coord(0,0,0); //this mobility model does not deal with speed, but it must be implemented because it is a pure virtual function declared in IMobility
+    return Coord(0,0,0);
 }
 
 void LUTMotionMobility::move()
@@ -63,7 +62,7 @@ void LUTMotionMobility::move()
     lastPosition.x = static_cast<int>(lastPosition.x) % static_cast<int>(mapx);
 }
 
-void LUTMotionMobility::initializePosition()
+void LUTMotionMobility::setInitialPosition()
 {
     move();
 }

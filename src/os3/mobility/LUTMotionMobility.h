@@ -20,15 +20,6 @@
 
 #include "mobility/common/MovingMobilityBase.h"    // inet
 
-/**
- * @class LUTMotionMobility
- * @brief Uses the BonnMotion native file format. See NED file for more info.
- *
- * LUT = Local User Terminal
- *
- * @ingroup mobility
- * @author Andras Varga
- */
 class LUTMotionMobility : public MovingMobilityBase
 {
 public:
@@ -43,24 +34,14 @@ public:
     virtual Coord getCurrentSpeed();
 
 protected:
-    /** @brief Initializes mobility model parameters.
-     * Positions Mission Control Center on map
-     */
     virtual void initialize(int);
-
-    /**
-     * @brief dummy
-     * This method is just a dummy method. No action is taking place here.
-     * @param msg omnetpp-message
-     */
-    //virtual void handleSelfMessage(cMessage *msg);
 
     virtual void move();
 
-    virtual void initializePosition();
+    virtual void setInitialPosition();
 
-    double latitude, longitude; // Geographic coordinates
-    double mapx, mapy; // Coordinates on map
+    double latitude, longitude;   // Geographic coordinates
+    double mapx, mapy;            // Coordinates on map
 };
 
 #endif

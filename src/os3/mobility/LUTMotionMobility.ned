@@ -28,8 +28,8 @@ import inet.mobility.contract.IMobility;
 simple LUTMotionMobility extends MovingMobilityBase
 {
     parameters:
-        double latitude; // Coordinates
-        double longitude; // Cordinates
+        double latitude;    // Coordinates
+        double longitude;   // Cordinates
         //double updateInterval @unit(s); // Time interval to update the hosts position
         @class(LUTMotionMobility);
 }
