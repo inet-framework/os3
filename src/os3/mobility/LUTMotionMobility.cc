@@ -21,7 +21,7 @@ Define_Module(LUTMotionMobility);
 
 void LUTMotionMobility::initialize(int stage)
 {
-    MovingMobilityBase::initialize(stage);
+    StationaryMobility::initialize(stage);
     EV << "initializing LUTMotionMobility stage " << stage << endl;
     WATCH(lastPosition);
     if (stage == 0) {
@@ -55,14 +55,9 @@ Coord LUTMotionMobility::getCurrentSpeed()
     return Coord(0,0,0);
 }
 
-void LUTMotionMobility::move()
-{
-    lastPosition.y = ((-mapy * latitude) / 180) + (mapy / 2);
-    lastPosition.x = mapx * longitude / 360 + (mapx / 2);
-    lastPosition.x = static_cast<int>(lastPosition.x) % static_cast<int>(mapx);
-}
-
 void LUTMotionMobility::setInitialPosition()
 {
-    move();
+   lastPosition.y = ((-mapy * latitude) / 180) + (mapy / 2);
+   lastPosition.x = mapx * longitude / 360 + (mapx / 2);
+   lastPosition.x = static_cast<int>(lastPosition.x) % static_cast<int>(mapx);
 }

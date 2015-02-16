@@ -18,12 +18,11 @@
 
 #include <omnetpp.h>
 
-#include "mobility/common/MovingMobilityBase.h"    // inet
+#include "mobility/static/StationaryMobility.h"    // inet
 
-class LUTMotionMobility : public MovingMobilityBase
+class LUTMotionMobility : public StationaryMobility
 {
 public:
-
     /** @brief Returns longitude.*/
     double getLUTPositionX();
 
@@ -35,8 +34,6 @@ public:
 
 protected:
     virtual void initialize(int);
-
-    virtual void move();
 
     virtual void setInitialPosition();
 

@@ -12,6 +12,7 @@ CFLAGS += -I.
 CFLAGS += -I../../inet/src
 CFLAGS += -I../../inet/src/base
 CFLAGS += -I../../inet/src/util
+CFLAGS += -I../../inet/src/mobility/common
 CFLAGS += -I../../inet/src/mobility/contract
 #
 # curl library
