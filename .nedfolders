@@ -1,5 +1,5 @@
 examples/SatSGP4
 examples/Validation
-examples/example1
 examples/groundstations
+examples/satellites
 src/os3
