@@ -23,7 +23,7 @@ Define_Module(SatSGP4FisheyeMobility);
 
 void SatSGP4FisheyeMobility::initialize(int stage)
 {
-    // Override from SatSGP4Mobility
+    // override from SatSGP4Mobility
     SatSGP4Mobility::initialize(stage);
 
     // Assert that we have a round fisheye circle

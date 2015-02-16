@@ -18,68 +18,44 @@
 
 #include "os3/mobility/SatSGP4Mobility.h"
 
-/**
- * @class SatSGP4FisheyeMobility
- * @brief realizes the SatSGP4Fisheye mobility module.
- * This class realizes the SatSGP4Fisheye mobility module. It provides methods to get and set the position of a satellite module and resets the satellite position when it will get out of the playground.
- * @author Marian P. Felder, Florian Schweikowksi, Daniel Merget
- * @version 0.1
- * Defined class
- */
+//-----------------------------------------------------
+// Class: SatSGP4FisheyeMobility
+//
+// Realizes the SatSGP4Fisheye mobility module - provides methods to get and set
+// the position of a satellite module and resets the satellite position when
+// it gets outside the playground.
+//-----------------------------------------------------
 class SatSGP4FisheyeMobility : public SatSGP4Mobility
 {
 public:
-    /**
-     * @brief Sets a new reference point for the fisheye
-     * @author Daniel Merget
-     * @version 0.1
-     * Method implemented
-     */
+
+    // sets a new reference point for the fisheye
     void setRefCenterPoint(const double& latitude, const double& longitude, const double& altitude);
 
-    /**
-     * @brief Returns the reference point's latitude
-     * @author Daniel Merget
-     * @version 0.1
-     * Method implemented
-     */
+    // returns the reference point's latitude
     double getRefCenterLatitude();
 
-    /**
-     * @brief Returns the reference point's longitude
-     * @author Daniel Merget
-     * @version 0.1
-     * Method implemented
-     */
+    // returns the reference point's longitude
     double getRefCenterLongitude();
 
-    /**
-     * @brief Returns the reference point's altitude
-     * @author Daniel Merget
-     * @version 0.1
-     * Method implemented
-     */
+    // returns the reference point's altitude
     double getRefCenterAltitude();
 
 protected:
-    /**
-     * @brief Initialization of Fisheye
-     * This method is equal to SatSGP4Mobility::initialize() except that it satisfies mapX == mapY for a proper display. It also sets the center reference point.
-     */
-    virtual void initialize(int stage);
 
-    /**
-     * @brief Implements movement of the satellite on the map. Overrides SatSGP4Mobility::move().
-     * @author Daniel Merget
-     * @version 0.1
-     * Method implemented
-     */
-    //void move();
+    // initialize Fisheye
+    // - this method is same as SatSGP4Mobility::initialize() except that it satisfies
+    // - mapX == mapY for a proper display. It also sets the center reference point.
+    virtual void initialize(int stage);
 
     virtual void setTargetPosition();
 
 private:
-    double refCenterLatitude, refCenterLongitude, refCenterAltitude; // Reference point for fisheye
+    // fisheye reference point
+    double refCenterLatitude;
+    double refCenterLongitude;
+    double refCenterAltitude;
+
     double transmitPower;
 };
 

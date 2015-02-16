@@ -20,107 +20,38 @@
 
 class Norad;
 
-/**
- * @class SatSGP4Mobility
- * @brief Realizes the SatSGP4 mobility module.
- * This class realizes the SatSGP4 mobility module. It provides methods to get and set the position of a satellite module and resets the satellite position when it gets outside the playground.
- * @author Andras Varga, Marian P. Felder, Florian Schweikowksi, Daniel Merget
- * @version 0.1
- * Defined class
- * @version 0.2
- * This is now the base class for SatSGP4FisheyeMobility.
- */
+//-----------------------------------------------------
+// Class: SatSGP4Mobility
+//
+// Realizes the SatSGP4 mobility module - provides methods to get and set
+// the position of a satellite module and resets the satellite position when
+// it gets outside the playground.
+//-----------------------------------------------------
 class SatSGP4Mobility : public LineSegmentsMobilityBase
 {
 public:
-    /**
-     * @brief Get x position of satellite
-     * This method returns the x position of the satellite.
-     * @return x-position of satellite on playground (not longitude!)
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual, inline and const
-     */
+    // returns x-position of satellite on playground (not longitude!)
     virtual double getPositionX() const                  { return lastPosition.x; };
 
-    /**
-     * @brief Get y position of satellite
-     * This method returns the y position of the satellite.
-     * @return y-position of satellite on playground (not latitude!)
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual, inline and const
-     */
+    // returns y-position of satellite on playground (not latitude!)
     virtual double getPositionY() const                  { return lastPosition.y; };
 
-    /**
-     * @brief Get altitude of satellite
-     * This method returns the altitude of the satellite.
-     * @return Altitude of the satellite
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual and const
-     */
+    // returns the altitude of the satellite.
     virtual double getAltitude() const;
 
-    /**
-     * @brief Get elevation for satellite
-     * This method returns the elevation for the satellite.
-     * @return Elevation for the satellite in degrees
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual and const
-     */
+    // returns the elevation for the satellite in degrees
     virtual double getElevation(const double& refLatitude, const double& refLongitude, const double& refAltitude = -9999) const;
 
-    /**
-     * @brief Calculate the azimuth from satellite to reference point
-     * @return Azimuth in degrees
-     * @author Daniel Merget
-     * @version 0.1
-     * Method implemented
-     */
+    // returns the azimuth from satellite to reference point in degrees
     virtual double getAzimuth(const double& refLatitude, const double& refLongitude, const double& refAltitude = -9999) const;
 
-    /**
-     * @brief Calculate the distance from satellite to reference point
-     * @return Euclidean distance
-     * @author Daniel Merget
-     * @version 0.1
-     * Method implemented
-     */
+    // returns the Euclidean distance from satellite to reference point
     virtual double getDistance(const double& refLatitude, const double& refLongitude, const double& refAltitude = -9999) const;
 
-    /**
-     * @brief Get elevation for satellite
-     * This method returns the elevation for the satellite.
-     * @return Elevation for the satellite
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual and const
-     */
+    // returns satellite latitude
     virtual double getLatitude() const;
 
-    /**
-     * @brief Get elevation for satellite
-     * This method returns the elevation for the satellite.
-     * @return Elevation for the satellite
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Method is now virtual and const
-     */
+    // returns satellite longitude
     virtual double getLongitude() const;
 
 protected:
@@ -128,44 +59,21 @@ protected:
     int mapX, mapY;
     double transmitPower;
 
-    /**
-     * @brief initialization of module
-     * This method initializes the mobility module and creates a reference to the Norad moudule. Also, timestamps and initial position on playground are managed here.
-     * @param stage Stage of initialization (1: initial positioning)
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Now uses the newly introduced move() method
-     */
-     virtual void initialize(int stage);
+    // initialize module
+    // - creates a reference to the Norad moudule
+    // - timestamps and initial position on playground are managed here.
+    virtual void initialize(int stage);
 
-    /**
-     * @brief Sets the position of satellite. Overridden from LineSegmentsMobilityBase.
-     * This method sets the target position for the satellite. The position is fetched from the Norad module with reference to the current timestamp.
-     * @author Marian P. Felder, Florian Schweikowski, Daniel Merget
-     * @version 0.1
-     * Method implemented
-     * @version 0.2
-     * Now uses the newly introduced move() method
-     */
+    // sets the position of satellite
+    // - sets the target position for the satellite
+    // - the position is fetched from the Norad module with reference to the current timestamp
     virtual void setTargetPosition();
 
-    /**
-     * @brief Resets the position of the satellite. Overridden from LineSegmentsMobilityBase.
-     * This method wraps around the position of the satellite if it reaches the end of the playground.
-     * @author Marian P. Felder, Florian Schweikowski
-     * @version 0.1
-     * Method implemented
-     */
+    // resets the position of the satellite
+    // - wraps around the position of the satellite if it reaches the end of the playground
     virtual void fixIfHostGetsOutside();
 
-    /**
-     * @brief Implements movement of the satellite on the map
-     * @author Daniel Merget
-     * @version 0.1
-     * Method implemented
-     */
+    // implements basic satellite movement on map
     virtual void move();
 };
 

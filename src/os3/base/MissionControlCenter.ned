@@ -30,7 +30,7 @@ module MissionControlCenter
         string cityName = default("");
         @display("t=$cityName");
         @node;
-        
+
     gates:
         input radioIn; // Input gate
         output radioOut; // Output gate

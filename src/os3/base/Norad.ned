@@ -15,13 +15,9 @@
 
 package os3.base;
 
-//
-// Norad module
-//
-// @author Marian P. Felder, Florian Schweikowski
 simple Norad
 {
     parameters:
-        string TLEfile; // Filename of TLE data file
+        string TLEfile;          // filename of TLE data file
         @display("i=msg/book");
 }

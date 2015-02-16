@@ -37,7 +37,7 @@ module Satellite
 
     submodules:
         mobility: <mobilityType> like IMobility { // Module for mobility (parent class -> BasicMobility), BasicMobility -> IMobility
-            @display("p=194,103");
+            @display("p=96,94");
         }
         //mobility : SatSGP4Mobility {
         //     parameters:
@@ -45,11 +45,11 @@ module Satellite
         //}
         notificationBoard: NotificationBoard { // Module for event notification
             parameters:
-                @display("p=61,30;i=block/blackboard");
+                @display("p=221,94");
         }
         NoradModule: Norad { // Module for transformation between omnet and libNorad
             parameters:
-                @display("p=193,30");
+                @display("p=98,35");
         }
     connections allowunconnected:
 

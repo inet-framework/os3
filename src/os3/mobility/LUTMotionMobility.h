@@ -20,13 +20,18 @@
 
 #include "mobility/static/StationaryMobility.h"    // inet
 
+//-----------------------------------------------------
+// Class: LUTMotionMobility
+//
+// Positions a ground station at a specific lat/long
+//-----------------------------------------------------
 class LUTMotionMobility : public StationaryMobility
 {
 public:
-    /** @brief Returns longitude.*/
+    // returns longitude
     double getLUTPositionX();
 
-    /** @brief Returns latitude.*/
+    // returns latitude
     double getLUTPositionY();
 
     virtual Coord getCurrentPosition();
