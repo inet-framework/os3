@@ -1,19 +1,18 @@
 
 package os3.examples.groundstations;
 
-import os3.examples.groundstations.GroundStation;
-
+import os3.base.MissionControlCenter;
 
 network GroundStations
 {
     parameters:
-        int numOfMCCs; // Number of Mission Control Centers
+        int numOfMCCs;
         @display("bgi=background_earth;bgb=2160,1080");
 
     submodules:
-        mcc[numOfGndStations]: GroundStation {
+        mcc[numOfMCCs]: MissionControlCenter {
             parameters:
-                @display("p=112,104;i=misc/building;r=10,,black");
+                @display("p=240,150;i=misc/building;r=10,,black");
         }
     connections allowunconnected:
 }
