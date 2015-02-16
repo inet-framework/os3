@@ -17,7 +17,7 @@ package os3.base;
 
 simple Norad
 {
-    parameters:
-        string TLEfile;          // filename of TLE data file
-        @display("i=msg/book");
+parameters:
+    string TLEfile = default("");          // filename of TLE data file
+    @display("i=msg/book");
 }

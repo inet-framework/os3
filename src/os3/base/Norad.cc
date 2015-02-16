@@ -22,9 +22,14 @@
 #include "os3/libnorad/cOrbit.h"
 #include "os3/libnorad/cSite.h"
 
-#include "os3/base/WebServiceControl.h"
-
 Define_Module(Norad);
+
+Norad::Norad()
+{
+    gap = 0.0;
+    tle = nullptr;
+    orbit = nullptr;
+}
 
 void Norad::finish()
 {
@@ -32,77 +37,52 @@ void Norad::finish()
     delete tle;
 }
 
-void Norad::initializeMobility(const simtime_t &targetTime)
+void Norad::initializeMobility(const simtime_t& targetTime)
 {
-    // Create reference to web service module
-    WebServiceControl* webServiceControl = dynamic_cast< WebServiceControl* >(getParentModule()->getParentModule()
-            ->getSubmodule("cni_os3", 0)->getSubmodule("webServiceControl", 0));
-    if (webServiceControl == NULL) {
-        error("Error in Norad::initializeMobility(): Cannot find WebServiceControl module!");
-        return;
-    }
-
     std::string filename = par("TLEfile").stringValue();
 
-    if (filename.find("TLEdata.txt") != std::string::npos) { // TLE file from GUI
-        // Read TLE File
-        std::fstream tleFile;
-        tleFile.open(filename.c_str());
+    // read file with TLE data
+    std::fstream tleFile;
+    tleFile.open(filename.c_str());
 
-        // Length 100 should be enough since lines are usually 70+'\n' char long
-        char line[100];
-        char line1tmp[100] = "empty";
-        char line2tmp[100] = "empty";
+    // Length 100 should be enough since lines are usually 70+'\n' char long
+    char line[100]     = "";
+    char line1tmp[100] = "";
+    char line2tmp[100] = "";
 
-        std::string satelliteName = getParentModule()->par("satelliteName").stringValue();
-        std::string line_str;
-        if (satelliteName == "") {
-            int index = getParentModule()->getIndex();
-            int i = 0;
-            do {
-                tleFile.getline(line, 100);
-                if (!tleFile.good()) {
-                    EV
-                            << "Error in Norad::initializeMobility(): Cannot read further satellites from TLE file!"
-                            << std::endl;
-                    endSimulation();
-                }
-            } while (i++ < index * 3 && tleFile.good());
+    std::string satelliteName = getParentModule()->par("satelliteName").stringValue();
+    std::string line_str;
+    if (satelliteName == "") {
+        int index = getParentModule()->getIndex();
+        int i = 0;
+        do {
+            tleFile.getline(line, 100);
+            if (!tleFile.good()) {
+                EV
+                        << "Error in Norad::initializeMobility(): Cannot read further satellites from TLE file!"
+                        << std::endl;
+                endSimulation();
+            }
+        } while (i++ < index * 3 && tleFile.good());
+        line_str.append(line);
+    } else {
+        do {
+            line_str = "";
+            tleFile.getline(line, 100);
             line_str.append(line);
-        } else {
-            do {
-                line_str = "";
-                tleFile.getline(line, 100);
-                line_str.append(line);
-            } while (tleFile.good()
-                    && line_str.find(satelliteName.c_str()) == std::string::npos);
-        }
-        tleFile.getline(line1tmp, 100);
-        tleFile.getline(line2tmp, 100);
-
-        // Pretty up the satellites name
-        line_str = line_str.substr(0, line_str.find("  "));
-        line0 = line_str;
-        line1.append(line1tmp);
-        line2.append(line2tmp);
-
-        tle = new cTle(line0, line1, line2);
-
-    } else { // TLE file from web service if GUI is not used
-        std::string satelliteName = getParentModule()->par("satelliteName").stringValue();
-        TLEData newData;
-
-        if (this->getParentModule()->getIndex() == 0)
-            std::cout << "Fetching TLE files for satellites from web service..." << std::endl;
-        if (satelliteName == "") {
-            newData = webServiceControl->getTLEData(filename,this->getParentModule()->getIndex());
-        } else {
-            newData = webServiceControl->getTLEData(filename, satelliteName);
-        }
-
-        tle = new cTle(newData.tleName, newData.tleLine1, newData.tleLine2);
-
+        } while (tleFile.good()
+                && line_str.find(satelliteName.c_str()) == std::string::npos);
     }
+    tleFile.getline(line1tmp, 100);
+    tleFile.getline(line2tmp, 100);
+
+    // Pretty up the satellites name
+    line_str = line_str.substr(0, line_str.find("  "));
+    line0 = line_str;
+    line1.append(line1tmp);
+    line2.append(line2tmp);
+    tle = new cTle(line0, line1, line2);
+
     orbit = new cOrbit(*tle);
 
     // Gap is needed to eliminate different start times
@@ -124,7 +104,7 @@ void Norad::initializeMobility(const simtime_t &targetTime)
     getParentModule()->setName(satName.c_str());
 }
 
-void Norad::updateTime(const simtime_t &targetTime)
+void Norad::updateTime(const simtime_t& targetTime)
 {
     orbit->getPosition((gap + targetTime.dbl()) / 60, &eci);
     geoCoord = eci.toGeo();

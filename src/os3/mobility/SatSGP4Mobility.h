@@ -30,6 +30,8 @@ class Norad;
 class SatSGP4Mobility : public LineSegmentsMobilityBase
 {
 public:
+    SatSGP4Mobility();
+
     // returns x-position of satellite on playground (not longitude!)
     virtual double getPositionX() const                  { return lastPosition.x; };
 

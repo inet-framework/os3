@@ -35,8 +35,10 @@ class cOrbit;
 // this class provides the functionality needed to get the positions for satellites according
 // to current tables from web information by providing known data
 //-----------------------------------------------------
-class Norad : public cSimpleModule {
+class Norad : public cSimpleModule
+{
 public:
+    Norad();
 
     // sets the internal calendar by translating the current gregorian time
     // currentTime: time at which the simulation takes place
@@ -44,13 +46,13 @@ public:
 
     // Updates the end time of current linear movement for calculation of current position
     // targetTime: End time of current linear movement
-    void updateTime(const simtime_t &targetTime);
+    void updateTime(const simtime_t& targetTime);
 
     // This method gets the current simulation time, cares for the file download (happens only once)
     // of the TLE files from the web and reads the values for the satellites according to the
     // omnet.ini-file. The information is provided by the respective mobility class.
     // targetTime: End time of current linear movement
-    virtual void initializeMobility(const simtime_t &targetTime);
+    virtual void initializeMobility(const simtime_t& targetTime);
 
     // returns the longitude
     double getLongitude();
@@ -76,7 +78,6 @@ protected:
     virtual void handleMessage(cMessage* msg);
 
 private:
-
     cEci eci;
     cJulian currentJulian;
     double gap;
@@ -84,7 +85,10 @@ private:
     cTle* tle;
     cOrbit* orbit;
     cCoordGeo geoCoord;
-    std::string line0, line1, line2, line3;
+    std::string line0;
+    std::string line1;
+    std::string line2;
+    std::string line3;
 };
 
 #endif

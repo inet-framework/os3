@@ -22,6 +22,14 @@
 
 Define_Module(SatSGP4Mobility);
 
+SatSGP4Mobility::SatSGP4Mobility()
+{
+   noradModule = nullptr;
+   mapX = 0;
+   mapY = 0;
+   transmitPower = 0.0;
+}
+
 void SatSGP4Mobility::initialize(int stage)
 {
     // noradModule must be initialized before LineSegmentsMobilityBase calling setTargetPosition() in its initialization at stage 1
@@ -30,22 +38,21 @@ void SatSGP4Mobility::initialize(int stage)
     }
     LineSegmentsMobilityBase::initialize(stage);
 
-    noradModule = check_and_cast< Norad* >(this->getParentModule()->getSubmodule("NoradModule"));
-    if (noradModule == NULL) {
+    noradModule = check_and_cast< Norad* >(getParentModule()->getSubmodule("NoradModule"));
+    if (noradModule == nullptr) {
         error("Error in SatSGP4Mobility::initializeMobility(): Cannot find module Norad.");
     }
 
-    std::tm* currentTime;
-    std::time_t timestamp = std::time(0);
-    currentTime = std::gmtime(&timestamp);
+    std::time_t timestamp = std::time(nullptr);       // get current time as an integral value holding the num of secs
+                                                      // since 00:00, Jan 1 1970 UTC
+    std::tm* currentTime = std::gmtime(&timestamp);   // convert timestamp into structure holding a calendar date and time
 
-    // Convert to julian time
     noradModule->setJulian(currentTime);
 
-    mapX = std::atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 0));
-    mapY = std::atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 1));
+    mapX = std::atoi(getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 0));
+    mapY = std::atoi(getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 1));
 
-    transmitPower = this->getParentModule()->par("transmitPower");
+    transmitPower = getParentModule()->par("transmitPower");
 
     ev << "initializing SatSGP4Mobility stage " << stage << endl;
     WATCH(lastPosition);

@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -11,16 +11,17 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-//
+//-----------------------------------------------------
 
 #include "os3/base/WeatherControl.h"
 #include "os3/base/WebServiceControl.h"
 
 Define_Module(WeatherControl);
 
-void WeatherControl::initialize() {
+void WeatherControl::initialize()
+{
     // Create reference to WebServiceControl module
-    webServiceControl = dynamic_cast< WebServiceControl* >(this->getParentModule()->getSubmodule("webServiceControl"));
+    webServiceControl = dynamic_cast< WebServiceControl* >(getParentModule()->getSubmodule("webServiceControl"));
     if (webServiceControl == NULL) {
         error("Error in WeatherControl::initialize(): Could not find WebServiceControl module.");
     }
@@ -29,11 +30,13 @@ void WeatherControl::initialize() {
     defaultPrecipPerHour = par("defaultPrecipPerHour");
 }
 
-void WeatherControl::handleMessage(cMessage *msg) {
+void WeatherControl::handleMessage(cMessage *msg)
+{
     error("Error in WeatherControl::handleMessage(): This module is not able to handle messages.");
 }
 
-void WeatherControl::setWeatherGimmick(const double &latitude, const double &longitude) {
+void WeatherControl::setWeatherGimmick(const double &latitude, const double &longitude)
+{
     // Fetch symbol fitting current weather situation
     std::string tmpString = webServiceControl->getWeatherData(latitude, longitude).weatherIconURL;
 
@@ -54,15 +57,16 @@ void WeatherControl::setWeatherGimmick(const double &latitude, const double &lon
     symbolString += tmpString;
 
     // Set weather symbol to module
-    this->getDisplayString().setTagArg("i", 0, symbolString.c_str());
+    getDisplayString().setTagArg("i", 0, symbolString.c_str());
 
     // Set weather symbol in CNI-OS3 icon to display in map
-    this->getParentModule()->getDisplayString().setTagArg("i", 0, symbolString.c_str());
+    getParentModule()->getDisplayString().setTagArg("i", 0, symbolString.c_str());
 
     return;
 }
 
-double WeatherControl::getPrecipPerHour(const double &latitude, const double &longitude) {
+double WeatherControl::getPrecipPerHour(const double &latitude, const double &longitude)
+{
     // Check if default value is set. If this is the case => return value. Otherwise, fetch live data from WebService module
     if (defaultPrecipPerHour != -1) {
         return defaultPrecipPerHour;
@@ -77,7 +81,8 @@ double WeatherControl::getPrecipPerHour(const double &latitude, const double &lo
     return currentData.precipMM / 24; //transform precip per day to precip per hour
 }
 
-void WeatherControl::setDefaultPrecipPerHour(double precipValue) {
+void WeatherControl::setDefaultPrecipPerHour(double precipValue)
+{
     defaultPrecipPerHour = precipValue;
 }
 

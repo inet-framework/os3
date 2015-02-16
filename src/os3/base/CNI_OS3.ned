@@ -8,10 +8,10 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
 package os3.base;
 
@@ -21,10 +21,6 @@ import inet.mobility.single.ConstSpeedMobility;
 //
 // Bundles the control modules for the OS³ satellite simulator.
 // ATTENTION: This version only works with INET version 20111118!!! Porting to INET 2.0 is scheduled for November 2012.
-//
-// @author Sarah Lehnhausen, Dennis Kaulbars
-// @version 0.1
-// Module defined
 //
 module CNI_OS3
 {

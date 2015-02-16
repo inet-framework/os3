@@ -21,12 +21,9 @@
 class WebServiceControl;
 
 /**
- * @class WeatherControl
- * @brief Contributes weather information for the simulation model.
+ * Class: WeatherControl
+ * Contributes weather information for the simulation model.
  * This class gets weather information from web service and integrates them in the simulation.
- * @author Sarah Lehnhausen, Dennis Kaulbars
- * @version 0.1
- * Class defined
  */
 class WeatherControl : public cSimpleModule
 {
@@ -39,15 +36,6 @@ public:
      * (1: rainy, 2: cloudy, 3: suncloudy, 4: sunny)
      * @param latitude coordinate for the reference point
      * @param longitude coordinate for the reference point
-     * @author Sarah Lehnhausen, Dennis Kaulbars, Daniel Merget
-     * @version 0.1
-     * Method defined
-     * @version 0.2
-     * Added support for new enum type
-     * @version 0.3
-     * Version is using live weather data from WebServiceControl module, weather index is now not needed any more
-     * @version 0.2
-     * Coordinates for the reference point are now required (formerly taken from UserConfig)
      */
     void setWeatherGimmick(const double &latitude, const double &longitude);
 
@@ -59,13 +47,6 @@ public:
      * @param latitude Coordinate for the reference point
      * @param longitude Coordinate for the reference point
      * @return Current precipation in mm/(m²*h)
-     * @author Sarah Lehnhausen, Dennis Kaulbars, Daniel Merget
-     * @version 0.1
-     * Method defined
-     * @version 0.2
-     * Coordinates for the reference point are now required (formerly taken from UserConfig)
-     * @version 0.3
-     * Integrated default value handling
      */
     double getPrecipPerHour(const double &latitude, const double &longitude);
 
@@ -74,9 +55,6 @@ public:
      * This method sets the default precip (=rainfall) per hour value if live weather data should not be evaluated for a scenario.
      * Does not update the weatherGimmick.
      * @param precipValue Precipitation (rainfall per hour value)
-     * @author Dennis Kaulbars
-     * @version 0.1
-     * Method defined
      */
     void setDefaultPrecipPerHour(double precipValue);
 
@@ -84,20 +62,9 @@ protected:
     /**
      * @brief Initialize reference to WebServiceControl module and set weather icon.
      * This method initializes a connection to the WebServiceControl module and predefines weather icon.
-     * @author Sarah Lehnhausen, Dennis Kaulbars
-     * @version 0.1
-     * Method defined
      */
     virtual void initialize();
 
-    /**
-     * @brief Dummy
-     * This method is just a dummy method. No action is taking place here.
-     * @param msg omnet-message
-     * @author Sarah Lehnhausen, Dennis Kaulbars
-     * @version 0.1
-     * Method implemented
-     */
     virtual void handleMessage(cMessage* msg);
 
 private:
