@@ -33,6 +33,9 @@ class Calculation;
 //-----------------------------------------------------
 class Observer : public cSimpleModule
 {
+public:
+    Observer();
+
 protected:
 
     // initializes Observer module and calls setPosition()

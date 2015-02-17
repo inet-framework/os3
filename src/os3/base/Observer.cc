@@ -27,6 +27,20 @@ Define_Module(Observer);
 #include "os3/mobility/SatSGP4Mobility.h"
 #include "os3/mobility/SatSGP4FisheyeMobility.h"
 
+Observer::Observer()
+{
+   Sat         = nullptr;
+   calculation = nullptr;
+   timer       = nullptr;
+   longitude   = 0.0;
+   latitude    = 0.0;
+   altitude    = 0.0;
+   lastelv     = 0.0;
+   interval    = 0.0;
+   numgps      = 0;
+   gps         = false;
+}
+
 void Observer::initialize()
 {
     longitude = par("ObserverLongitude");
@@ -54,8 +68,7 @@ void Observer::initialize()
     if (gps == true) {
 
         for (int i = 0; i < numgps; i++) {
-            gpsSats[i] =
-                dynamic_cast<SatSGP4FisheyeMobility*>(getParentModule()->getSubmodule("satellite", i)->getSubmodule("mobility", 0));
+            gpsSats[i] = dynamic_cast<SatSGP4FisheyeMobility*>(getParentModule()->getSubmodule("satellite", i)->getSubmodule("mobility", 0));
             if (Sat == nullptr) {
                 error("Error in Observer::initialize(): Could not find Satellite module.");
             } else {
