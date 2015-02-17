@@ -33,7 +33,7 @@ void SatSGP4FisheyeMobility::initialize(int stage)
     refCenterLongitude = par("refCenterLongitude");
     refCenterLatitude = par("refCenterLatitude");
     refCenterAltitude = par("refCenterAltitude");
-    transmitPower = this->getParentModule()->par("transmitPower");
+    transmitPower = getParentModule()->par("transmitPower");
 }
 
 void SatSGP4FisheyeMobility::setTargetPosition()

@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -11,7 +11,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-//
+//-----------------------------------------------------
 
 #include "os3/base/Observer.h"
 
@@ -34,21 +34,16 @@ void Observer::initialize()
     altitude = par("ObserverAltitude");
     interval = par("TimerInterval");
 
-    Sat = dynamic_cast<SatSGP4Mobility*>(this->getParentModule()->getSubmodule(
-            "satellite", 0)->getSubmodule("mobility", 0));
-    if (Sat == NULL) {
-        error(
-                "Error in Observer::initialize(): Could not find Satellite module.");
+    Sat = dynamic_cast<SatSGP4Mobility*>(getParentModule()->getSubmodule("satellite", 0)->getSubmodule("mobility", 0));
+    if (Sat == nullptr) {
+        error("Error in Observer::initialize(): Could not find Satellite module.");
     } else {
         std::cout << "Satellite module found!" << std::endl;
     }
 
-    calculation =
-            dynamic_cast<Calculation*>(this->getParentModule()->getSubmodule(
-                    "cni_os3", 0)->getSubmodule("calculation", 0));
-    if (calculation == NULL) {
-        error(
-                "Error in Observer::initialize(): Could not find Calculation module.");
+    calculation = dynamic_cast<Calculation*>(getParentModule()->getSubmodule("cni_os3", 0)->getSubmodule("calculation", 0));
+    if (calculation == nullptr) {
+        error("Error in Observer::initialize(): Could not find Calculation module.");
     } else {
         std::cout << "Calculation module found!" << std::endl;
     }
@@ -60,11 +55,9 @@ void Observer::initialize()
 
         for (int i = 0; i < numgps; i++) {
             gpsSats[i] =
-                    dynamic_cast<SatSGP4FisheyeMobility*>(this->getParentModule()->getSubmodule(
-                            "satellite", i)->getSubmodule("mobility", 0));
-            if (Sat == NULL) {
-                error(
-                        "Error in Observer::initialize(): Could not find Satellite module.");
+                dynamic_cast<SatSGP4FisheyeMobility*>(getParentModule()->getSubmodule("satellite", i)->getSubmodule("mobility", 0));
+            if (Sat == nullptr) {
+                error("Error in Observer::initialize(): Could not find Satellite module.");
             } else {
                 std::cout << "Satellite module found!" << std::endl;
             }
@@ -111,10 +104,10 @@ void Observer::handleMessage(cMessage* msg)
 {
     if (msg->isSelfMessage()) {
         if (gps == true) {
-            double bandwidth = 2000000; // GPS bandwidth
+            const double bandwidth = 2000000; // GPS bandwidth
             for (int i = 0; i < numgps; i++) {
-                double tempsnr = checksnr(i, bandwidth);
-                double tempcn0 = tempsnr + 10 * log10(bandwidth);
+                const double tempsnr = checksnr(i, bandwidth);
+                const double tempcn0 = tempsnr + 10 * std::log10(bandwidth);
 
                 outfile
                         << i
@@ -129,15 +122,14 @@ void Observer::handleMessage(cMessage* msg)
 
         } else {
 
-            double elevation = Sat->getElevation(latitude, longitude, altitude);
+            const double elevation = Sat->getElevation(latitude, longitude, altitude);
 
             if ((elevation > 10) | (lastelv > 10)) { // Satellite in view or just out of view
 
-                double azimuth = Sat->getAzimuth(latitude, longitude, altitude);
+                const double azimuth = Sat->getAzimuth(latitude, longitude, altitude);
 
-                tm *currentTime;
-                time_t runtime = timestamp + simTime().dbl();
-                currentTime = std::localtime(&runtime);
+                std::time_t runtime = timestamp + simTime().dbl();
+                std::tm* currentTime = std::localtime(&runtime);
 
                 if ((elevation > 10) & (lastelv < 10)) // First time satellite is in view
                     outfile << currentTime->tm_mday << "."
@@ -163,23 +155,22 @@ void Observer::handleMessage(cMessage* msg)
             }
             scheduleAt(simTime() + interval, timer);
         }
-    } else
+    } else {
         error("Observer should not receive Message other than self message");
+    }
 }
 
 void Observer::setPosition(double latitude, double longitude)
 {
-    const double mapx = std::atoi(
-            this->getParentModule()->getDisplayString().getTagArg("bgb", 0));
-    const double mapy = std::atoi(
-            this->getParentModule()->getDisplayString().getTagArg("bgb", 1));
+    const double mapx = std::atoi(getParentModule()->getDisplayString().getTagArg("bgb", 0));
+    const double mapy = std::atoi(getParentModule()->getDisplayString().getTagArg("bgb", 1));
 
     double posY = ((-mapy * latitude) / 180) + (mapy / 2);
     double posX = mapx * longitude / 360 + (mapx / 2);
     posX = static_cast<int>(posX) % static_cast<int>(mapx);
 
-    this->getDisplayString().setTagArg("p", 0, static_cast<long>(posX));
-    this->getDisplayString().setTagArg("p", 1, static_cast<long>(posY));
+    getDisplayString().setTagArg("p", 0, static_cast<long>(posX));
+    getDisplayString().setTagArg("p", 1, static_cast<long>(posY));
 }
 
 double Observer::checksnr(int satindex, double bandwidth)
@@ -196,7 +187,8 @@ double Observer::checksnr(int satindex, double bandwidth)
     return snr;
 }
 
-void Observer::finish() {
+void Observer::finish()
+{
     outfile.close();
     cancelAndDelete(timer);
 }

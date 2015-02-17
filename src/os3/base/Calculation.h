@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -11,7 +11,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-//
+//-----------------------------------------------------
 
 #ifndef __OS3_Calculation_H__
 #define __OS3_Calculation_H__
@@ -26,7 +26,8 @@
  * Jt: "Thunderstorm" Distribution
  * Jd: "Drizzle" Distribution
  */
-struct rainCoefficients {
+struct rainCoefficients
+{
     double aLPl;
     double aLPh;
     double aMP;
@@ -43,12 +44,10 @@ class UserConfig;
 class WeatherControl;
 class WebServiceControl;
 
-/**
- * @class Calculation
- * @brief Helper-class for calculating path loss, distances, etc.
- * @version 0.2
- * Removed some unnecessary member variables and general cleanup
- */
+//-----------------------------------------------------
+// Class: Calculation
+// Helper-class for calculating path loss, distances, etc.
+//-----------------------------------------------------
 class Calculation : public cSimpleModule
 {
 public:
@@ -57,9 +56,6 @@ public:
      * @brief Convenience function
      * @param rad Angle in radiants
      * @return Angle in degrees
-     * @author Daniel Merget
-     * @version 0.1
-     * created
      */
     static inline double rad2deg(const double& rad);
 
@@ -67,9 +63,6 @@ public:
      * @brief Convenience function
      * @param deg Angle in degrees
      * @return Angle in radiants
-     * @author Daniel Merget
-     * @version 0.1
-     * created
      */
     static inline double deg2rad(const double& deg);
 
@@ -78,15 +71,6 @@ public:
      * @param satIndex Index of the satellite
      * @param lambda Wave length
      * @return Free space loss in dB
-     * @author Dennis Kaulbars, Sarah Lehnhausen, Daniel Merget
-     * @version 0.1
-     * created
-     * @version 0.2
-     * added param mobilityType
-     * @version 0.3
-     * mobilityType is not used anymore
-     * @version 0.4
-     * Now requires a reference point (formerly taken from UserConfig)
      */
     double calcFSL(const int& satIndex, const double& lambda, const double& latitude,
                    const double& longitude, const double& altitude = -9999);
@@ -98,8 +82,6 @@ public:
      * @param latitude2 Latitude second node
      * @param longitude2 Longitude second node
      * @return Planar euclidean distance between the two given nodes
-     * @author Dennis Kaulbars, Sarah Lehnhausen, Daniel Merget
-     * @version 0.1
      */
     double calcDistance(const double& latitude1, const double& longitude1,
                         const double& latitude2, const double& longitude2);
@@ -119,15 +101,6 @@ public:
      * @param tR Receiver noise temperature, default 150 K
      * @param dR Highest point of rain area in km, default 3 is average for mild climate
      * @return SNR in dB
-     * @author Dennis Kaulbars, Sarah Lehnhausen, Daniel Merget
-     * @version 0.1
-     * implemented
-     * @version 0.2
-     * Now requires a reference point (formerly taken from UserConfig)
-     * @version 0.3
-     * dG and dR are variabel now
-     * @version 0.4
-     * includes variabel tR
      */
     double calcSNR(
             const double& transmitterGain,     // in dB
@@ -156,11 +129,6 @@ public:
      * @param tR Receiver noise temperature, default 150 K
      * @param dR Highest point of rain area in km, default 3 is average for mild climate
      * @return index of the best-in-reach satellite
-     * @author Dennis Kaulbars, Sarah Lehnhausen, Daniel Merget
-     * @version 0.1
-     * implemented
-     * @version 0.2
-     * Now requires more input parameters (fitting calcSNR parameters)
      */
     int getScoredSatfromSNR(
             const double& latitude,
@@ -176,47 +144,29 @@ public:
 
 protected:
 
-    /**
-     * Initializes Calculation module and calls fillRainMap()
-     * @author Dennis Kaulbars, Sarah Lehnhausen
-     * @version 0.1
-     */
+    // initializes Calculation module and calls fillRainMap()
     virtual void initialize();
 
-    /**
-     * @brief dummy
-     * This method is just a dummy method. No action is taking place here.
-     * @param msg Omnetpp-message
-     * @author Dennis Kaulbars
-     * @version 0.1
-     * Method implemented
-     */
     virtual void handleMessage(cMessage* msg);
 
-    /**
-     * Fills the rainCoeffMap with the Values from CSV file (default: misc/TablespecRain.csv)
-     * @author Dennis Kaulbars, Sarah Lehnhausen
-     * @version 0.1
-     */
+    // fills the rainCoeffMap with the Values from CSV file (default: misc/TablespecRain.csv)
     void fillRainMap();
 
     /**
      * Maps the given frequency to an frequency existing in the table for RainCoefficients
      * @param Frequency Frequency of used system
      * @return Nearest frequency existing in rainCoeffMap
-     * @author Dennis Kaulbars, Sarah Lehnhausen
-     * @version 0.1
      */
     double getMappedFrequency(const double& frequency);
 
 private:
-    // Constants
+
     static const double C;              // In m/s;
     static const double Boltzmann;      // In dBWs/K
     static const double EarthRadius;    // In km
 
     std::string rainTableFile;
-    std::map< double, rainCoefficients > rainCoeffMap; // Used for calculation of specific rain attenuation
+    std::map< double, rainCoefficients > rainCoeffMap;  // Used for calculation of specific rain attenuation
 
     UserConfig* userConfig;
     WeatherControl* weatherControl;

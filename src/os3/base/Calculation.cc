@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -11,7 +11,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-//
+//-----------------------------------------------------
 
 #include "os3/base/Calculation.h"
 
@@ -26,23 +26,26 @@
 
 Define_Module(Calculation);
 
-const double Calculation::C = 299792458; // In m/s;
-const double Calculation::Boltzmann = -228.6; // In dBWs/K
-const double Calculation::EarthRadius = 6378.137764899274; // In km
+const double Calculation::C = 299792458;                    // In m/s;
+const double Calculation::Boltzmann = -228.6;               // In dBWs/K
+const double Calculation::EarthRadius = 6378.137764899274;  // In km
 
 void Calculation::initialize()
 {
-    userConfig = dynamic_cast< UserConfig* >(this->getParentModule()->getSubmodule("userConfig"));
-    if (userConfig == NULL)
+    userConfig = dynamic_cast< UserConfig* >(getParentModule()->getSubmodule("userConfig"));
+    if (userConfig == nullptr) {
         error("Error in Calculation::initialize(): Could not find module 'UserConfig'.");
+    }
 
-    webserviceControl = dynamic_cast< WebServiceControl* >(this->getParentModule()->getSubmodule("webServiceControl"));
-    if (webserviceControl == NULL)
+    webserviceControl = dynamic_cast< WebServiceControl* >(getParentModule()->getSubmodule("webServiceControl"));
+    if (webserviceControl == nullptr) {
         error("Error in Calculation::initialize(): Could not find module 'WebserviceControl'.");
+    }
 
-    weatherControl = dynamic_cast< WeatherControl* >(this->getParentModule()->getSubmodule("weatherControl"));
-    if (weatherControl == NULL)
+    weatherControl = dynamic_cast< WeatherControl* >(getParentModule()->getSubmodule("weatherControl"));
+    if (weatherControl == nullptr) {
         error("Error in Calculation::initialize(): Could not find module 'WeatherControl'.");
+    }
 
     // Fill map with coefficients for specific rain attenuation
     fillRainMap();
@@ -150,10 +153,11 @@ double Calculation::calcFSL(const int& satIndex,     const double& lambda,  cons
 double Calculation::calcDistance(const double& latitude1, const double& longitude1,
                                  const double& latitude2, const double& longitude2)
 {
-    return EarthRadius
-            * (std::acos(
-                  std::sin(deg2rad(latitude1)) * std::sin(deg2rad(latitude2))
-                  + std::cos(deg2rad(latitude1)) * std::cos(deg2rad(latitude2)) * std::cos(deg2rad(longitude2 - longitude1))));
+    return EarthRadius *
+           (std::acos(
+                  std::sin(deg2rad(latitude1)) * std::sin(deg2rad(latitude2)) +
+                  std::cos(deg2rad(latitude1)) * std::cos(deg2rad(latitude2)) *
+                  std::cos(deg2rad(longitude2 - longitude1))));
 }
 
 double Calculation::calcSNR(const double& transmitterGain, const double& receiverGain, const double& transmitterPower,
@@ -173,10 +177,10 @@ double Calculation::calcSNR(const double& transmitterGain, const double& receive
     else
         alt = altitude;
 
-    double elevation = userConfig->getSatMobility().at(satIndex)->getElevation(latitude, longitude, alt);
+    const double elevation = userConfig->getSatMobility().at(satIndex)->getElevation(latitude, longitude, alt);
 
     // Map frequency on listed frequencies given in rainCoeffMap
-    double newFreq = getMappedFrequency(frequency / 1e9); // Frequency in map in GHz
+    const double newFreq = getMappedFrequency(frequency / 1e9); // Frequency in map in GHz
 
     // Get values from rainCoeffMap
     std::map< double, rainCoefficients >::iterator rainCoeffMapIt = rainCoeffMap.find(newFreq);
@@ -222,17 +226,16 @@ int Calculation::getScoredSatfromSNR(const double& latitude, const double& longi
 
     for (int index = 0; index < sat_count; index++) {
 
-        double snr = calcSNR(transmitterGain, receiverGain, transmitterPower, lambda, index,
+        const double snr = calcSNR(transmitterGain, receiverGain, transmitterPower, lambda, index,
                                         bandwidth, latitude, longitude, altitude, dG, tR, dR);
-
 
         if (snr >= userConfig->getParameters().min_snr) {
             struct SAT s;
             s.satIndex = index;
             s.snr = snr;
-            if (scoredSatList.empty() == true)
+            if (scoredSatList.empty() == true) {
                 scoredSatList.push_back(s);
-            else {
+            } else {
                 std::list< struct SAT >::iterator it = scoredSatList.begin();
 
                 // Insert satellite into list (sorted by SNR)
@@ -258,8 +261,8 @@ int Calculation::getScoredSatfromSNR(const double& latitude, const double& longi
 
 double Calculation::getMappedFrequency(const double& frequency)
 {
-    double mindist = -1;
-    double freq;
+    double mindist(-1);
+    double freq(0.0);
 
     // Check if frequency already exists in map
     if (rainCoeffMap.find(frequency) != rainCoeffMap.end()) {
@@ -274,7 +277,6 @@ double Calculation::getMappedFrequency(const double& frequency)
                 freq = rainCoeffMapIt->first;
             }
         }
-
         return freq;
     }
 }

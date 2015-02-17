@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -11,7 +11,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-//
+//-----------------------------------------------------
 
 #ifndef __OS3_Observer_H__
 #define __OS3_Observer_H__
@@ -26,45 +26,30 @@ class SatSGP4Mobility;
 class SatSGP4FisheyeMobility;
 class Calculation;
 
-/**
- * @class Observer
- * @brief Base Station with example function to check when a satellite is in view or to calculate the C/N0 for GPS satellites
- * @author Sarah Lehnhausen
- * @version 0.1
- */
-
+//-----------------------------------------------------
+// Class: Observer
+// Base Station with example function to check when a satellite is in
+// view or to calculate the C/N0 for GPS satellites
+//-----------------------------------------------------
 class Observer : public cSimpleModule
 {
 protected:
 
-    /**
-     * Initializes Observer module and calls setPosition()
-     * @author Sarah Lehnhausen
-     * @version 0.1
-     */
+    // initializes Observer module and calls setPosition()
     virtual void initialize();
 
     /**
      * checks every update interval if a certain satellite is in view and writes results to an output file
      * @param msg Omnetpp-message
-     * @author Sarah Lehnhausen
-     * @version 0.1
      */
     virtual void handleMessage(cMessage* msg);
 
-    /**
-     * The written file is closed
-     * @author Sarah Lehnhausen
-     * @version 0.1
-     */
     virtual void finish();
 
     /**
      * Sets the position on the map
      * @param latitude Latitude of Observer
      * @param longitude Longitude of Observer
-     * @author Sarah Lehnhausen
-     * @version 0.1
      */
     void setPosition(double latitude, double longitude);
 
@@ -72,8 +57,6 @@ protected:
      * Calculates SNR for given satellite
      * @param satindex index of satellite
      * @param bandwidth bandwidth of used channel
-     * @author Sarah Lehnhausen
-     * @version 0.1
      */
     double checksnr(int satindex, double bandwidth);
 

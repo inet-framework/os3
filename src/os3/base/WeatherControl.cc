@@ -22,7 +22,7 @@ void WeatherControl::initialize()
 {
     // Create reference to WebServiceControl module
     webServiceControl = dynamic_cast< WebServiceControl* >(getParentModule()->getSubmodule("webServiceControl"));
-    if (webServiceControl == NULL) {
+    if (webServiceControl == nullptr) {
         error("Error in WeatherControl::initialize(): Could not find WebServiceControl module.");
     }
 

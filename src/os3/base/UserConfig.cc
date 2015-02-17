@@ -1,4 +1,4 @@
-//
+//-----------------------------------------------------
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -11,7 +11,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-//
+//-----------------------------------------------------
 
 #include "os3/base/UserConfig.h"
 
@@ -29,8 +29,8 @@ void UserConfig::initialize()
     userParameters.frequency = par("frequency");
     userParameters.min_snr = par("min_snr");
 
-    userParameters.mapX = std::atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 0));
-    userParameters.mapY = std::atoi(this->getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 1));
+    userParameters.mapX = std::atoi(getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 0));
+    userParameters.mapY = std::atoi(getParentModule()->getParentModule()->getDisplayString().getTagArg("bgb", 1));
 
     initializeSatMobility();
 }
@@ -48,7 +48,7 @@ void UserConfig::initializeSatMobility()
         std::sprintf(name, "satellite[%d].mobility", i);
         SatSGP4Mobility* mob = check_and_cast< SatSGP4Mobility* >(simulation.getModuleByPath(name));
 
-        if (mob != NULL)
+        if (mob != nullptr)
             satmoVector.push_back(mob);
         else {
             std::sprintf(name, "Error in UserConfig::initializeSatFisheyeMobility(): Could not find module \"%s\".", name);

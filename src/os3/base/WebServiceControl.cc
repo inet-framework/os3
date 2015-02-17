@@ -15,6 +15,8 @@
 
 #include "os3/base/WebServiceControl.h"
 
+#include <cmath>
+
 Define_Module(WebServiceControl);
 
 void WebServiceControl::initialize()
@@ -194,7 +196,7 @@ double WebServiceControl::requestAltitudeData(const double& latitude, const doub
     curl_easy_perform(easyHandle);
     curl_easy_cleanup(easyHandle);
 
-    return atof(resultString.c_str());
+    return std::atof(resultString.c_str());
 }
 
 std::string WebServiceControl::requestTLEData(std::string fileName)
@@ -248,39 +250,39 @@ WeatherData WebServiceControl::evaluateWeatherInformation(std::string dataString
 
     std::string temp = dataString.substr(0, dataString.find(","));
     dataString.erase(0, dataString.find(",") + 1);
-    resultData.tempMaxC = atof(temp.c_str());
+    resultData.tempMaxC = std::atof(temp.c_str());
 
     temp = dataString.substr(0, dataString.find(","));
     dataString.erase(0, dataString.find(",") + 1);
-    resultData.tempMaxF = atof(temp.c_str());
+    resultData.tempMaxF = std::atof(temp.c_str());
 
     temp = dataString.substr(0, dataString.find(","));
     dataString.erase(0, dataString.find(",") + 1);
-    resultData.tempMinC = atof(temp.c_str());
+    resultData.tempMinC = std::atof(temp.c_str());
 
     temp = dataString.substr(0, dataString.find(","));
     dataString.erase(0, dataString.find(",") + 1);
-    resultData.tempMinF = atof(temp.c_str());
+    resultData.tempMinF = std::atof(temp.c_str());
 
     temp = dataString.substr(0, dataString.find(","));
     dataString.erase(0, dataString.find(",") + 1);
-    resultData.windSpeedMiles = atof(temp.c_str());
+    resultData.windSpeedMiles = std::atof(temp.c_str());
 
     temp = dataString.substr(0, dataString.find(","));
     dataString.erase(0, dataString.find(",") + 1);
-    resultData.windSpeedKmph = atof(temp.c_str());
+    resultData.windSpeedKmph = std::atof(temp.c_str());
 
     temp = dataString.substr(0, dataString.find(","));
     dataString.erase(0, dataString.find(",") + 1);
-    resultData.windDirDegree = atof(temp.c_str());
+    resultData.windDirDegree = std::atof(temp.c_str());
 
     temp = dataString.substr(0, dataString.find(","));
     dataString.erase(0, dataString.find(",") + 1);
-    resultData.windDir16Point = atof(temp.c_str());
+    resultData.windDir16Point = std::atof(temp.c_str());
 
     temp = dataString.substr(0, dataString.find(","));
     dataString.erase(0, dataString.find(",") + 1);
-    resultData.weatherCode = atof(temp.c_str());
+    resultData.weatherCode = std::atof(temp.c_str());
 
     resultData.weatherIconURL = dataString.substr(0, dataString.find(","));
     dataString.erase(0, dataString.find(",") + 1);
@@ -290,7 +292,7 @@ WeatherData WebServiceControl::evaluateWeatherInformation(std::string dataString
 
     temp = dataString.substr(0, dataString.find(","));
     dataString.erase(0, dataString.find(",") + 1);
-    resultData.precipMM = atof(temp.c_str());
+    resultData.precipMM = std::atof(temp.c_str());
 
     return resultData;
 }
@@ -312,8 +314,7 @@ TLEData WebServiceControl::evaluateTLEData(std::string dataString, unsigned int 
 
     // Check if number of satellites contained in dataString fits to numSat
     if (numSat >= numSatTXT) {
-        error(
-                "Error in WebServiceControl::evaluateTLEData(): numSat too big (greater or equal than number of satellites contained in textfile)");
+        error("Error in WebServiceControl::evaluateTLEData(): numSat too big (greater or equal than number of satellites contained in textfile)");
         return resultData;
     }
 
@@ -391,7 +392,7 @@ double WebServiceControl::getAltitudeData(const double& latitude, const double& 
         altitudeCache.erase(key);
         altitudeCache.insert(altitudeCache.end(), std::make_pair(key, currentAltitude));
     }
-    catch (std::out_of_range &oor) {
+    catch (std::out_of_range& oor) {
         // Value is not cached => fetch current altitude data
         currentAltitude = requestAltitudeData(latitude, longitude);
 
