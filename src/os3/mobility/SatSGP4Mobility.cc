@@ -18,7 +18,7 @@
 #include <ctime>
 #include <cmath>
 
-#include "os3/base/Norad.h"
+#include "os3/mobility/Norad.h"
 
 Define_Module(SatSGP4Mobility);
 

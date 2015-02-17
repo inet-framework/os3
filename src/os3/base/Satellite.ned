@@ -15,11 +15,12 @@
 
 
 package os3.base;
-import os3.base.Norad;
-import inet.base.NotificationBoard;
-import inet.mobility.contract.IMobility;
-import os3.mobility.SatSGP4Mobility;
 
+import inet.base.NotificationBoard;
+
+import inet.mobility.contract.IMobility;
+import os3.mobility.Norad;
+import os3.mobility.SatSGP4Mobility;
 
 module Satellite
 {

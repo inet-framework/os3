@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package os3.base;
+package os3.mobility;
 
 simple Norad
 {

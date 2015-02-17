@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //-----------------------------------------------------
 
-#include "os3/base/Norad.h"
+#include "os3/mobility/Norad.h"
 
 #include <ctime>
 #include <fstream>
