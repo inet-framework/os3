@@ -15,11 +15,11 @@ struct parameters
     double frequency;
 };
 
-/**
- * @class UserConfig
- * @brief Interaction with User Interface
- * This class manages the interaction with the user parameters and the omnet simulation. It also creates satellite mobility vectors.
- */
+//-----------------------------------------------------
+// Class: UserConfig
+// This class manages the interaction with the user parameters and the
+// omnet simulation. It also creates satellite mobility vectors.
+//-----------------------------------------------------
 class UserConfig : public cSimpleModule
 {
 public:
@@ -38,24 +38,14 @@ public:
     const std::vector< SatSGP4Mobility* >& getSatMobility() const    { return satmoVector;   };
 
 protected:
-    /**
-     * @brief Initialization of an UserConfig object
-     * This method initializes an object of type UserConfig and saves the user variables given in omnetpp.ini
-     */
+    // initializes an object of type UserConfig and saves the user variables given in omnetpp.ini
     virtual void initialize();
 
-    /**
-     * @brief dummy
-     * This method is just a dummy method. No action is taking place here.
-     * @param msg omnetpp-message
-     */
     virtual void handleMessage(cMessage* msg);
 
-    /**
-     * @brief Initializes the mobilities for the Satellites
-     * This method fills the mobility-module-vector with satellite-mobilities (number of satellites set in omnetpp.ini). These vectors are needed for
-     * the usage of SatSGP4Mobility and SatSGP4FisheyeMobility in other methods (get the mobility of a specific satellite).
-     */
+    // fills the mobility-module-vector with satellite-mobilities (number of satellites set in omnetpp.ini).
+    // These vectors are needed for the usage of SatSGP4Mobility and SatSGP4FisheyeMobility in other methods
+    // (get the mobility of a specific satellite).
     void initializeSatMobility();
 
 private:

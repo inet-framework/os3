@@ -1,17 +1,3 @@
-//-----------------------------------------------------
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-//-----------------------------------------------------
 
 #ifndef __OS3_Observer_H__
 #define __OS3_Observer_H__
@@ -38,26 +24,17 @@ protected:
     // initializes Observer module and calls setPosition()
     virtual void initialize();
 
-    /**
-     * checks every update interval if a certain satellite is in view and writes results to an output file
-     * @param msg Omnetpp-message
-     */
+    // checks every update interval if a certain satellite is in view and writes results to an output file
     virtual void handleMessage(cMessage* msg);
 
     virtual void finish();
 
-    /**
-     * Sets the position on the map
-     * @param latitude Latitude of Observer
-     * @param longitude Longitude of Observer
-     */
+    // sets the position on the map
     void setPosition(double latitude, double longitude);
 
-    /**
-     * Calculates SNR for given satellite
-     * @param satindex index of satellite
-     * @param bandwidth bandwidth of used channel
-     */
+    // calculates SNR for given satellite
+    // - satindex index of satellite
+    // - bandwidth bandwidth of used channel
     double checksnr(int satindex, double bandwidth);
 
 private:

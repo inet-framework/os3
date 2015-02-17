@@ -1,17 +1,3 @@
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-//
 
 #ifndef __OS3_WeatherControl_H__
 #define __OS3_WeatherControl_H__
@@ -20,11 +6,10 @@
 
 class WebServiceControl;
 
-/**
- * Class: WeatherControl
- * Contributes weather information for the simulation model.
- * This class gets weather information from web service and integrates them in the simulation.
- */
+//-----------------------------------------------------
+// Class: WeatherControl
+// This class gets weather information from web service and integrates them in the simulation.
+//-----------------------------------------------------
 class WeatherControl : public cSimpleModule
 {
 public:
@@ -37,7 +22,7 @@ public:
      * @param latitude coordinate for the reference point
      * @param longitude coordinate for the reference point
      */
-    void setWeatherGimmick(const double &latitude, const double &longitude);
+    void setWeatherGimmick(const double& latitude, const double& longitude);
 
     /**
      * @brief Gets the current (live!) precipation per hour
@@ -48,15 +33,10 @@ public:
      * @param longitude Coordinate for the reference point
      * @return Current precipation in mm/(m²*h)
      */
-    double getPrecipPerHour(const double &latitude, const double &longitude);
+    double getPrecipPerHour(const double& latitude, const double& longitude);
 
-    /**
-     * @brief sets the default (not live!) precipation per hour
-     * This method sets the default precip (=rainfall) per hour value if live weather data should not be evaluated for a scenario.
-     * Does not update the weatherGimmick.
-     * @param precipValue Precipitation (rainfall per hour value)
-     */
-    void setDefaultPrecipPerHour(double precipValue);
+    // This method sets the default precip (=rainfall) per hour value if live weather data should not be evaluated for a scenario.
+    void setDefaultPrecipPerHour(const double precipValue);
 
 protected:
     /**

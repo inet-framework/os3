@@ -1,19 +1,6 @@
-//-----------------------------------------------------
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-//-----------------------------------------------------
 
 #include "os3/base/WeatherControl.h"
+
 #include "os3/base/WebServiceControl.h"
 
 Define_Module(WeatherControl);
@@ -30,12 +17,12 @@ void WeatherControl::initialize()
     defaultPrecipPerHour = par("defaultPrecipPerHour");
 }
 
-void WeatherControl::handleMessage(cMessage *msg)
+void WeatherControl::handleMessage(cMessage* msg)
 {
     error("Error in WeatherControl::handleMessage(): This module is not able to handle messages.");
 }
 
-void WeatherControl::setWeatherGimmick(const double &latitude, const double &longitude)
+void WeatherControl::setWeatherGimmick(const double& latitude, const double& longitude)
 {
     // Fetch symbol fitting current weather situation
     std::string tmpString = webServiceControl->getWeatherData(latitude, longitude).weatherIconURL;
@@ -65,7 +52,7 @@ void WeatherControl::setWeatherGimmick(const double &latitude, const double &lon
     return;
 }
 
-double WeatherControl::getPrecipPerHour(const double &latitude, const double &longitude)
+double WeatherControl::getPrecipPerHour(const double& latitude, const double& longitude)
 {
     // Check if default value is set. If this is the case => return value. Otherwise, fetch live data from WebService module
     if (defaultPrecipPerHour != -1) {
@@ -81,8 +68,7 @@ double WeatherControl::getPrecipPerHour(const double &latitude, const double &lo
     return currentData.precipMM / 24; //transform precip per day to precip per hour
 }
 
-void WeatherControl::setDefaultPrecipPerHour(double precipValue)
+void WeatherControl::setDefaultPrecipPerHour(const double precipValue)
 {
     defaultPrecipPerHour = precipValue;
 }
-

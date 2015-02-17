@@ -1,17 +1,3 @@
-//-----------------------------------------------------
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-//-----------------------------------------------------
 
 #include "os3/base/Observer.h"
 
@@ -63,39 +49,40 @@ void Observer::initialize()
             }
         }
 
-        timer = new cMessage("timer"); // Start Timer to toggle C/N0 calculation
+        // start timer to toggle C/N0 calculation
+        timer = new cMessage("timer");
         scheduleAt(simTime() + interval, timer);
 
-        // Generate outfile
+        // generate outfile
         char text[100];
         char* cstr = new char[100];
         std::sprintf(text, "CN0forGPSsatellites_%f,%f.txt", latitude, longitude);
         std::strcpy(cstr, text);
 
-        // Open outfile
+        // open outfile
         outfile.open(cstr, std::ofstream::trunc);
         outfile << "Satellite\tC/N0\tElevation\tAzimuth" << std::endl;
 
     } else {
-        timer = new cMessage("timer");
 
+        timer = new cMessage("timer");
         scheduleAt(simTime() + interval, timer);
 
-        // Generate outfile
+        // generate outfile
         char text[100];
         char* cstr = new char[51];
         std::sprintf(text, "SatelliteMovementAt%f,%f.txt", latitude, longitude);
         std::strcpy(cstr, text);
 
-        // Open outfile
+        // open outfile
         outfile.open(cstr, std::ofstream::trunc);
         outfile << "Date\tTime\tElevation\tAzimuth" << std::endl;
 
-        // Initialize time and elevation
+        // initialize time and elevation
         timestamp = std::time(0);
         lastelv = 0;
 
-        // Set Position on map
+        // set Position on map
         setPosition(latitude, longitude);
     }
 }

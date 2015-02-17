@@ -1,17 +1,3 @@
-//-----------------------------------------------------
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-//-----------------------------------------------------
 
 #ifndef __OS3_Calculation_H__
 #define __OS3_Calculation_H__
@@ -149,14 +135,12 @@ protected:
 
     virtual void handleMessage(cMessage* msg);
 
-    // fills the rainCoeffMap with the Values from CSV file (default: misc/TablespecRain.csv)
+    // fills the rainCoeffMap with the Values from CSV file (default: data/TablespecRain.csv)
     void fillRainMap();
 
-    /**
-     * Maps the given frequency to an frequency existing in the table for RainCoefficients
-     * @param Frequency Frequency of used system
-     * @return Nearest frequency existing in rainCoeffMap
-     */
+    // Maps the given frequency to an frequency existing in the table for RainCoefficients
+    // frequency: frequency of used system
+    // returns nearest frequency existing in rainCoeffMap
     double getMappedFrequency(const double& frequency);
 
 private:
@@ -166,7 +150,9 @@ private:
     static const double EarthRadius;    // In km
 
     std::string rainTableFile;
-    std::map< double, rainCoefficients > rainCoeffMap;  // Used for calculation of specific rain attenuation
+
+    // Used for calculation of specific rain attenuation
+    std::map< double, rainCoefficients > rainCoeffMap;
 
     UserConfig* userConfig;
     WeatherControl* weatherControl;

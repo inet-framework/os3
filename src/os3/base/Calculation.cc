@@ -1,17 +1,3 @@
-//-----------------------------------------------------
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-//-----------------------------------------------------
 
 #include "os3/base/Calculation.h"
 
@@ -53,7 +39,8 @@ void Calculation::initialize()
 
 void Calculation::fillRainMap()
 {
-    std::string fileName = par("rainTableFile"); // source: 'The aR^b Relation in the Calculation of Rain Attenuation', Olsen and Rogers and Hodge
+    // source: 'The aR^b Relation in the Calculation of Rain Attenuation', Olsen and Rogers and Hodge
+    std::string fileName = par("rainTableFile");
     std::fstream fileStream;
 
     fileStream.open(fileName.c_str(), std::ios::in);
@@ -72,7 +59,7 @@ void Calculation::fillRainMap()
         if (tmpString.find("#") == std::string::npos) {
             // Search for new values and parse them into rainCoeffMap
             rainCoefficients newCoeff;
-            double newFreq = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
+            const double newFreq = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
             tmpString = tmpString.erase(0, tmpString.find(";") + 1);
 
             newCoeff.aLPl = std::atof((tmpString.substr(0, tmpString.find(";"))).c_str());
@@ -111,7 +98,7 @@ void Calculation::fillRainMap()
                 rainCoeffMap.erase(newFreq);
             }
 
-            // Insert values into rainMap
+            // insert values into rainMap
             rainCoeffMap.insert(rainCoeffMap.end(), std::pair< double, rainCoefficients >(newFreq, newCoeff));
         }
     }
@@ -139,7 +126,7 @@ double Calculation::calcFSL(const int& satIndex,     const double& lambda,  cons
 {
     SatSGP4Mobility* sat = userConfig->getSatMobility().at(satIndex);
 
-    double alt;
+    double alt(0.0);
     if (altitude == -9999)
         alt = webserviceControl->getAltitudeData(latitude, longitude);
     else
@@ -153,8 +140,7 @@ double Calculation::calcFSL(const int& satIndex,     const double& lambda,  cons
 double Calculation::calcDistance(const double& latitude1, const double& longitude1,
                                  const double& latitude2, const double& longitude2)
 {
-    return EarthRadius *
-           (std::acos(
+    return EarthRadius * (std::acos(
                   std::sin(deg2rad(latitude1)) * std::sin(deg2rad(latitude2)) +
                   std::cos(deg2rad(latitude1)) * std::cos(deg2rad(latitude2)) *
                   std::cos(deg2rad(longitude2 - longitude1))));
@@ -171,7 +157,7 @@ double Calculation::calcSNR(const double& transmitterGain, const double& receive
     const double t0 = 290;    // Average temperature of earth surface in K
 
     const double frequency = C / lambda; // In Hz
-    double alt;
+    double alt(0.0);
     if (altitude == -9999)
         alt = webserviceControl->getAltitudeData(latitude, longitude);
     else
@@ -194,13 +180,16 @@ double Calculation::calcSNR(const double& transmitterGain, const double& receive
     const double b = rainCoeffMapIt->second.bMP;    // Coefficient b from table, using Marshall-Palmer distribution
     const double rp = weatherControl->getPrecipPerHour(latitude, longitude);  // Current weather Data
 
-    const double le = dR / std::sin(deg2rad(elevation));          // Length of signal path through rain
-    const double gammaR = a * std::pow(rp, b);           // Specific attenuation depending on frequency and rain density
-    const double aRain = gammaR * le;               // Attenuation depending on weather
-    const double aRain_lin = std::pow(10, (aRain / 10)); // Transform aRain from dB to linear unit
-    const double tANoise = tB / aRain_lin + tM * (1 - 1 / aRain_lin) + t0 * dG; // Noise temperature; source: 'Satellite Communications Systems', Maral et. Bousquet
-    const double tSysNoise = tANoise + tR;        // System noise temperature in K
-    const double tSdB = 10 * std::log10(tSysNoise);    // System noise temperature in dBK
+    const double le = dR / std::sin(deg2rad(elevation));  // Length of signal path through rain
+    const double gammaR = a * std::pow(rp, b);            // Specific attenuation depending on frequency and rain density
+    const double aRain = gammaR * le;                     // Attenuation depending on weather
+    const double aRain_lin = std::pow(10, (aRain / 10));  // Transform aRain from dB to linear unit
+
+    // Noise temperature; source: 'Satellite Communications Systems', Maral et. Bousquet
+    const double tANoise = tB / aRain_lin + tM * (1 - 1 / aRain_lin) + t0 * dG;
+
+    const double tSysNoise = tANoise + tR;                // System noise temperature in K
+    const double tSdB = 10 * std::log10(tSysNoise);       // System noise temperature in dBK
 
     const double snr = transmitterPower
                      + transmitterGain
@@ -218,7 +207,7 @@ int Calculation::getScoredSatfromSNR(const double& latitude, const double& longi
                                      const double& receiverGain, const double& transmitterPower, const double& bandwidth,
                                      const double& altitude, const double& dG, const double& tR, const double& dR)
 {
-    // Initialize parameters
+    // initialize parameters
     std::list< SAT > scoredSatList;
     std::vector< SatSGP4Mobility* > satmoVector = userConfig->getSatMobility();
     const int sat_count = userConfig->getParameters().numOfSats;
