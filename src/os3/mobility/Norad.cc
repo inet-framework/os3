@@ -79,9 +79,8 @@ void Norad::initializeMobility(const simtime_t& targetTime)
     line0 = line_str;
     line1.append(line1tmp);
     line2.append(line2tmp);
-    tle = new cTle(line0, line1, line2);
-
-    orbit = new cOrbit(*tle);
+    cTle tle(line0, line1, line2);
+    orbit = new cOrbit(tle);
 
     // Gap is needed to eliminate different start times
     gap = orbit->TPlusEpoch(currentJulian);
