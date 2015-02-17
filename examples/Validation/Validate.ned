@@ -1,17 +1,3 @@
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-// 
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
 
 package os3.examples.Validation;
 
@@ -23,13 +9,10 @@ import os3.base.Observer;
 //
 // Network Validate used to show Observer functionalities
 //
-// @author Sarah Lehnhausen
 network Validate
 {
     parameters:
-        double playgroundSizeX; // Width of map in pixels
-        double playgroundSizeY; // Height of map in pixels
-        int numOfSats;	// Number of satellites
+        int numOfSats;
 
         @display("bgi=background_earth");
 
@@ -40,8 +23,6 @@ network Validate
         }
         channelcontrol: ChannelControl {
             parameters:
-                //playgroundSizeX = playgroundSizeX;
-                //playgroundSizeY = playgroundSizeY;
                 numChannels = 2;
                 @display("p=220,70;i=misc/sun");
         }
