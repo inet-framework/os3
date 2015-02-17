@@ -58,9 +58,7 @@ void Norad::initializeMobility(const simtime_t& targetTime)
         do {
             tleFile.getline(line, 100);
             if (!tleFile.good()) {
-                EV
-                        << "Error in Norad::initializeMobility(): Cannot read further satellites from TLE file!"
-                        << std::endl;
+                EV << "Error in Norad::initializeMobility(): Cannot read further satellites from TLE file!" << std::endl;
                 endSimulation();
             }
         } while (i++ < index * 3 && tleFile.good());

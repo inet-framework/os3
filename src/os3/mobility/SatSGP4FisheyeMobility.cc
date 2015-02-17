@@ -23,13 +23,12 @@ Define_Module(SatSGP4FisheyeMobility);
 
 void SatSGP4FisheyeMobility::initialize(int stage)
 {
-    // override from SatSGP4Mobility
     SatSGP4Mobility::initialize(stage);
 
-    // Assert that we have a round fisheye circle
+    // we have a round fisheye circle
     mapY = mapX;
 
-    // Additional parameters
+    // additional parameters
     refCenterLongitude = par("refCenterLongitude");
     refCenterLatitude = par("refCenterLatitude");
     refCenterAltitude = par("refCenterAltitude");
@@ -42,11 +41,12 @@ void SatSGP4FisheyeMobility::setTargetPosition()
     noradModule->updateTime(nextChange);
 
     double radius = mapX / 2 - 1;
-    double elevation = noradModule->getElevation(refCenterLatitude, refCenterLongitude, refCenterAltitude);
-    double azimuth = noradModule->getAzimuth(refCenterLatitude, refCenterLongitude, refCenterAltitude);
+    const double elevation = noradModule->getElevation(refCenterLatitude, refCenterLongitude, refCenterAltitude);
+    const double azimuth = noradModule->getAzimuth(refCenterLatitude, refCenterLongitude, refCenterAltitude);
 
-    if (elevation > 0)
+    if (elevation > 0) {
         radius -= std::abs((elevation / 90.0) * mapX / 2);
+    }
 
     lastPosition.x = -std::cos(deg2rad(azimuth + 90)) * radius + mapX / 2;
     lastPosition.y = -std::sin(deg2rad(azimuth + 90)) * radius + mapY / 2;
@@ -60,14 +60,13 @@ void SatSGP4FisheyeMobility::setTargetPosition()
     targetPosition.y = lastPosition.y;
 }
 
-void SatSGP4FisheyeMobility::setRefCenterPoint(const double &latitude, const double &longitude,
-                                               const double& altitude)
+void SatSGP4FisheyeMobility::setRefCenterPoint(const double& latitude, const double& longitude, const double& altitude)
 {
     refCenterLatitude = latitude;
     refCenterLongitude = longitude;
     refCenterAltitude = altitude;
 
-    // Update satellite positions
+    // update satellite positions
     move();
 }
 
