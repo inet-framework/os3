@@ -76,7 +76,7 @@ void Observer::initialize()
             }
         }
 
-        // start timer to toggle C/N0 calculation
+        // start timer to toggle C/N0 calculation (carrier to noise)
         timer = new cMessage("timer");
         scheduleAt(simTime() + interval, timer);
 
@@ -143,7 +143,7 @@ void Observer::handleMessage(cMessage* msg)
                 const double azimuth = Sat->getAzimuth(latitude, longitude, altitude);
 
                 std::time_t runtime = timestamp + simTime().dbl();
-                std::tm* currentTime = std::localtime(&runtime);
+                const std::tm* currentTime = std::localtime(&runtime);
 
                 if ((elevation > 10) & (lastelv < 10)) // First time satellite is in view
                     outfile << currentTime->tm_mday << "."
@@ -187,6 +187,7 @@ void Observer::setPosition(double latitude, double longitude)
     getDisplayString().setTagArg("p", 1, static_cast<long>(posY));
 }
 
+// GPS
 double Observer::checksnr(int satindex, double bandwidth)
 {
     const double transmitterGain = 13.0; // GPS transmitter gain

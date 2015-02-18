@@ -29,7 +29,7 @@ class Calculation;
 //-----------------------------------------------------
 // Class: Observer
 // Base Station with example function to check when a satellite is in
-// view or to calculate the C/N0 for GPS satellites
+// view or to calculate the C/N0 (carrier to noise) for GPS satellites
 //-----------------------------------------------------
 class Observer : public cSimpleModule
 {
