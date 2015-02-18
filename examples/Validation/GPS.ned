@@ -9,9 +9,7 @@ import os3.base.Observer;
 network GPS
 {
     parameters:
-        double playgroundSizeX; // Width of map in pixels
-        double playgroundSizeY; // Height of map in pixels
-        int numOfSats; // Number of satellites
+        int numOfSats;
 
         @display("bgi=binocular,c;bgb=980,980");
 
@@ -20,11 +18,8 @@ network GPS
             parameters:
                 @display("p=70,180;r=10,,#707070;i=device/satellite_l");
         }
-
         channelcontrol: ChannelControl {
             parameters:
-                //playgroundSizeX = playgroundSizeX;
-                //playgroundSizeY = playgroundSizeY;
                 numChannels = 2;
                 @display("p=180,70;i=misc/sun");
         }
@@ -36,7 +31,5 @@ network GPS
             numgps = numOfSats;
         }
     connections allowunconnected:
-
-
 }
 
