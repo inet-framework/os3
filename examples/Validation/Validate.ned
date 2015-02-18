@@ -14,7 +14,7 @@ network Validate
     parameters:
         int numOfSats;
 
-        @display("bgi=background_earth");
+        @display("bgi=background_earth;bgb=2160,1080");
 
     submodules:
         satellite[numOfSats]: Satellite {
