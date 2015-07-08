@@ -1,19 +1,15 @@
-#
-# additional flags
-#
-CFLAGS += -I/usr/local/include -g -Wall
-#
-# os3 includes
-#
-CFLAGS += -I.
-#
-# inet 2.5 includes (nasty! - fixed in inet 2.99)
-#
-CFLAGS += -I../../inet/src
-CFLAGS += -I../../inet/src/base
-CFLAGS += -I../../inet/src/util
-CFLAGS += -I../../inet/src/mobility/common
-CFLAGS += -I../../inet/src/mobility/contract
+#-----------------------------------------------
+# include paths
+#-----------------------------------------------
+CXXFLAGS += -I.
+CXXFLAGS += -I../../inet/src
+CXXFLAGS += -I/usr/local/include
+
+#-----------------------------------------------
+# compiler options
+#-----------------------------------------------
+CXXFLAGS += -std=c++11
+
 #
 # curl library
 #

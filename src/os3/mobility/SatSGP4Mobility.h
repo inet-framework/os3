@@ -16,7 +16,7 @@
 #ifndef __OS3_SatSGP4Mobility_H__
 #define __OS3_SatSGP4Mobility_H__
 
-#include "mobility/common/LineSegmentsMobilityBase.h"    // inet
+#include "inet/mobility/base/LineSegmentsMobilityBase.h"
 
 class Norad;
 
@@ -27,7 +27,7 @@ class Norad;
 // the position of a satellite module and resets the satellite position when
 // it gets outside the playground.
 //-----------------------------------------------------
-class SatSGP4Mobility : public LineSegmentsMobilityBase
+class SatSGP4Mobility : public inet::LineSegmentsMobilityBase
 {
 public:
     SatSGP4Mobility();

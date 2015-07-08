@@ -41,18 +41,18 @@ double LUTMotionMobility::getLUTPositionY()
     return latitude;
 }
 
-Coord LUTMotionMobility::getCurrentPosition()
+inet::Coord LUTMotionMobility::getCurrentPosition()
 {
-    return Coord(longitude, latitude);
+    return inet::Coord(longitude, latitude);
 }
 
 //
 // this mobility model does not deal with speed, but it must be implemented
 // because it is a pure virtual function declared in IMobility
 //
-Coord LUTMotionMobility::getCurrentSpeed()
+inet::Coord LUTMotionMobility::getCurrentSpeed()
 {
-    return Coord(0,0,0);
+    return inet::Coord(0,0,0);
 }
 
 void LUTMotionMobility::setInitialPosition()

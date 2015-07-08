@@ -18,14 +18,14 @@
 
 #include <omnetpp.h>
 
-#include "mobility/static/StationaryMobility.h"    // inet
+#include "inet/mobility/static/StationaryMobility.h"
 
 //-----------------------------------------------------
 // Class: LUTMotionMobility
 //
 // Positions a ground station at a specific lat/long
 //-----------------------------------------------------
-class LUTMotionMobility : public StationaryMobility
+class LUTMotionMobility : public inet::StationaryMobility
 {
 public:
     // returns longitude
@@ -34,8 +34,8 @@ public:
     // returns latitude
     double getLUTPositionY();
 
-    virtual Coord getCurrentPosition();
-    virtual Coord getCurrentSpeed();
+    virtual inet::Coord getCurrentPosition();
+    virtual inet::Coord getCurrentSpeed();
 
 protected:
     virtual void initialize(int);
