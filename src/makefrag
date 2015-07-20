@@ -4,6 +4,7 @@
 CXXFLAGS += -I.
 CXXFLAGS += -I../../inet/src
 CXXFLAGS += -I/usr/local/include
+CXXFLAGS += -DINET_EXPORT
 
 #-----------------------------------------------
 # compiler options
